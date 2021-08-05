@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Schools guide</string>
+    <string name="icon_splash">icon splash</string>
+    <string name="login_to_continue">Login to continue</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="login_now">Login Now</string>
+    <string name="don_t_have_account_yetLabel">Don\'t have account yet ? {Register Now}</string>
+    <string name="please_wait">Please wait</string>
+</resources>

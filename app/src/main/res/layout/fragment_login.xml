@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <variable
+            name="loginViewModel"
+            type="com.eaapps.schoolsguide.features.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F9F9F9">
+
+        <ImageView
+            android:id="@+id/loginIcon"
+            android:layout_width="@dimen/_112sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:src="@drawable/ic_splash_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardGroupLogin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginIcon">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/loginLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/login_to_continue"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_18ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailInputLogin"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:backgroundTint="@color/black"
+                    android:hint="@string/enter_email"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundMode="filled"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeErrorColor="@color/red"
+                    app:boxStrokeWidth="2dp"
+                    app:errorEnabled="true"
+                    app:hintEnabled="true"
+                    app:hintTextColor="#444444"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginLabel"
+                    app:startIconDrawable="@drawable/ic_baseline_person_24"
+                    app:startIconTint="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailEditLogin"
+                        input_Error="@{loginViewModel.inputEditError[`email`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/rpt_bold"
+                        android:inputType="textEmailAddress|textNoSuggestions"
+                        android:text="@={loginViewModel.loginModel.email}"
+                        android:textColor="@color/textColor1"
+                        tools:text="admin@gmail.com" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordInputLogin"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:hint="@string/enter_password"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundMode="filled"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeErrorColor="@color/red"
+                    app:boxStrokeWidth="2dp"
+                    app:errorEnabled="true"
+                    app:hintEnabled="true"
+                    app:hintTextColor="#444444"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emailInputLogin"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/black"
+                    app:startIconDrawable="@drawable/ic_outline_lock_24"
+                    app:startIconTint="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passwordEditLogin"
+                        input_Error="@{loginViewModel.inputEditError[`password`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/rpt_bold"
+                        android:inputType="textPassword"
+                        android:text="@={loginViewModel.loginModel.password}"
+                        tools:text="1203266+555" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/forgetPassword"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rpt_bold"
+                    android:onClick="@{()->loginViewModel.forgetClicked()}"
+                    android:text="@string/forget_password"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/passwordInputLogin" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/loginNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_40sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:onClick="@{()->loginViewModel.loginClicked()}"
+                    android:text="@string/login_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:backgroundTint="@color/colorApp1"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/forgetPassword" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/googleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:onClick="@{()->loginViewModel.navigator.googleLogin()}"
+                    android:src="@drawable/ic_google_letter_logo"
+                    app:backgroundTint="@color/googleIconColor"
+                    app:elevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/facebookBtn"
+                    app:layout_constraintTop_toBottomOf="@id/loginNow"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/facebookBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:onClick="@{()->loginViewModel.navigator.facebookLogin()}"
+                    android:src="@drawable/ic_facebook_app_symbol"
+                    app:backgroundTint="@color/facebookIconColor"
+                    app:elevation="0dp"
+                    app:layout_constraintEnd_toStartOf="@id/googleBtn"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginNow"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/msg"
+                    click="@{loginViewModel.registerNow}"
+                    spanColor="@{@color/black}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@{@string/don_t_have_account_yetLabel}"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/facebookBtn"
+                    tools:text="@string/don_t_have_account_yetLabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

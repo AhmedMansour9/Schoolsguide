@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.util.Patterns.EMAIL_ADDRESS
 import com.eaapps.schoolsguide.data.entity.DataAuth
 import com.eaapps.schoolsguide.data.entity.LoginEntity
 import com.eaapps.schoolsguide.domain.model.LoginModel
@@ -11,16 +12,46 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    suspend fun execute(loginModel: LoginModel): Resource<DataAuth> {
-        if (isValid(loginModel))
-            return authRepository.login(LoginEntity(loginModel.email, loginModel.password))
-        else
-            throw IllegalArgumentException("Input is inValid")
+    suspend fun execute(loginModel: LoginModel): Resource<DataAuth> =
+        authRepository.login(LoginEntity(loginModel.email, loginModel.password))
+
+
+    fun isValid(loginModel: LoginModel): Boolean =
+        (loginModel.email.isNotBlank() && EMAIL_ADDRESS.matcher(loginModel.email)
+            .matches()) && (loginModel.password.isNotBlank() && loginModel.password.length >= 8)
+
+    fun validMessage(loginModel: LoginModel): HashMap<String, String> {
+        val errorMap = HashMap<String, String>()
+        errorMap.clear()
+        when {
+            loginModel.email.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("email", "Please Enter Email Address")
+                }
+            }
+            !EMAIL_ADDRESS.matcher(loginModel.email).matches() -> {
+                return errorMap.apply {
+                    put("email", "Please Enter Validation Email")
+                }
+            }
+
+            loginModel.password.isBlank() -> {
+                return errorMap.apply {
+                    put("password", "Please Enter Password")
+                }
+            }
+
+            loginModel.password.length < 8 -> {
+                return errorMap.apply {
+                    put("password", "Password must be at least 8 characters")
+                }
+            }
+
+            else -> return errorMap
+
+        }
 
     }
-
-     fun isValid(loginModel: LoginModel): Boolean =
-        loginModel.email.isNotBlank() && loginModel.password.isNotBlank()
 }
 
 class LoginBySocialUseCase @Inject constructor(private val authRepository: AuthRepository) {
@@ -44,20 +75,86 @@ class LoginBySocialUseCase @Inject constructor(private val authRepository: AuthR
 
 class RegisterUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    suspend fun execute(registerModel: RegisterModel): Resource<DataAuth> {
-        if (isValid(registerModel)) {
-            return authRepository.register(
-                registerModel.fullName, registerModel.email, registerModel.phone,
-                registerModel.city, registerModel.district, registerModel.password
-            )
-        } else
-            throw IllegalArgumentException("Input is inValid")
+    suspend fun execute(registerModel: RegisterModel): Resource<DataAuth> = authRepository.register(
+        registerModel.fullName, registerModel.email, registerModel.phone,
+        registerModel.city, registerModel.district, registerModel.password,registerModel.confirmPassword
+    )
+
+    fun isValid(registerModel: RegisterModel): Boolean =
+        registerModel.fullName.isNotBlank()
+                && registerModel.email.isNotBlank()
+                && EMAIL_ADDRESS.matcher(registerModel.email).matches()
+                && registerModel.phone.isNotBlank()
+                && registerModel.password.isNotBlank()
+                && registerModel.confirmPassword.isNotBlank()
+                && registerModel.password == registerModel.confirmPassword
+                && registerModel.city > -1
+                && registerModel.district.isNotBlank()
+
+    fun validMessage(registerModel: RegisterModel): HashMap<String, String> {
+        val errorMap = HashMap<String, String>()
+        errorMap.clear()
+        when {
+            registerModel.fullName.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("name", "Please Enter Full Name")
+                }
+            }
+
+            registerModel.email.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("email", "Please Enter Email Address")
+                }
+            }
+
+            !EMAIL_ADDRESS.matcher(registerModel.email).matches() -> {
+                return errorMap.apply {
+                    put("email", "Please Enter Validation Email")
+                }
+            }
+
+            registerModel.phone.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("name", "Please Enter Phone Number")
+                }
+            }
+
+
+            registerModel.password.isBlank() -> {
+                return errorMap.apply {
+                    put("password", "Please Enter Password")
+                }
+            }
+
+            registerModel.password.length < 8 -> {
+                return errorMap.apply {
+                    put("password", "Password must be at least 8 characters")
+                }
+            }
+
+            registerModel.password != registerModel.confirmPassword -> {
+                return errorMap.apply {
+                    put("confirmPassword", "confirm password must match the password")
+                }
+            }
+
+            registerModel.city < 0 -> {
+                return errorMap.apply {
+                    put("city", "Please select an item in the list")
+                }
+            }
+
+            registerModel.district.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("name", "Please Enter District site")
+                }
+            }
+
+            else -> return errorMap
+
+        }
 
     }
-
-    private fun isValid(registerModel: RegisterModel): Boolean =
-        registerModel.fullName.isNotBlank() && registerModel.email.isNotBlank() && registerModel.phone.isNotBlank()
-                && registerModel.password.isNotBlank() && registerModel.city.isNotBlank() && registerModel.district.isNotBlank()
 
 
 }

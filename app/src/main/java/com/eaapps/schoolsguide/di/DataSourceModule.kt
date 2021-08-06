@@ -1,7 +1,11 @@
 package com.eaapps.schoolsguide.di
 
+import com.eaapps.schoolsguide.data.dataStore.DataStoreRepositoryImpl
 import com.eaapps.schoolsguide.data.network.AuthRepositoryImpl
+import com.eaapps.schoolsguide.data.network.CityRepositoryImpl
 import com.eaapps.schoolsguide.domain.repository.AuthRepository
+import com.eaapps.schoolsguide.domain.repository.CityRepository
+import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +20,16 @@ object DataSourceModule {
     @Singleton
     fun provideAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository =
         authRepositoryImpl
+
+    @Provides
+    @Singleton
+    fun provideCityRepository(cityRepositoryImpl: CityRepositoryImpl): CityRepository =
+        cityRepositoryImpl
+
+
+    @Provides
+    @Singleton
+    fun provideDataStoreRepository(dataStoreRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository =
+        dataStoreRepositoryImpl
 
 }

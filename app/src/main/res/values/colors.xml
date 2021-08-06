@@ -11,6 +11,7 @@
     
     <color name="textColor1">#181818</color>
     <color name="colorApp1">#00B6B7</color>
+    <color name="colorApp1Dark">#028F8F</color>
     <color name="colorApp2">#8DC63F</color>
     <color name="colorApp3">#0073DB</color>
      <color name="googleIconColor">#E56354</color>

@@ -18,4 +18,9 @@ data class ResponseAuth(
     @SerializedName("success") val success: Boolean,
     @SerializedName("message") val message: String,
     @SerializedName("data") val data: DataAuth? = null
-    )
+)
+
+data class ResponseError(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: String
+)

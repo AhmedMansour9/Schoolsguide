@@ -63,6 +63,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailInputLogin"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    input_Helper="@{loginViewModel.inputEditError[`email`]}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
@@ -75,7 +76,9 @@
                     app:boxStrokeColor="@color/black"
                     app:boxStrokeErrorColor="@color/red"
                     app:boxStrokeWidth="2dp"
-                    app:errorEnabled="true"
+                    app:errorEnabled="false"
+                    app:helperTextEnabled="true"
+                    app:helperTextTextColor="@color/red"
                     app:hintEnabled="true"
                     app:hintTextColor="#444444"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +88,6 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailEditLogin"
-                        input_Error="@{loginViewModel.inputEditError[`email`]}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/rpt_bold"
@@ -98,6 +100,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordInputLogin"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    input_Helper="@{loginViewModel.inputEditError[`password`]}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
@@ -110,6 +113,8 @@
                     app:boxStrokeErrorColor="@color/red"
                     app:boxStrokeWidth="2dp"
                     app:errorEnabled="true"
+                    app:helperTextEnabled="true"
+                    app:helperTextTextColor="@color/red"
                     app:hintEnabled="true"
                     app:hintTextColor="#444444"
                     app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +126,6 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/passwordEditLogin"
-                        input_Error="@{loginViewModel.inputEditError[`password`]}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/rpt_bold"

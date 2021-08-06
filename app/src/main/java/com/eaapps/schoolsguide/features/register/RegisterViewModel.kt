@@ -1,0 +1,81 @@
+package com.eaapps.schoolsguide.features.register
+
+import androidx.databinding.ObservableField
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.eaapps.schoolsguide.data.entity.DataAuth
+import com.eaapps.schoolsguide.domain.model.RegisterModel
+import com.eaapps.schoolsguide.domain.usecase.GetCitiesUseCase
+import com.eaapps.schoolsguide.domain.usecase.RegisterUseCase
+import com.eaapps.schoolsguide.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val getCitiesUseCase: GetCitiesUseCase,
+    private val registerUseCase: RegisterUseCase
+) : ViewModel() {
+
+    lateinit var registerNavigator: RegisterNavigator
+    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> =
+        MutableStateFlow(Resource.Nothing())
+    val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
+
+    private val _registerStateFlow = MutableStateFlow<Resource<DataAuth>>(Resource.Nothing())
+    val registerStateFlow: StateFlow<Resource<DataAuth>> = _registerStateFlow
+
+    private var helperValid = HashMap<String, String>().apply {
+        put("name", "")
+        put("phone", "")
+        put("city", "")
+        put("email", "")
+        put("district", "")
+        put("password", "")
+        put("confirmPassword", "")
+    }
+
+    init {
+        loadCities()
+    }
+
+    var registerModel = RegisterModel()
+
+    val inputEditError = ObservableField<HashMap<String, String>>(HashMap())
+
+    val conditionClick = {}
+
+    val loginClick = {
+        registerNavigator.loginNow()
+    }
+
+    private fun loadCities() {
+        viewModelScope.launch {
+            val result = getCitiesUseCase.execute()
+            _citiesStateFlow.emit(result)
+        }
+    }
+
+    fun register() {
+        inputEditError.set(helperValid)
+        inputEditError.notifyChange()
+        if (registerUseCase.isValid(registerModel)) {
+            viewModelScope.launch {
+                try {
+                    _registerStateFlow.emit(Resource.Loading())
+                    val result = registerUseCase.execute(registerModel)
+                    _registerStateFlow.emit(result)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            inputEditError.set(registerUseCase.validMessage(registerModel))
+            inputEditError.notifyChange()
+        }
+    }
+
+}

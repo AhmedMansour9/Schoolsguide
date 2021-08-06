@@ -12,9 +12,10 @@ interface AuthRepository {
         fullName: String,
         email: String,
         phone: String,
-        city: String,
+        city: Int,
         district: String,
         password: String,
+        confirmPassword: String
     ): Resource<DataAuth>
 
     suspend fun loginBySocial(provider: String, social_id: String, email: String, fullName: String)

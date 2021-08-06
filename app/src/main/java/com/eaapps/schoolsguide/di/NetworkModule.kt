@@ -15,10 +15,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    private const val CONNECT_TIMEOUT_IN_SECONDS = 10
+    private const val READ_TIMEOUT_IN_SECONDS = 60
+    private const val WRITE_TIMEOUT_IN_SECONDS = 60
 
     val interceptorConnectivityManager: (Context) -> Interceptor = { context ->
         Interceptor {
@@ -32,6 +36,9 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(context: Context): OkHttpClient =
         OkHttpClient.Builder()
+            .readTimeout(READ_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(CONNECT_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(interceptorConnectivityManager(context))
             .build()
@@ -44,6 +51,5 @@ object NetworkModule {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(okHttpClient)
             .build().create(ApiServices::class.java)
-
 
 }

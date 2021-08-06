@@ -3,12 +3,13 @@ package com.eaapps.schoolsguide.data.entity
 data class LoginEntity(var email: String, var password: String)
 
 data class RegisterEntity(
-    var fullName: String,
+    var full_name: String,
     var email: String,
-    var phone: String,
-    var city: String,
-    var district: String,
+     var city_id: String,
     var password: String,
+    var password_confirmation: String,
+    var phone: String,
+    var district: String,
 )
 
 data class SocialEntity(

@@ -7,13 +7,13 @@ data class LoginModel(
 )
 
 data class RegisterModel(
-    var fullName: String,
-    var email: String,
-    var phone: String,
-    var city: String,
-    var district: String,
-    var password: String,
-    var confirmPassword: String
+    var fullName: String = "",
+    var email: String = "",
+    var phone: String = "",
+    var city: Int = -1,
+    var district: String = "",
+    var password: String = "",
+    var confirmPassword: String = ""
 )
 
 data class SocialModel(

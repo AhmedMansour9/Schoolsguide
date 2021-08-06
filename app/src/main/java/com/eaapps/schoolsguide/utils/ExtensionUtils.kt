@@ -27,6 +27,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -37,11 +42,18 @@ import com.bumptech.glide.Glide
 import com.eaapps.schoolsguide.R
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.github.ybq.android.spinkit.style.FoldingCube
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
- import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import java.io.IOException
+import java.io.Reader
 
 
 @ExperimentalCoroutinesApi
@@ -124,6 +136,28 @@ fun Context.progressDialog(color: Int = Color.WHITE): Dialog {
     val progress = view.findViewById<ProgressBar>(R.id.progress)
     progress.fadingCircle(color)
     return dialog.create()
+}
+
+@SuppressLint("InflateParams")
+fun Context.progressSmallDialog(
+    color: Int = Color.WHITE,
+    colorBackground: Int = Color.WHITE
+): Dialog {
+    val dialog = AlertDialog.Builder(this)
+    dialog.create().window
+    val view = LayoutInflater.from(this).inflate(R.layout.progressing_dialog_small, null)
+    dialog.setView(view)
+    dialog.setCancelable(false)
+    val progress = view.findViewById<ProgressBar>(R.id.progress)
+    val background = view.findViewById<MaterialCardView>(R.id.smallCard)
+    background.setCardBackgroundColor(colorBackground)
+    progress.fadingCircle(color)
+    val alertDialog = dialog.create()
+    alertDialog.window?.apply {
+        setBackgroundDrawableResource(android.R.color.transparent)
+        attributes.gravity = Gravity.CENTER
+    }
+    return alertDialog
 }
 
 fun Dialog.showWithCustomSize(): Dialog {
@@ -309,4 +343,42 @@ fun Fragment.createDialog(
 
     dialog.setCanceledOnTouchOutside(false)
     return dialog
+}
+
+fun <T> Gson.fromReaderToObject(json: Reader): T? {
+    val type = object : TypeToken<T>() {}.type
+    return fromJson(json, type) as T?
+}
+
+fun Context.getColorResource(@ColorRes id: Int): Int {
+    return ContextCompat.getColor(this, id)
+}
+
+fun <T> Gson.fromStringToObject(json: String): T {
+    val type = object : TypeToken<T>() {}.type
+    return fromJson(json, type)
+}
+
+
+
+// Data store jetPack
+
+fun <T> DataStore<Preferences>.getValueFlow(
+    key: Preferences.Key<T>,
+    defaultValue: T
+): Flow<T> {
+    return this.data.catch { exception ->
+        if (exception is IOException) {
+            emit(emptyPreferences())
+        } else
+            throw  exception
+    }.map { preferences ->
+        preferences[key] ?: defaultValue
+    }
+}
+
+suspend fun <T> DataStore<Preferences>.setValue(key: Preferences.Key<T>, value: T) {
+    this.edit {
+        it[key] = value
+    }
 }

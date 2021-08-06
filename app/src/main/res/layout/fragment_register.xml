@@ -1,6 +1,378 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="registerViewModel"
+            type="com.eaapps.schoolsguide.features.register.RegisterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/loginIcon"
+            android:layout_width="@dimen/_92sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:src="@drawable/ic_splash_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardGroupLogin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginIcon">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/registerLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/create_an_account"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintBottom_toTopOf="@id/scrollInputGroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scrollInputGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/registerNow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/registerLabel">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="@dimen/_10sdp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/nameInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`name`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/enter_full_name"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/nameEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="textPersonName"
+                                android:text="@={registerViewModel.registerModel.fullName}"
+                                android:textColor="@color/textColor1"
+                                tools:text="Eslam gamal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/emailInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`email`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/enter_email"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/nameInputRegister">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/emailEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="textEmailAddress|textNoSuggestions"
+                                android:text="@={registerViewModel.registerModel.email}"
+                                android:textColor="@color/textColor1"
+                                tools:text="admin@gmail.com" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/phoneInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`phone`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/enter_phone_number"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/emailInputRegister">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/phoneEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="phone"
+                                android:text="@={registerViewModel.registerModel.phone}"
+                                android:textColor="@color/textColor1"
+                                tools:text="01275264136" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cityInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                            input_Helper="@{registerViewModel.inputEditError[`city`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/city"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:endIconTint="@color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/phoneInputRegister">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/cityEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="none"
+                                android:textColor="@color/textColor1"
+                                tools:ignore="LabelFor" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/districtInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`district`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/district"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cityInputRegister">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/districtEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="text"
+                                android:text="@={registerViewModel.registerModel.district}"
+                                android:textColor="@color/textColor1"
+                                tools:text="Any text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/passwordInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`password`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:hint="@string/enter_password"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/districtInputRegister"
+                            app:passwordToggleEnabled="true"
+                            app:passwordToggleTint="@color/black">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/passwordEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="textPassword"
+                                android:text="@={registerViewModel.registerModel.password}"
+                                tools:text="1203266+555" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/confirmPasswordInputRegister"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            input_Helper="@{registerViewModel.inputEditError[`confirmPassword`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:hint="@string/confirm_password"
+                            app:boxBackgroundColor="@android:color/transparent"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/passwordInputRegister"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/confirmPasswordEditRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="textPassword"
+                                android:text="@={registerViewModel.registerModel.confirmPassword}"
+                                tools:text="1203266+555" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/check_conditions"
+                            checkClick="@{registerViewModel.conditionClick}"
+                            spanCheckColor="@{@color/black}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_11sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@{@string/i_agree_read_the_terms_and_conditions}"
+                            android:textColor="@color/textColor1"
+                            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputRegister"
+                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/registerNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:onClick="@{()->registerViewModel.register()}"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_40sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/register"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:backgroundTint="@color/colorApp1"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/have_account"
+                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/have_account"
+                            click="@{registerViewModel.loginClick}"
+                            spanColor="@{@color/black}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@{@string/i_have_account_login_now}"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                             tools:text="@string/don_t_have_account_yetLabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

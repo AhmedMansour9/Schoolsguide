@@ -17,4 +17,5 @@
     <string name="create_an_account">Create an account</string>
     <string name="register">Register</string>
     <string name="i_have_account_login_now">I have account? {Login Now}</string>
+    <string name="choose_the_nearest_school_to_you">Choose the nearest school to you!</string>
 </resources>

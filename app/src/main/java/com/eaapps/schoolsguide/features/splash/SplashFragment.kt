@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.eaapps.schoolsguide.R
+import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.FlowEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -15,14 +16,14 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
     private var countDownTimer: CountDownTimer? = null
-    private val splashViewModel: SplashViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
-            splashViewModel.flowProfile().collect(FlowEvent(onError = {
+            mainViewModel.flowProfile().collect(FlowEvent(onError = {
                 setupCountDown(false)
             }, onSuccess = {
                 if (it.full_name.isNotBlank() && it.email.isNotBlank())

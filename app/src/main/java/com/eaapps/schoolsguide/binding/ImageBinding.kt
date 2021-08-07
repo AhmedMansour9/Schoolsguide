@@ -4,9 +4,12 @@ package com.eaapps.schoolsguide.binding
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.eaapps.schoolsguide.R
 
 
 object ImageBinding {
@@ -17,12 +20,12 @@ object ImageBinding {
         imageView.setImageResource(res)
     }
 
+
     @BindingAdapter("android:src")
     @JvmStatic
     fun imageViewDrawable(imageView: ImageView, drawable: Drawable) {
         imageView.setImageDrawable(drawable)
     }
-
 
     @BindingAdapter("app:tint")
     @JvmStatic
@@ -30,10 +33,12 @@ object ImageBinding {
         ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(color))
     }
 
-    @BindingAdapter("url")
+    @BindingAdapter("android:src")
     @JvmStatic
     fun imageByUrl(imageView: ImageView, url: String) {
         if (url.isNotBlank())
-            Glide.with(imageView).load(url).into(imageView)
+            Glide.with(imageView).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.progress_animation).into(imageView)
     }
 }

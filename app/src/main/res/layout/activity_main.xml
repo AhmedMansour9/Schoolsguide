@@ -20,4 +20,17 @@
         tools:ignore="FragmentTagUsage" />
 
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconSize="32dp"
+        android:id="@+id/bottomNav"
+        app:itemIconTint="@color/nav_item_foreground"
+        app:itemTextColor="#5E5E5E"
+        android:visibility="gone"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/item_navigation" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,79 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardSearch"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="@dimen/_35sdp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardElevation="10dp"
-        android:translationZ="8dp"
-        app:cardCornerRadius="90dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_height="match_parent"
+        android:background="#F1F1F1">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:id="@+id/iconSearch"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="@dimen/_13sdp"
-                android:layout_marginEnd="@dimen/_13sdp"
-                app:layout_constraintTop_toTopOf="@+id/dictionaryTitle"
-                app:layout_constraintBottom_toBottomOf="@id/dictionaryTitle"
-                android:src="@drawable/baseline_search24"
-                app:tint="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="ContentDescription,MissingConstraints" />
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_19sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/rpt_bold"
-                android:text="@string/choose_the_nearest_school_to_you"
-                android:textColor="#AFAFAF"
-                android:id="@+id/dictionaryTitle"
-                android:textSize="@dimen/_13ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/iconSearch"
+                android:text="Home Page"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="25dp"
+                android:translationZ="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="90dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp">
+
+                    <ImageView
+                        android:id="@+id/iconSearch"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:layout_marginEnd="@dimen/_13sdp"
+                        android:src="@drawable/baseline_search24"
+                        app:layout_constraintBottom_toBottomOf="@id/dictionaryTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/dictionaryTitle"
+                        app:tint="#AFAFAF"
+                        tools:ignore="ContentDescription,MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/dictionaryTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_19sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/choose_the_nearest_school_to_you"
+                        android:textColor="#AFAFAF"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/iconSearch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/search_map"
+                android:textAllCaps="false"
+                android:textColor="@color/colorApp2"
+                app:layout_constraintStart_toStartOf="@id/cardSearch"
+                app:layout_constraintTop_toBottomOf="@id/cardSearch" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/advance_search"
+                android:textAllCaps="false"
+                android:textColor="@color/colorApp2"
+                app:layout_constraintEnd_toEndOf="@id/cardSearch"
+                app:layout_constraintTop_toBottomOf="@id/cardSearch" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
 
-    </com.google.android.material.card.MaterialCardView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/_10sdp">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:alignContent="center"
+                    app:alignItems="center"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_evenly"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include
+                        android:id="@+id/nationalBtn"
+                        icon="@{@drawable/icon_national}"
+                        layout="@layout/item_tab"
+                        title="@{@string/app_name}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/internationalBtn"
+                        icon="@{@drawable/icon_international}"
+                        layout="@layout/item_tab"
+                        title="@{`International`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/educationBtn"
+                        icon="@{@drawable/icon_education}"
+                        layout="@layout/item_tab"
+                        title="@{`Special Education`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/kidsBtn"
+                        icon="@{@drawable/icon_kids}"
+                        layout="@layout/item_tab"
+                        title="@{`Kids Activities`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/recommended_schools"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/viewAllRecommended"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/viewAllRecommended" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIconSize="32dp"
-        app:itemIconTint="@color/nav_item_foreground"
-        app:itemTextColor="#5E5E5E"
-        app:labelVisibilityMode="unlabeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/item_navigation" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/viewAllRecommended"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/view_all"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_13ssp"
+                    app:backgroundTint="#EFEFEF"
+                    app:cornerRadius="45dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewSlider" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcRecommended"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewAllRecommended" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/featured_schools"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/viewAllFeature"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/viewAllFeature" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/viewAllFeature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/view_all"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_13ssp"
+                    app:backgroundTint="#EFEFEF"
+                    app:cornerRadius="45dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rcRecommended" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcFeature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="50dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewAllFeature" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

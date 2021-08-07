@@ -20,8 +20,15 @@ interface ApiServices {
     fun loginBySocialAsync(@Body socialEntity: SocialEntity): Deferred<Response<ResponseAuth>>
 
     @GET("/api/cities")
-    fun getCitiesAsync() : Deferred<Response<CityResponse>>
+    fun getCitiesAsync(): Deferred<Response<CityResponse>>
 
+    @GET("/api/sliders")
+    fun getSliderAsync(): Deferred<Response<SliderResponse>>
 
+    @GET("api/schools?recommended")
+    fun getRecommendedSchoolAsync() : Deferred<Response<SchoolResponse>>
+
+    @GET("api/schools?featured")
+    fun getFeaturedSchoolAsync() : Deferred<Response<SchoolResponse>>
 
 }

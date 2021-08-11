@@ -3,7 +3,7 @@ package com.eaapps.schoolsguide.data.dataStore
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.eaapps.schoolsguide.data.entity.DataAuth
+import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.getValueFlow
@@ -17,18 +17,18 @@ import javax.inject.Inject
 class DataStoreRepositoryImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
     DataStoreRepository {
 
-    override suspend fun saveFatherData(dataAuth: DataAuth) {
-        val result = Gson().toJson(dataAuth)
+    override suspend fun saveFatherData(authDataResponse: AuthResponse.AuthData) {
+        val result = Gson().toJson(authDataResponse)
         dataStore.setValue(stringPreferencesKey(Keys.FATHER_PROFILE), result)
     }
 
-    override fun loadFatherFromStoreData(): Flow<Resource<DataAuth>> {
+    override fun loadFatherFromStoreData(): Flow<Resource<AuthResponse.AuthData>> {
         return dataStore.getValueFlow(stringPreferencesKey(Keys.FATHER_PROFILE), "")
             .map {
-                val type = object : TypeToken<DataAuth>() {}.type
-                val dataAuth: DataAuth? =
+                val type = object : TypeToken<AuthResponse.AuthData>() {}.type
+                val authDataResponse: AuthResponse.AuthData? =
                     Gson().fromJson(it, type)
-                Resource.Success(dataAuth)
+                Resource.Success(authDataResponse)
             }
     }
 }

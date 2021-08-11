@@ -8,7 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="red">#E57373</color>
     <color name="white">#FFFFFFFF</color>
-    
+    <color name="transparent">#00FFFFFF</color>
+
     <color name="textColor1">#181818</color>
     <color name="colorApp1">#00B6B7</color>
     <color name="colorApp1Dark">#028F8F</color>
@@ -20,4 +21,6 @@
     <color name="non_select_nav">#5E5E5E</color>
     <color name="select_nav">#0073DB</color>
     <color name="button_color">#0073DB</color>
+    <color name="rate_active">#FCAE19</color>
+    <color name="rate_un_active">#575757</color>
 </resources>

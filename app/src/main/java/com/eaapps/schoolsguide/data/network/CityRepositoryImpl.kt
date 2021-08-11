@@ -1,6 +1,6 @@
 package com.eaapps.schoolsguide.data.network
 
-import com.eaapps.schoolsguide.data.entity.ResponseError
+import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall
@@ -26,10 +26,10 @@ class CityRepositoryImpl @Inject constructor(private val apiServices: ApiService
                     listCitiesStr
                 })
             } else {
-                val type = object : TypeToken<ResponseError>() {}.type
-                val responseError: ResponseError? =
+                val type = object : TypeToken<ResponseEntity>() {}.type
+                val responseFailure: ResponseEntity? =
                     Gson().fromJson(result.errorBody()!!.charStream(), type)
-                Resource.Error(result.code(), responseError?.message ?: result.message())
+                Resource.Error(result.code(), responseFailure?.message ?: result.message())
             }
 
         }, "Exception occurred!")

@@ -23,7 +23,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
-            mainViewModel.flowProfile().collect(FlowEvent(onError = {
+            mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
                 setupCountDown(false)
             }, onSuccess = {
                 if (it.full_name.isNotBlank() && it.email.isNotBlank())

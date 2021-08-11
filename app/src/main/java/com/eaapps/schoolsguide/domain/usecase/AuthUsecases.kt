@@ -1,7 +1,7 @@
 package com.eaapps.schoolsguide.domain.usecase
 
 import android.util.Patterns.EMAIL_ADDRESS
-import com.eaapps.schoolsguide.data.entity.DataAuth
+import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.LoginEntity
 import com.eaapps.schoolsguide.domain.model.LoginModel
 import com.eaapps.schoolsguide.domain.model.RegisterModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    suspend fun execute(loginModel: LoginModel): Resource<DataAuth> =
+    suspend fun execute(loginModel: LoginModel): Resource<AuthResponse.AuthData> =
         authRepository.login(LoginEntity(loginModel.email, loginModel.password))
 
 
@@ -56,7 +56,7 @@ class LoginUseCase @Inject constructor(private val authRepository: AuthRepositor
 
 class LoginBySocialUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    suspend fun execute(socialModel: SocialModel): Resource<DataAuth> {
+    suspend fun execute(socialModel: SocialModel): Resource<AuthResponse.AuthData> {
         if (isValid(socialModel)) {
             return authRepository.loginBySocial(
                 socialModel.provider,
@@ -75,10 +75,16 @@ class LoginBySocialUseCase @Inject constructor(private val authRepository: AuthR
 
 class RegisterUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    suspend fun execute(registerModel: RegisterModel): Resource<DataAuth> = authRepository.register(
-        registerModel.fullName, registerModel.email, registerModel.phone,
-        registerModel.city, registerModel.district, registerModel.password,registerModel.confirmPassword
-    )
+    suspend fun execute(registerModel: RegisterModel): Resource<AuthResponse.AuthData> =
+        authRepository.register(
+            registerModel.fullName,
+            registerModel.email,
+            registerModel.phone,
+            registerModel.city,
+            registerModel.district,
+            registerModel.password,
+            registerModel.confirmPassword
+        )
 
     fun isValid(registerModel: RegisterModel): Boolean =
         registerModel.fullName.isNotBlank()
@@ -86,6 +92,7 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
                 && EMAIL_ADDRESS.matcher(registerModel.email).matches()
                 && registerModel.phone.isNotBlank()
                 && registerModel.password.isNotBlank()
+                && registerModel.password.length > 8
                 && registerModel.confirmPassword.isNotBlank()
                 && registerModel.password == registerModel.confirmPassword
                 && registerModel.city > -1
@@ -157,4 +164,9 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
     }
 
 
+}
+
+class GetProfileFatherUseCase @Inject constructor(private val authRepository: AuthRepository) {
+    suspend fun execute(token: String): Resource<AuthResponse.AuthData> =
+        authRepository.getProfileFather(token)
 }

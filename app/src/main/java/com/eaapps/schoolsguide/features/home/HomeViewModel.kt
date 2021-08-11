@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.entity.SliderResponse
+import com.eaapps.schoolsguide.data.entity.TypeResponse
 import com.eaapps.schoolsguide.domain.usecase.LoadFeatureUseCase
 import com.eaapps.schoolsguide.domain.usecase.LoadRecommendedUseCase
+import com.eaapps.schoolsguide.domain.usecase.LoadSchoolTypeUseCase
 import com.eaapps.schoolsguide.domain.usecase.LoadSliderUseCase
 import com.eaapps.schoolsguide.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,16 +18,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val loadSchoolTypeUseCase: LoadSchoolTypeUseCase,
     private val loadSliderUseCase: LoadSliderUseCase,
     private val loadRecommendedUseCase: LoadRecommendedUseCase,
     private val loadFeatureUseCase: LoadFeatureUseCase
 ) : ViewModel() {
 
     init {
+        loadSchoolType()
         loadSlider()
         loadRecommendedSchool()
         loadFeatureSchool()
     }
+
+
+    private val _schoolTypeStateFlow: MutableStateFlow<Resource<List<TypeResponse.TypeData>>> =
+        MutableStateFlow(Resource.Nothing())
+    val schoolTypeStateFlow: StateFlow<Resource<List<TypeResponse.TypeData>>> = _schoolTypeStateFlow
+
 
     private val _sliderStateFlow: MutableStateFlow<Resource<List<SliderResponse.SliderData>>> =
         MutableStateFlow(Resource.Nothing())
@@ -43,6 +53,19 @@ class HomeViewModel @Inject constructor(
     val featureStateFlow: StateFlow<Resource<List<SchoolResponse.SchoolData.DataSchool>>> =
         _featureStateFlow
 
+
+    private fun loadSchoolType(){
+        viewModelScope.launch {
+            try {
+                _schoolTypeStateFlow.emit(Resource.Loading())
+                val result = loadSchoolTypeUseCase.execute()
+                _schoolTypeStateFlow.emit(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
 
     private fun loadSlider() {
         viewModelScope.launch {

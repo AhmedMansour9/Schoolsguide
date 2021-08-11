@@ -1,12 +1,12 @@
 package com.eaapps.schoolsguide.domain.repository
 
-import com.eaapps.schoolsguide.data.entity.DataAuth
+import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.LoginEntity
 import com.eaapps.schoolsguide.utils.Resource
 
 interface AuthRepository {
 
-    suspend fun login(loginEntity: LoginEntity): Resource<DataAuth>
+    suspend fun login(loginEntity: LoginEntity): Resource<AuthResponse.AuthData>
 
     suspend fun register(
         fullName: String,
@@ -16,8 +16,12 @@ interface AuthRepository {
         district: String,
         password: String,
         confirmPassword: String
-    ): Resource<DataAuth>
+    ): Resource<AuthResponse.AuthData>
 
     suspend fun loginBySocial(provider: String, social_id: String, email: String, fullName: String)
-            : Resource<DataAuth>
+            : Resource<AuthResponse.AuthData>
+
+
+    suspend fun getProfileFather(token: String): Resource<AuthResponse.AuthData>
+
 }

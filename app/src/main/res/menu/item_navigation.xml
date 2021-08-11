@@ -2,25 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="" />
 
     <item
-        android:id="@+id/fav"
+        android:id="@+id/favouriteFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_favorite_border_24"
+        android:icon="@drawable/ic_baseline_favorite_24"
         android:title="" />
 
-    <item
-        android:id="@+id/plus"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_add_circle_outline_24"
-        android:title="" />
+
 
     <item
-        android:id="@+id/profile"
+        android:id="@+id/profileFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="" />

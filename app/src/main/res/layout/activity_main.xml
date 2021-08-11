@@ -32,5 +32,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/item_navigation" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

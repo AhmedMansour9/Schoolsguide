@@ -23,4 +23,12 @@
     <string name="recommended_schools">Recommended Schools</string>
     <string name="view_all">View All</string>
     <string name="featured_schools">Featured Schools</string>
+    <string name="_new">New</string>
+     <string name="explore_school">Explore School</string>
+    <string name="discover_you_perfect_school">Discover You Perfect School</string>
+    <string name="profile">Profile</string>
+    <string name="new_password">New Password</string>
+    <string name="for_your_security_please_enter_old_password">For your security,please enter old password</string>
+    <string name="update_password_label">Update password</string>
+    <string name="old_password">Old Password</string>
 </resources>

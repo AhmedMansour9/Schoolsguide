@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.ActivityMainBinding
+import com.eaapps.schoolsguide.utils.fullScreenEnable
 import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +32,16 @@ class MainActivity : AppCompatActivity() {
                         binding.bottomNav.visibleOrGone(false)
                     else -> binding.bottomNav.visibleOrGone(true)
                 }
+
+                if (destination.id == R.id.splashFragment)
+                    fullScreenEnable(true, binding.root)
+                else {
+                    fullScreenEnable(false, binding.root)
+                }
+                binding.bottomNav.setOnApplyWindowInsetsListener(null)
             }
+        binding.bottomNav.setupWithNavController(navController)
+
     }
 
     override fun onResume() {

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/profileLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/profile"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_21ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileImg"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:adjustViewBounds="true"
+            android:elevation="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileLabel"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Profile" />
+
+        <TextView
+            android:id="@+id/nameFather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileImg"
+            tools:text="Islam Jamal" />
+
+        <TextView
+            android:id="@+id/emailFather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:textColor="#9A9A9A"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameFather"
+            tools:text="eslamdev902@gmail.com" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:flexDirection="column"
+            app:flexWrap="wrap"
+
+            app:layout_constraintTop_toBottomOf="@id/emailFather">
+
+            <include
+                android:id="@+id/addSchool"
+                arrow="@{true}"
+                icon="@{@drawable/ic_outline_school_24}"
+                label="@{`Add school`}"
+                layout="@layout/item_include_profile"
+                line="@{true}" />
+
+            <include
+                android:id="@+id/updateProfile"
+                arrow="@{true}"
+                icon="@{@drawable/ic_outline_person_outline_24}"
+                label="@{`Profile information`}"
+                layout="@layout/item_include_profile"
+                line="@{true}" />
+
+            <include
+                android:id="@+id/updatePassword"
+                arrow="@{true}"
+                icon="@{@drawable/ic_outline_lock_24}"
+                label="@{`Change password`}"
+                layout="@layout/item_include_profile"
+                line="@{true}" />
+
+            <include
+                android:id="@+id/changeLanguage"
+                arrow="@{false}"
+                icon="@{@drawable/ic_baseline_language_24}"
+                label="@{`Language`}"
+                layout="@layout/item_include_profile"
+                line="@{true}" />
+
+            <include
+                android:id="@+id/logout"
+                arrow="@{false}"
+                icon="@{@drawable/ic_logout_black_24dp}"
+                label="@{`Log out`}"
+                layout="@layout/item_include_profile"
+                line="@{false}" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

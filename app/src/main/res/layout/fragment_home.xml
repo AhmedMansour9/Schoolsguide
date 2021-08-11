@@ -6,116 +6,70 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F1F1F1">
+        android:background="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/header"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:translationZ="8dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="90dp"
+            app:cardElevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/rpt_bold"
-                android:text="Home Page"
-                android:textColor="@color/textColor1"
-                android:textSize="@dimen/_18ssp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSearch"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="25dp"
-                android:translationZ="8dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="90dp"
-                app:cardElevation="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/iconSearch"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="@dimen/_13sdp"
+                    android:layout_marginEnd="@dimen/_13sdp"
+                    android:src="@drawable/baseline_search24"
+                    app:layout_constraintBottom_toBottomOf="@id/dictionaryTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/dictionaryTitle"
+                    app:tint="#AFAFAF"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dictionaryTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp">
-
-                    <ImageView
-                        android:id="@+id/iconSearch"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="@dimen/_13sdp"
-                        android:layout_marginEnd="@dimen/_13sdp"
-                        android:src="@drawable/baseline_search24"
-                        app:layout_constraintBottom_toBottomOf="@id/dictionaryTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/dictionaryTitle"
-                        app:tint="#AFAFAF"
-                        tools:ignore="ContentDescription,MissingConstraints" />
-
-                    <TextView
-                        android:id="@+id/dictionaryTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_19sdp"
-                        android:fontFamily="@font/rpt_bold"
-                        android:text="@string/choose_the_nearest_school_to_you"
-                        android:textColor="#AFAFAF"
-                        android:textSize="@dimen/_13ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/iconSearch"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints" />
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/explore_school"
+                    android:textColor="#AFAFAF"
+                    android:textSize="@dimen/_17ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:fontFamily="@font/rpt_bold"
-                android:text="@string/search_map"
-                android:textAllCaps="false"
-                android:textColor="@color/colorApp2"
-                app:layout_constraintStart_toStartOf="@id/cardSearch"
-                app:layout_constraintTop_toBottomOf="@id/cardSearch" />
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:fontFamily="@font/rpt_bold"
-                android:text="@string/advance_search"
-                android:textAllCaps="false"
-                android:textColor="@color/colorApp2"
-                app:layout_constraintEnd_toEndOf="@id/cardSearch"
-                app:layout_constraintTop_toBottomOf="@id/cardSearch" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header">
+            app:layout_constraintTop_toBottomOf="@id/cardSearch">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -123,68 +77,82 @@
                 android:background="@color/white"
                 android:paddingBottom="@dimen/_10sdp">
 
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/tabs"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcSchoolType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:alignContent="center"
-                    app:alignItems="center"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="space_evenly"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <include
-                        android:id="@+id/nationalBtn"
-                        icon="@{@drawable/icon_national}"
-                        layout="@layout/item_tab"
-                        title="@{@string/app_name}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
-                    <include
-                        android:id="@+id/internationalBtn"
-                        icon="@{@drawable/icon_international}"
-                        layout="@layout/item_tab"
-                        title="@{`International`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/educationBtn"
-                        icon="@{@drawable/icon_education}"
-                        layout="@layout/item_tab"
-                        title="@{`Special Education`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/kidsBtn"
-                        icon="@{@drawable/icon_kids}"
-                        layout="@layout/item_tab"
-                        title="@{`Kids Activities`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewSlider"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginBottom="10dp"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    app:layout_constraintTop_toBottomOf="@+id/tabs" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sliderGroup"
+                    app:layout_constraintTop_toBottomOf="@id/rcSchoolType"
+                    >
 
+
+                    <ImageView
+                        android:id="@+id/top_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_180sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="#0073DB"
+                        android:alpha=".06"
+                        app:layout_constraintTop_toTopOf="parent"
+                         tools:ignore="ContentDescription" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_19sdp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="18dp"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/top_view"
+                        app:tabBackground="@drawable/indicator_selector"
+                        app:tabGravity="center"
+                        app:tabIndicator="@null"
+                        app:tabPaddingEnd="8dp"
+                        app:tabPaddingStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/discover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/discover_you_perfect_school"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/indicator"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/indicator" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginBottom="5dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="@id/top_view"
+                        app:layout_constraintTop_toBottomOf="@+id/discover" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/rpt_bold"
                     android:text="@string/recommended_schools"
                     android:textColor="@color/textColor1"
@@ -195,6 +163,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/viewAllRecommended"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -205,16 +174,15 @@
                     android:textAllCaps="false"
                     android:textColor="@color/textColor1"
                     android:textSize="@dimen/_13ssp"
-                    app:backgroundTint="#EFEFEF"
                     app:cornerRadius="45dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewSlider" />
+                    app:layout_constraintTop_toBottomOf="@id/sliderGroup" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcRecommended"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -225,8 +193,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/rpt_bold"
                     android:text="@string/featured_schools"
                     android:textColor="@color/textColor1"
@@ -237,17 +205,17 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/viewAllFeature"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/rpt_bold"
                     android:text="@string/view_all"
                     android:textAllCaps="false"
                     android:textColor="@color/textColor1"
                     android:textSize="@dimen/_13ssp"
-                    app:backgroundTint="#EFEFEF"
                     app:cornerRadius="45dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rcRecommended" />
@@ -257,7 +225,7 @@
                     android:id="@+id/rcFeature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
                     android:paddingBottom="50dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

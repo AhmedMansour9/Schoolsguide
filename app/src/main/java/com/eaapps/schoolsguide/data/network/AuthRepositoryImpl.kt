@@ -14,21 +14,20 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val apiServices: ApiServices,
     private val dataStoreRepository: DataStoreRepository
-) :
-    AuthRepository {
+) : AuthRepository {
 
-    override suspend fun login(loginEntity: LoginEntity): Resource<DataAuth> =
+    override suspend fun login(loginEntity: LoginEntity): Resource<AuthResponse.AuthData> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.loginAsync(loginEntity).await()
                 if (result.isSuccessful) {
-                    dataStoreRepository.saveFatherData(result.body()?.data!!)
-                    Resource.Success(result.body()?.data)
+                    dataStoreRepository.saveFatherData(result.body()?.dataResponse!!)
+                    Resource.Success(result.body()?.dataResponse)
                 } else {
-                    val type = object : TypeToken<ResponseError>() {}.type
-                    val responseError: ResponseError? =
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
-                    Resource.Error(result.code(), responseError?.message ?: result.message())
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
                 }
             }, "Exception occurred!")
         }
@@ -42,7 +41,7 @@ class AuthRepositoryImpl @Inject constructor(
         district: String,
         password: String,
         confirmPassword: String
-    ): Resource<DataAuth> =
+    ): Resource<AuthResponse.AuthData> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.registerAsync(
@@ -57,12 +56,12 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 ).await()
                 if (result.isSuccessful)
-                    Resource.Success(result.body()?.data)
+                    Resource.Success(result.body()?.dataResponse)
                 else {
-                    val type = object : TypeToken<ResponseError>() {}.type
-                    val responseError: ResponseError? =
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
-                    Resource.Error(result.code(), responseError?.message ?: result.message())
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
                 }
             }, "Exception occurred!")
         }
@@ -73,7 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
         social_id: String,
         email: String,
         fullName: String
-    ): Resource<DataAuth> =
+    ): Resource<AuthResponse.AuthData> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.loginBySocialAsync(
@@ -85,12 +84,27 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 ).await()
                 if (result.isSuccessful)
-                    Resource.Success(result.body()?.data)
+                    Resource.Success(result.body()?.dataResponse)
                 else {
-                    val type = object : TypeToken<ResponseError>() {}.type
-                    val responseError: ResponseError? =
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
-                    Resource.Error(result.code(), responseError?.message ?: result.message())
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun getProfileFather(token: String): Resource<AuthResponse.AuthData> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.loadProfileFatherAsync("Bearer $token").await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body()?.dataResponse)
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
                 }
             }, "Exception occurred!")
         }

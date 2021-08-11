@@ -1,6 +1,7 @@
 package com.eaapps.schoolsguide.features.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -11,8 +12,18 @@ import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentHomeBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.utils.FlowEvent
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.JustifyContent
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
@@ -20,6 +31,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
+    private val schoolTypeAdapter = SchoolTypeAdapter()
     private val sliderAdapter = SliderAdapter()
     private val featureSchoolHomeAdapter = SchoolHomeAdapter()
     private val recommendedSchoolHomeAdapter = SchoolHomeAdapter()
@@ -27,13 +39,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.executePendingBindings()
+        //requireActivity().colorStatusBar(R.color.transparent, R.color.black, false)
+        // requireActivity().transparentStatusBar()
+
         setupSlider()
-        sliderCollectData()
+        val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
+        flexBoxLayoutManager.apply {
+            alignItems = AlignItems.CENTER
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.NOWRAP
+            justifyContent = JustifyContent.SPACE_EVENLY
+        }
+        binding.rcSchoolType.layoutManager = flexBoxLayoutManager
+        binding.rcSchoolType.adapter = schoolTypeAdapter
         binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
         binding.rcFeature.adapter = featureSchoolHomeAdapter
+        schoolTypeCollectData()
+        sliderCollectData()
         recommendedCollectData()
         featureCollectData()
     }
+
 
     private fun setupSlider() {
         binding.viewSlider.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -53,11 +79,47 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private fun setupIndicator(size: Int) {
+        TabLayoutMediator(
+            binding.indicator, binding.viewSlider
+        ) { _, _ -> }.attach()
+
+        lifecycleScope.launchWhenStarted {
+            var counter: Long = 0
+            flow {
+                val timeInMillis: Long = 4
+                val delayTime = timeInMillis * 1000
+                while (true) {
+                    delay(timeMillis = delayTime)
+                    emit(counter++)
+                }
+            }.onStart {
+                emit(-1)
+            }.onEach {
+                if (binding.viewSlider.currentItem < size - 1)
+                    binding.viewSlider.currentItem = binding.viewSlider.currentItem + 1
+                else
+                    binding.viewSlider.currentItem = 0
+
+            }.launchIn(this)
+        }
+    }
+
+    private fun schoolTypeCollectData() {
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.schoolTypeStateFlow.collect(FlowEvent(onError = {
+            }, onSuccess = {
+                schoolTypeAdapter.setData(it)
+            }))
+        }
+    }
+
     private fun sliderCollectData() {
         lifecycleScope.launchWhenCreated {
             homeViewModel.sliderStateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
-                sliderAdapter.setData(it)
+                sliderAdapter.setData(it.reversed())
+                setupIndicator(it.size)
             }))
         }
     }
@@ -79,7 +141,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         }
     }
-
 
 }
 

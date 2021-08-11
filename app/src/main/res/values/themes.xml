@@ -37,19 +37,41 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.Card.Media" parent="">
-        <item name="cornerSizeTopLeft">10dp</item>
-        <item name="cornerSizeTopRight">10dp</item>
-        <item name="cornerSizeBottomLeft">10dp</item>
-        <item name="cornerSizeBottomRight">10dp</item>
-    </style>
-
-
-    <style name="ShapeAppearanceOverlay.App.Card.Photo" parent="">
+    <style name="ShapeAppearanceOverlay.App.Card.School" parent="">
         <item name="cornerSizeTopLeft">15dp</item>
         <item name="cornerSizeTopRight">15dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay.App.Card.Slider" parent="">
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay.App.Card.Profile" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeTopLeft">15dp</item>
+        <item name="cornerSizeTopRight">15dp</item>
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+
+<!--        <item name="cornerFamily">rounded</item>-->
+<!--        <item name="cornerSize">50%</item>-->
+    </style>
+
+
+    <style name="RateBar" parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="colorControlNormal">@color/rate_active</item>
+        <item name="colorControlActivated">@color/rate_un_active</item>
+    </style>
+
+
+    <style name="helperTextAppearance" parent="">
+        <item name="fontFamily">@font/rpt_bold</item>
     </style>
 
 

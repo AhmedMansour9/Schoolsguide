@@ -3,7 +3,7 @@ package com.eaapps.schoolsguide.features.register
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eaapps.schoolsguide.data.entity.DataAuth
+import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.domain.model.RegisterModel
 import com.eaapps.schoolsguide.domain.usecase.GetCitiesUseCase
 import com.eaapps.schoolsguide.domain.usecase.RegisterUseCase
@@ -25,8 +25,8 @@ class RegisterViewModel @Inject constructor(
         MutableStateFlow(Resource.Nothing())
     val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
 
-    private val _registerStateFlow = MutableStateFlow<Resource<DataAuth>>(Resource.Nothing())
-    val registerStateFlow: StateFlow<Resource<DataAuth>> = _registerStateFlow
+    private val _registerStateFlow = MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())
+    val registerStateFlow: StateFlow<Resource<AuthResponse.AuthData>> = _registerStateFlow
 
     private var helperValid = HashMap<String, String>().apply {
         put("name", "")

@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.data.network
 
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.entity.SliderResponse
+import com.eaapps.schoolsguide.data.entity.TypeResponse
 import com.eaapps.schoolsguide.domain.repository.HomeRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall
@@ -9,8 +10,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class HomeRepositoryImpl @Inject constructor(private val apiServices: ApiServices) :
-    HomeRepository {
+class HomeRepositoryImpl @Inject constructor(private val apiServices: ApiServices) : HomeRepository {
+    override suspend fun getTypeSchool(): Resource<List<TypeResponse.TypeData>> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.getSchoolTypeAsync().await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body()?.data)
+                } else {
+                    Resource.Error(result.code(), result.message())
+                }
+            }, "")
+        }
+
     override suspend fun getSlider(): Resource<List<SliderResponse.SliderData>> =
         withContext(Dispatchers.IO) {
             safeCall(call = {

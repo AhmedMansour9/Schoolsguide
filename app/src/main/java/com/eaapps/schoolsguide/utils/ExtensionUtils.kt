@@ -1,5 +1,7 @@
 package com.eaapps.schoolsguide.utils
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -13,11 +15,10 @@ import android.os.Build
 import android.view.*
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
@@ -26,12 +27,14 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -88,7 +91,7 @@ fun Context.hasPermission(permission: String): Boolean {
 
     // Background permissions didn't exit prior to Q, so it's approved by default
     if (permission == android.Manifest.permission.ACCESS_BACKGROUND_LOCATION &&
-        android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q
+        Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q
     )
         return true
 
@@ -214,6 +217,31 @@ fun Activity.colorStatusBar(
     window.statusBarColor = ContextCompat.getColor(this, colorStatus)
     window.navigationBarColor = ContextCompat.getColor(this, colorNavigationBar)
 
+}
+
+fun Activity.fullScreenEnable(fullScreen: Boolean, mainContainer: View) {
+    if (fullScreen) {
+        window?.apply {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            WindowInsetsControllerCompat(window, mainContainer).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
+    } else {
+        window?.apply {
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+            WindowInsetsControllerCompat(
+                window,
+                mainContainer
+            ).let { controller ->
+                controller.show(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+            }
+        }
+    }
 }
 
 fun View.visibleOrGone(visible: Boolean) {
@@ -360,7 +388,6 @@ fun <T> Gson.fromStringToObject(json: String): T {
 }
 
 
-
 // Data store jetPack
 
 fun <T> DataStore<Preferences>.getValueFlow(
@@ -382,3 +409,99 @@ suspend fun <T> DataStore<Preferences>.setValue(key: Preferences.Key<T>, value: 
         it[key] = value
     }
 }
+
+fun View.expand() {
+    if (visibility == View.VISIBLE) return
+    val durations: Long
+    val matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+        (parent as View).width,
+        View.MeasureSpec.EXACTLY
+    )
+    val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+        0,
+        View.MeasureSpec.UNSPECIFIED
+    )
+    measure(matchParentMeasureSpec, wrapContentMeasureSpec)
+    val targetHeight = measuredHeight
+
+    // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+    layoutParams.height = 1
+    visibility = View.VISIBLE
+    durations = ((targetHeight / context.resources
+        .displayMetrics.density)).toLong()
+
+    alpha = 0.0F
+    visibility = View.VISIBLE
+    animate().alpha(1.0F).setDuration(durations).setListener(null)
+
+    val a: Animation = object : Animation() {
+        override fun applyTransformation(
+            interpolatedTime: Float,
+            t: Transformation
+        ) {
+            layoutParams.height =
+                if (interpolatedTime == 1f) LinearLayout.LayoutParams.WRAP_CONTENT else (targetHeight * interpolatedTime).toInt()
+            requestLayout()
+        }
+
+        override fun willChangeBounds(): Boolean {
+            return true
+        }
+    }
+
+    // Expansion speed of 1dp/ms
+    a.duration = durations
+    startAnimation(a)
+}
+
+fun View.collapse() {
+    if (visibility == View.GONE) return
+    val durations: Long
+    val initialHeight = measuredHeight
+    val a: Animation = object : Animation() {
+        override fun applyTransformation(
+            interpolatedTime: Float,
+            t: Transformation
+        ) {
+            if (interpolatedTime == 1f) {
+                visibility = View.GONE
+            } else {
+                layoutParams.height =
+                    initialHeight - (initialHeight * interpolatedTime).toInt()
+                requestLayout()
+            }
+        }
+
+        override fun willChangeBounds(): Boolean {
+            return true
+        }
+    }
+
+    durations = (initialHeight / context.resources
+        .displayMetrics.density).toLong()
+
+    alpha = 1.0F
+    animate().alpha(0.0F).setDuration(durations)
+        .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                visibility = View.GONE
+                alpha = 1.0F
+            }
+        })
+
+    // Collapse speed of 1dp/ms
+    a.duration = durations
+    startAnimation(a)
+}
+
+fun Activity.transparentStatusBar() {
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R)
+        window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    else
+        window.setDecorFitsSystemWindows(false)
+}
+
+

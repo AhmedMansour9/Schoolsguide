@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Slider"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -40,22 +40,36 @@
             app:layout_constraintBottom_toBottomOf="@+id/slideImg"
             app:layout_constraintTop_toTopOf="@+id/slideImg"
             app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Slider"
             app:srcCompat="@drawable/bg_gradiant"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:fontFamily="@font/rpt_bold"
             android:text="@{sliderData.title}"
             android:textColor="@color/white"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="@dimen/_14ssp"
+            android:id="@+id/titleSlider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Discover You prefect school" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{sliderData.description}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleSlider"
+             tools:text="Discover You prefect school" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="addSchoolViewModel"
+            type="com.eaapps.schoolsguide.features.profile.addSchool.AddSchoolViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/select_item_circle"
+            app:layout_constraintBottom_toBottomOf="@id/addSchoolLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/addSchoolLabel"
+            app:srcCompat="@drawable/ic_round_arrow_back_24"
+            app:tint="@color/black"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/addSchoolLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/add_school_"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_21ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleAddLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/send_request_to_add_your_school"
+            android:textColor="#AEAEAE"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addSchoolLabel" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:paddingBottom="10dp"
+            app:alignContent="space_between"
+            app:alignItems="center"
+            app:flexDirection="column"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/titleAddLabel">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{addSchoolViewModel.inputEditHelper[`name`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/school_name"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="textPersonName"
+                    android:text="@={addSchoolViewModel.addSchoolModel.school_name}"
+                    android:textColor="@color/textColor1"
+                    tools:text="Eslam gamal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{addSchoolViewModel.inputEditHelper[`phone`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/school_phone"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="phone"
+                    android:text="@={addSchoolViewModel.addSchoolModel.phone}"
+                    android:textColor="@color/textColor1"
+                    tools:text="01275264136" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{addSchoolViewModel.inputEditHelper[`email`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/school_email"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:text="@={addSchoolViewModel.addSchoolModel.email}"
+                    android:textColor="@color/textColor1"
+                    tools:text="admin@gmail.com" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <EditText
+            android:id="@+id/editDetails"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/edit_field_background"
+            android:fontFamily="@font/rpt_bold"
+            android:gravity="top|start"
+            android:hint="@string/write_details"
+            android:padding="10dp"
+            android:text="@={addSchoolViewModel.addSchoolModel.notes}"
+            android:textColor="@color/textColor1"
+            android:textColorHint="#AEAEAE"
+            app:layout_constraintEnd_toEndOf="@id/flexGroup"
+            app:layout_constraintStart_toStartOf="@id/flexGroup"
+            app:layout_constraintTop_toBottomOf="@id/flexGroup"
+            tools:ignore="Autofill,LabelFor,TextFields" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:minHeight="65dp"
+            android:onClick="@{()->addSchoolViewModel.addSchoolBtn()}"
+            android:text="@string/send_request"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_18ssp"
+            app:backgroundTint="@color/colorApp3"
+            app:layout_constraintTop_toBottomOf="@+id/editDetails" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

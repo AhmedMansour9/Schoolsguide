@@ -1,6 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable
+            name="updateProfileViewModel"
+            type="com.eaapps.schoolsguide.features.profile.updateProfile.UpdateProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/select_item_circle"
+            app:layout_constraintBottom_toBottomOf="@id/done"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/done"
+            app:srcCompat="@drawable/ic_round_arrow_back_24"
+            app:tint="@color/black"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/done"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/done"
+            android:textColor="@color/colorApp3"
+            android:textAllCaps="false"
+            android:onClick="@{()->updateProfileViewModel.updateProfileBtn()}"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileEdit"
+            android:elevation="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/done">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImg"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Profile" />
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/edit"
+                android:src="@drawable/ic_outline_photo_camera_24"
+                android:background="@drawable/camera_icon"
+                app:layout_constraintStart_toStartOf="@id/profileImg"
+                app:layout_constraintEnd_toEndOf="@id/profileImg"
+                app:layout_constraintTop_toTopOf="@id/profileImg"
+                app:layout_constraintVertical_bias="1.15"
+                app:layout_constraintHorizontal_bias=".95"
+                app:layout_constraintBottom_toBottomOf="@id/profileImg"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="5dp"
+            android:paddingBottom="10dp"
+            app:alignContent="space_between"
+            app:alignItems="center"
+            app:flexDirection="column"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/profileEdit">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{updateProfileViewModel.inputEditError[`name`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/enter_full_name"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="textPersonName"
+                    android:text="@={updateProfileViewModel.updateProfileModel.full_name}"
+                    android:textColor="@color/textColor1"
+                    tools:text="Eslam gamal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{updateProfileViewModel.inputEditError[`email`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/enter_email"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:text="@={updateProfileViewModel.updateProfileModel.email}"
+                    android:textColor="@color/textColor1"
+                    tools:text="admin@gmail.com" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                input_Helper="@{updateProfileViewModel.inputEditError[`phone`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/enter_phone_number"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="phone"
+                    android:text="@={updateProfileViewModel.updateProfileModel.phone}"
+                    android:textColor="@color/textColor1"
+                    tools:text="01275264136" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/cityInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                input_Helper="@{updateProfileViewModel.inputEditError[`city`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/city"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:endIconTint="@color/black"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <AutoCompleteTextView
+                    android:id="@+id/cityEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="none"
+                    android:textColor="@color/textColor1"
+                    tools:ignore="LabelFor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/genderInputProfile"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                input_Helper="@{updateProfileViewModel.inputEditError[`gender`]}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/black"
+                android:hint="@string/gender"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="2dp"
+                app:endIconTint="@color/black"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:hintEnabled="true"
+                app:hintTextColor="#444444">
+
+                <AutoCompleteTextView
+                    android:id="@+id/genderEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rpt_bold"
+                    android:inputType="none"
+                    android:textColor="@color/textColor1"
+                    tools:ignore="LabelFor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -14,14 +14,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSchoolUseCase) : ViewModel() {
+class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSchoolUseCase) :
+    ViewModel() {
 
     private val _addSchoolStateFlow: MutableStateFlow<Resource<ResponseEntity>> =
         MutableStateFlow(Resource.Nothing())
     val addSchoolStateFlow: StateFlow<Resource<ResponseEntity>> = _addSchoolStateFlow
 
-    lateinit var addSchoolModel: AddSchoolModel
-    val inputEditError = ObservableField<HashMap<String, String>>(HashMap())
+      var addSchoolModel: AddSchoolModel = AddSchoolModel()
+    lateinit var accessToken: String
+    val inputEditHelper = ObservableField<HashMap<String, String>>(HashMap())
 
     private var helperValid = HashMap<String, String>().apply {
         put("name", "")
@@ -30,21 +32,21 @@ class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSc
     }
 
     fun addSchoolBtn() {
-        inputEditError.set(helperValid)
-        inputEditError.notifyChange()
+        inputEditHelper.set(helperValid)
+        inputEditHelper.notifyChange()
         if (addSchoolUseCase.isValid(addSchoolModel)) {
             viewModelScope.launch {
                 try {
                     _addSchoolStateFlow.emit(Resource.Loading())
-                    val result = addSchoolUseCase.execute(addSchoolModel)
+                    val result = addSchoolUseCase.execute(addSchoolModel,accessToken)
                     _addSchoolStateFlow.emit(result)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
         } else {
-            inputEditError.set(addSchoolUseCase.validMessage(addSchoolModel))
-            inputEditError.notifyChange()
+            inputEditHelper.set(addSchoolUseCase.validMessage(addSchoolModel))
+            inputEditHelper.notifyChange()
         }
     }
 

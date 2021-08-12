@@ -31,4 +31,17 @@
     <string name="for_your_security_please_enter_old_password">For your security,please enter old password</string>
     <string name="update_password_label">Update password</string>
     <string name="old_password">Old Password</string>
+    <string name="done">Done</string>
+    <string name="gender">Gender</string>
+    <string name="add_school_">Add School</string>
+    <string name="send_request_to_add_your_school">Send request to add your school</string>
+    <string name="write_details">Write Details</string>
+    <string name="send_request">Send Request</string>
+    <string name="school_name">School Name</string>
+    <string name="school_phone">School Phone</string>
+    <string name="school_email">School Email</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

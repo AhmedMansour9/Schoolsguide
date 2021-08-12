@@ -25,11 +25,14 @@ interface ApiServices {
     @POST("/api/changePassword")
     fun changePasswordAsync(@Body changePasswordEntity: ChangePasswordEntity): Deferred<Response<ResponseEntity>>
 
-    @POST("/api/editFatherProfile")
-    fun changeFatherProfileAsync(@Body changeFatherProfileEntity: ChangeFatherProfileEntity): Deferred<Response<ResponseEntity>>
+    @POST("/api/father/editFatherProfile")
+    fun changeFatherProfileAsync(
+        @Body changeFatherProfileEntity: ChangeFatherProfileEntity,
+        @Header("Authorization") token: String
+    ): Deferred<Response<ResponseEntity>>
 
-    @POST("/api/add_school")
-    fun addSchoolAsync(@Body addSchoolEntity: AddSchoolEntity): Deferred<Response<ResponseEntity>>
+    @POST("/api/add_school_request")
+    fun addSchoolAsync(@Body addSchoolEntity: AddSchoolEntity, @Header("Authorization") token: String): Deferred<Response<ResponseEntity>>
 
     @GET("/api/cities")
     fun getCitiesAsync(): Deferred<Response<CityResponse>>

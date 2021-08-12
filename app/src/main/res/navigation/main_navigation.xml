@@ -52,10 +52,26 @@
         <action
             android:id="@+id/action_profileFragment_to_updatePasswordFragment"
             app:destination="@id/updatePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addSchoolFragment"
+            app:destination="@id/addSchoolFragment" />
     </fragment>
     <dialog
         android:id="@+id/updatePasswordFragment"
         tools:layout="@layout/fragment_dialog_update_password"
         android:name="com.eaapps.schoolsguide.features.profile.updatePassword.UpdatePasswordFragment"
         android:label="UpdatePasswordFragment" />
+    <dialog
+        android:id="@+id/updateProfileFragment"
+        tools:layout="@layout/fragment_dialog_edit_profile"
+        android:name="com.eaapps.schoolsguide.features.profile.updateProfile.UpdateProfileFragment"
+        android:label="UpdateProfileFragment" />
+    <dialog
+        android:id="@+id/addSchoolFragment"
+        tools:layout="@layout/fragment_dialog_add_school"
+        android:name="com.eaapps.schoolsguide.features.profile.addSchool.AddSchoolFragment"
+        android:label="AddSchoolFragment" />
 </navigation>

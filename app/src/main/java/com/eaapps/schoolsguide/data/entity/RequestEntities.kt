@@ -1,5 +1,8 @@
 package com.eaapps.schoolsguide.data.entity
 
+import android.net.Uri
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 import java.io.File
 
 data class LoginEntity(var email: String, var password: String)
@@ -39,6 +42,7 @@ data class ChangeFatherProfileEntity(
     var email: String,
     var phone: String,
     var city_id: Int,
-    var gender: String,
-    var image: File
-)
+    var gender: String?=null,
+    @Part("file") var image: File?=null,
+    val _method:String = "put"
+    )

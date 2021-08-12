@@ -50,12 +50,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.addSchool -> {
-            }
+            R.id.addSchool -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToAddSchoolFragment())
 
-            R.id.updateProfile -> {
-
-            }
+            R.id.updateProfile -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToUpdateProfileFragment())
 
             R.id.updatePassword -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToUpdatePasswordFragment())
 

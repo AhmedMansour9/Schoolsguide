@@ -12,7 +12,7 @@ data class AddSchoolModel(
 data class UpdatePasswordModel(
     var oldPassword: String = "",
     var password: String = "",
-    var confirmPassword :String = ""
+    var confirmPassword: String = ""
 )
 
 data class UpdateProfileModel(

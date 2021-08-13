@@ -74,4 +74,9 @@
         tools:layout="@layout/fragment_dialog_add_school"
         android:name="com.eaapps.schoolsguide.features.profile.addSchool.AddSchoolFragment"
         android:label="AddSchoolFragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        tools:layout="@layout/fragment_favorite"
+        android:name="com.eaapps.schoolsguide.features.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

@@ -167,6 +167,6 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
 }
 
 class GetProfileFatherUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    suspend fun execute(token: String): Resource<AuthResponse.AuthData> =
-        authRepository.getProfileFather(token)
+    suspend fun execute(): Resource<AuthResponse.AuthData> =
+        authRepository.getProfileFather()
 }

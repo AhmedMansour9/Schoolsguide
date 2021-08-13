@@ -1,6 +1,5 @@
 package com.eaapps.schoolsguide.data.network
 
-import android.util.Log
 import com.eaapps.schoolsguide.data.entity.AddSchoolEntity
 import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
 import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
@@ -18,10 +17,12 @@ import javax.inject.Inject
 class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServices) :
     ProfileRepository {
 
-    override suspend fun addSchool(addSchoolEntity: AddSchoolEntity,token: String): Resource<ResponseEntity> =
+    override suspend fun addSchool(
+        addSchoolEntity: AddSchoolEntity,
+    ): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
-                val result = apiServices.addSchoolAsync(addSchoolEntity,token).await()
+                val result = apiServices.addSchoolAsync(addSchoolEntity).await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body())
                 } else {
@@ -51,12 +52,12 @@ class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServ
 
     override suspend fun updateProfileFather(
         changeFatherProfileEntity: ChangeFatherProfileEntity,
-        token: String
     ): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result =
-                    apiServices.changeFatherProfileAsync(changeFatherProfileEntity, "Bearer $token").await()
+                    apiServices.changeFatherProfileAsync(changeFatherProfileEntity)
+                        .await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body())
                 } else {

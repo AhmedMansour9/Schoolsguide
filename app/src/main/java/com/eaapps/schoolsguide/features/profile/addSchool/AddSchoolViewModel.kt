@@ -21,8 +21,7 @@ class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSc
         MutableStateFlow(Resource.Nothing())
     val addSchoolStateFlow: StateFlow<Resource<ResponseEntity>> = _addSchoolStateFlow
 
-      var addSchoolModel: AddSchoolModel = AddSchoolModel()
-    lateinit var accessToken: String
+    var addSchoolModel: AddSchoolModel = AddSchoolModel()
     val inputEditHelper = ObservableField<HashMap<String, String>>(HashMap())
 
     private var helperValid = HashMap<String, String>().apply {
@@ -38,7 +37,7 @@ class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSc
             viewModelScope.launch {
                 try {
                     _addSchoolStateFlow.emit(Resource.Loading())
-                    val result = addSchoolUseCase.execute(addSchoolModel,accessToken)
+                    val result = addSchoolUseCase.execute(addSchoolModel)
                     _addSchoolStateFlow.emit(result)
                 } catch (e: Exception) {
                     e.printStackTrace()

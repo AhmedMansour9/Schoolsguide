@@ -10,5 +10,9 @@ interface DataStoreRepository {
 
     fun loadFatherFromStoreData(): Flow<Resource<AuthResponse.AuthData>>
 
+    fun saveTokenSession(accessToken: String)
+
+    fun loadSessionToken(): String?
+
 
 }

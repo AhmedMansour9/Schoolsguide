@@ -8,7 +8,7 @@
         android:title="" />
 
     <item
-        android:id="@+id/favouriteFragment"
+        android:id="@+id/favoriteFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="" />

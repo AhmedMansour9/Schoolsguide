@@ -1,8 +1,11 @@
 package com.eaapps.schoolsguide.data.dataStore
 
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.eaapps.schoolsguide.data.dataStore.Keys.SESSION_TOKEN
 import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -14,7 +17,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DataStoreRepositoryImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
+class DataStoreRepositoryImpl @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
+    private val sharedPreferences: SharedPreferences
+) :
     DataStoreRepository {
 
     override suspend fun saveFatherData(authDataResponse: AuthResponse.AuthData) {
@@ -30,5 +36,19 @@ class DataStoreRepositoryImpl @Inject constructor(private val dataStore: DataSto
                     Gson().fromJson(it, type)
                 Resource.Success(authDataResponse)
             }
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    override fun saveTokenSession(accessToken: String) {
+        sharedPreferences.edit().apply {
+            putString(SESSION_TOKEN, accessToken)
+            apply()
+        }
+    }
+
+    override fun loadSessionToken(): String? {
+        return sharedPreferences.let {
+            sharedPreferences.getString(SESSION_TOKEN, "")
+        }
     }
 }

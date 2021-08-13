@@ -1,12 +1,14 @@
 package com.eaapps.schoolsguide.features.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemHomeBinding
 
-class SchoolHomeAdapter : RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolder>() {
+class SchoolHomeAdapter(val toggleFavorite: (Int) -> Unit) :
+    RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolder>() {
 
     private val dataSchoolList = ArrayList<SchoolResponse.SchoolData.DataSchool>()
 
@@ -16,6 +18,14 @@ class SchoolHomeAdapter : RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolde
         notifyDataSetChanged()
     }
 
+    fun updateItem(position: Int, checked: Boolean) {
+        val schoolData: SchoolResponse.SchoolData.DataSchool = dataSchoolList[position]
+        schoolData.isFavoired = checked
+        dataSchoolList[position] = schoolData
+        toggleFavorite(schoolData.id)
+        notifyItemChanged(position)
+    }
+
     inner class SchoolViewHolder(private val schoolItemHomeBinding: SchoolItemHomeBinding) :
         RecyclerView.ViewHolder(schoolItemHomeBinding.root) {
 
@@ -23,6 +33,12 @@ class SchoolHomeAdapter : RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolde
             val schoolData: SchoolResponse.SchoolData.DataSchool = dataSchoolList[position]
             schoolItemHomeBinding.dataSchool = schoolData
             schoolItemHomeBinding.executePendingBindings()
+
+            schoolItemHomeBinding.favBox.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed) {
+                    updateItem(position, isChecked)
+                }
+            }
         }
 
     }

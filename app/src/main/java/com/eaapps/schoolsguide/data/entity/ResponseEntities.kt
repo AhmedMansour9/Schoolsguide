@@ -88,7 +88,7 @@ data class SchoolResponse(
             val id: Int,
             val image: String,
             val instgram_link: String,
-            val isFavoired: Boolean,
+            var isFavoired: Boolean,
             val isFollowed: Boolean,
             val isRecommended: Boolean,
             val is_new: Boolean,

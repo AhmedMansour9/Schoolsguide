@@ -33,8 +33,6 @@ class AddSchoolFragment : DialogFragment(R.layout.fragment_dialog_add_school) {
 
     private val viewModel: AddSchoolViewModel by viewModels()
 
-    private val mainViewModel: MainViewModel by activityViewModels()
-
     private lateinit var dialogProcess: Dialog
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -42,7 +40,6 @@ class AddSchoolFragment : DialogFragment(R.layout.fragment_dialog_add_school) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.accessToken = mainViewModel.accessToken
         binding.addSchoolViewModel = viewModel
 
         dialogProcess =

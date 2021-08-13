@@ -17,30 +17,26 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val profileFatherStoredUseCase: ProfileFatherStoredUseCase,
     private val getProfileFatherUseCase: GetProfileFatherUseCase
-) :
-    ViewModel() {
+) : ViewModel() {
 
     init {
         loadProfile()
     }
-
-    lateinit var accessToken:String
 
     private val _profileStateFlow: MutableStateFlow<Resource<AuthResponse.AuthData>> =
         MutableStateFlow(Resource.Nothing())
     val profileStateFlow: StateFlow<Resource<AuthResponse.AuthData>> = _profileStateFlow
 
 
-      fun loadProfile() {
+    fun loadProfile() {
         viewModelScope.launch {
             profileFatherStoredUseCase.execute().collect {
                 if (it is Resource.Success) {
                     val data = it.data
                     data?.apply {
                         try {
-                            accessToken = access_token
                             _profileStateFlow.emit(Resource.Loading())
-                            val result = getProfileFatherUseCase.execute(access_token)
+                            val result = getProfileFatherUseCase.execute()
                             _profileStateFlow.emit(result)
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -51,8 +47,6 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
-
 
 
 }

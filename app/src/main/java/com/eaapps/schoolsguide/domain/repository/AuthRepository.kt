@@ -22,6 +22,6 @@ interface AuthRepository {
             : Resource<AuthResponse.AuthData>
 
 
-    suspend fun getProfileFather(token: String): Resource<AuthResponse.AuthData>
+    suspend fun getProfileFather(): Resource<AuthResponse.AuthData>
 
 }

@@ -5,8 +5,8 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiServices {
 
@@ -20,19 +20,18 @@ interface ApiServices {
     fun loginBySocialAsync(@Body socialEntity: SocialEntity): Deferred<Response<AuthResponse>>
 
     @GET("api/father/profile")
-    fun loadProfileFatherAsync(@Header("Authorization") token: String): Deferred<Response<AuthResponse>>
+    fun loadProfileFatherAsync(): Deferred<Response<AuthResponse>>
 
     @POST("/api/changePassword")
     fun changePasswordAsync(@Body changePasswordEntity: ChangePasswordEntity): Deferred<Response<ResponseEntity>>
 
     @POST("/api/father/editFatherProfile")
     fun changeFatherProfileAsync(
-        @Body changeFatherProfileEntity: ChangeFatherProfileEntity,
-        @Header("Authorization") token: String
+        @Body changeFatherProfileEntity: ChangeFatherProfileEntity
     ): Deferred<Response<ResponseEntity>>
 
     @POST("/api/add_school_request")
-    fun addSchoolAsync(@Body addSchoolEntity: AddSchoolEntity, @Header("Authorization") token: String): Deferred<Response<ResponseEntity>>
+    fun addSchoolAsync(@Body addSchoolEntity: AddSchoolEntity): Deferred<Response<ResponseEntity>>
 
     @GET("/api/cities")
     fun getCitiesAsync(): Deferred<Response<CityResponse>>
@@ -43,11 +42,17 @@ interface ApiServices {
     @GET("/api/sliders")
     fun getSliderAsync(): Deferred<Response<SliderResponse>>
 
-    @GET("api/schools?page=1&perPage=8&recommended")
+    @GET("/api/schools?page=1&perPage=8&recommended")
     fun getRecommendedSchoolAsync(): Deferred<Response<SchoolResponse>>
 
-    @GET("api/schools?page=1&perPage=8&featured")
+    @GET("/api/schools?page=1&perPage=8&featured")
     fun getFeaturedSchoolAsync(): Deferred<Response<SchoolResponse>>
+
+    @POST("/api/father/toggle_favorite")
+    fun toggleFavoriteAsync(@Query("school_id") school_id: Int, ):Deferred<Response<ResponseEntity>>
+
+    @GET("/api/father/favoirtes")
+    suspend fun loadFavoriteAsync(@Query("page") page: Int, @Query("per_page") limitedItemLoad: Int): SchoolResponse
 
 
 }

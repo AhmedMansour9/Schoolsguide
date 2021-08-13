@@ -8,10 +8,10 @@ import com.eaapps.schoolsguide.utils.Resource
 
 interface ProfileRepository {
 
-    suspend fun addSchool(addSchoolEntity: AddSchoolEntity,token:String): Resource<ResponseEntity>
+    suspend fun addSchool(addSchoolEntity: AddSchoolEntity): Resource<ResponseEntity>
 
     suspend fun updatePassword(changePasswordEntity: ChangePasswordEntity): Resource<ResponseEntity>
 
-    suspend fun updateProfileFather(changeFatherProfileEntity: ChangeFatherProfileEntity,token:String): Resource<ResponseEntity>
+    suspend fun updateProfileFather(changeFatherProfileEntity: ChangeFatherProfileEntity): Resource<ResponseEntity>
 
 }

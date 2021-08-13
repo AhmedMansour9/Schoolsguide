@@ -13,12 +13,11 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="230dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
-
         app:cardElevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,23 +26,26 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageSchool"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_110sdp"
                 android:scaleType="centerCrop"
                 android:src="@{dataSchool.image}"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School.Vertical" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_school_item"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_130sdp"
                 android:layout_height="0dp"
                 android:alpha=".6"
                 app:layout_constraintBottom_toBottomOf="@+id/imageSchool"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageSchool"
+                app:layout_constraintVertical_bias="0.0"
                 app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School.Vertical"
                 app:srcCompat="@drawable/bg_gradiant"
                 tools:ignore="ContentDescription" />
 
@@ -68,8 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/school_new_round"
                 android:fontFamily="@font/rpt_bold"
                 android:gravity="center"
@@ -81,66 +83,67 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
                 android:visibility="@{dataSchool.is_new?View.VISIBLE:View.GONE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/imageSchool"
                 tools:text="New" />
+
 
             <TextView
                 android:id="@+id/titleSchool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/rpt_bold"
                 android:text="@{dataSchool.name}"
                 android:textColor="@color/textColor1"
-                android:textSize="@dimen/_13ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageSchool"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toEndOf="@id/imageSchool"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="International" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:ellipsize="end"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/rpt_bold"
                 android:text="@{dataSchool.short_description.toString()}"
                 android:textColor="#858585"
+                android:ellipsize="end"
                 android:textSize="@dimen/_9ssp"
-                android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintBottom_toTopOf="@id/line"
+                android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/titleSchool"
                 app:layout_constraintTop_toBottomOf="@id/titleSchool"
                 tools:text="Obhur Al-Shamaliyah, Jeddah 23814, KSA American • 1900 students • 30,000 m2" />
 
             <ImageView
                 android:id="@+id/line"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="10dp"
                 android:background="#DFDFDF"
                 app:layout_constraintBottom_toTopOf="@id/fav_box"
-                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageSchool"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 style="@style/RateBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:numStars="5"
                 android:progressTint="@color/rate_active"
                 android:rating="3.5"
                 android:secondaryProgressTint="@color/rate_un_active"
                 app:layout_constraintBottom_toBottomOf="@id/fav_box"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/titleSchool"
                 app:layout_constraintTop_toTopOf="@id/fav_box" />
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -155,7 +158,8 @@
                 android:checked="@{dataSchool.favoired}"
                 app:buttonTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                  />
 
             <ImageView
                 android:id="@+id/line2"

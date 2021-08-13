@@ -1,7 +1,6 @@
 package com.eaapps.schoolsguide.features.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -33,8 +32,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val schoolTypeAdapter = SchoolTypeAdapter()
     private val sliderAdapter = SliderAdapter()
-    private val featureSchoolHomeAdapter = SchoolHomeAdapter()
-    private val recommendedSchoolHomeAdapter = SchoolHomeAdapter()
+    private val featureSchoolHomeAdapter = SchoolHomeAdapter {
+        toggleFavorite(it)
+    }
+    private val recommendedSchoolHomeAdapter = SchoolHomeAdapter {
+        toggleFavorite(it)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,14 +55,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         binding.rcSchoolType.layoutManager = flexBoxLayoutManager
         binding.rcSchoolType.adapter = schoolTypeAdapter
-        binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
-        binding.rcFeature.adapter = featureSchoolHomeAdapter
+
+         binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
+
+         binding.rcFeature.adapter = featureSchoolHomeAdapter
+
         schoolTypeCollectData()
         sliderCollectData()
         recommendedCollectData()
         featureCollectData()
     }
 
+    private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)
 
     private fun setupSlider() {
         binding.viewSlider.orientation = ViewPager2.ORIENTATION_HORIZONTAL

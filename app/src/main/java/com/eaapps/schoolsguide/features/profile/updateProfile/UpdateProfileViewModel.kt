@@ -15,8 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UpdateProfileViewModel @Inject constructor(private val updateFatherProfileUseCase: UpdateFatherProfileUseCase,
-                                                 private val getCitiesUseCase: GetCitiesUseCase) : ViewModel() {
+class UpdateProfileViewModel @Inject constructor(
+    private val updateFatherProfileUseCase: UpdateFatherProfileUseCase,
+    private val getCitiesUseCase: GetCitiesUseCase
+) : ViewModel() {
 
     init {
         loadCities()
@@ -33,8 +35,6 @@ class UpdateProfileViewModel @Inject constructor(private val updateFatherProfile
     val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
 
     lateinit var updateProfileModel: UpdateProfileModel
-    lateinit var token: String
-
 
 
     private var helperValid = HashMap<String, String>().apply {
@@ -58,7 +58,7 @@ class UpdateProfileViewModel @Inject constructor(private val updateFatherProfile
             viewModelScope.launch {
                 try {
                     _updateProfileStateFlow.emit(Resource.Loading())
-                    val result = updateFatherProfileUseCase.execute(updateProfileModel,token)
+                    val result = updateFatherProfileUseCase.execute(updateProfileModel)
                     _updateProfileStateFlow.emit(result)
                 } catch (e: Exception) {
                     e.printStackTrace()

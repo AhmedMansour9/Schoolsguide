@@ -167,7 +167,6 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         lifecycleScope.launchWhenStarted {
             mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
-                viewModel.token = mainViewModel.accessToken
                 viewModel.updateProfileModel =
                     UpdateProfileModel(it.full_name, it.email, it.phone, it.city.id)
                 binding.cityEditProfile.setText(it.city.name)

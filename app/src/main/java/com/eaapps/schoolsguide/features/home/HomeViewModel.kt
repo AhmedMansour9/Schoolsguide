@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.entity.SliderResponse
 import com.eaapps.schoolsguide.data.entity.TypeResponse
-import com.eaapps.schoolsguide.domain.usecase.LoadFeatureUseCase
-import com.eaapps.schoolsguide.domain.usecase.LoadRecommendedUseCase
-import com.eaapps.schoolsguide.domain.usecase.LoadSchoolTypeUseCase
-import com.eaapps.schoolsguide.domain.usecase.LoadSliderUseCase
+import com.eaapps.schoolsguide.domain.usecase.*
 import com.eaapps.schoolsguide.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +18,8 @@ class HomeViewModel @Inject constructor(
     private val loadSchoolTypeUseCase: LoadSchoolTypeUseCase,
     private val loadSliderUseCase: LoadSliderUseCase,
     private val loadRecommendedUseCase: LoadRecommendedUseCase,
-    private val loadFeatureUseCase: LoadFeatureUseCase
+    private val loadFeatureUseCase: LoadFeatureUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     init {
@@ -54,7 +52,7 @@ class HomeViewModel @Inject constructor(
         _featureStateFlow
 
 
-    private fun loadSchoolType(){
+    private fun loadSchoolType() {
         viewModelScope.launch {
             try {
                 _schoolTypeStateFlow.emit(Resource.Loading())
@@ -103,5 +101,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun toggleFavorite(schoolId: Int) {
+        viewModelScope.launch {
+            toggleFavoriteUseCase.execute(schoolId)
+        }
+    }
 
 }

@@ -1,10 +1,8 @@
 package com.eaapps.schoolsguide.features.profile.updatePassword
 
-import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.domain.model.UpdatePasswordModel
 import com.eaapps.schoolsguide.domain.usecase.UpdatePasswordUseCase
@@ -14,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class UpdatePasswordViewModel @Inject constructor(private val updatePasswordUseCase: UpdatePasswordUseCase) :

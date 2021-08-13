@@ -1,10 +1,7 @@
 package com.eaapps.schoolsguide.di
 
 import com.eaapps.schoolsguide.data.dataStore.DataStoreRepositoryImpl
-import com.eaapps.schoolsguide.data.network.AuthRepositoryImpl
-import com.eaapps.schoolsguide.data.network.CityRepositoryImpl
-import com.eaapps.schoolsguide.data.network.HomeRepositoryImpl
-import com.eaapps.schoolsguide.data.network.ProfileRepositoryImpl
+import com.eaapps.schoolsguide.data.network.*
 import com.eaapps.schoolsguide.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -43,6 +40,12 @@ object DataSourceModule {
     @Singleton
     fun provideProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository =
         profileRepositoryImpl
+
+
+    @Provides
+    @Singleton
+    fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository =
+        favoriteRepositoryImpl
 
 
 }

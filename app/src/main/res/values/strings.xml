@@ -40,6 +40,8 @@
     <string name="school_name">School Name</string>
     <string name="school_phone">School Phone</string>
     <string name="school_email">School Email</string>
+    <string name="favorite">Favorite</string>
+    <string name="retry">Retry</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

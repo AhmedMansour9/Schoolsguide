@@ -2,6 +2,8 @@ package com.eaapps.schoolsguide.di
 
 import android.app.Application
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -28,6 +30,10 @@ object AppModule {
         return application.dataStore
 
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreference(application: Application) :SharedPreferences = application.getSharedPreferences("session",MODE_PRIVATE)
 
     @Provides
     @Singleton

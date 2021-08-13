@@ -21,6 +21,7 @@ class AuthRepositoryImpl @Inject constructor(
             safeCall(call = {
                 val result = apiServices.loginAsync(loginEntity).await()
                 if (result.isSuccessful) {
+                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
                     dataStoreRepository.saveFatherData(result.body()?.dataResponse!!)
                     Resource.Success(result.body()?.dataResponse)
                 } else {
@@ -31,7 +32,6 @@ class AuthRepositoryImpl @Inject constructor(
                 }
             }, "Exception occurred!")
         }
-
 
     override suspend fun register(
         fullName: String,
@@ -55,9 +55,10 @@ class AuthRepositoryImpl @Inject constructor(
                         district
                     )
                 ).await()
-                if (result.isSuccessful)
+                if (result.isSuccessful) {
+                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
                     Resource.Success(result.body()?.dataResponse)
-                else {
+                } else {
                     val type = object : TypeToken<ResponseEntity>() {}.type
                     val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
@@ -83,9 +84,10 @@ class AuthRepositoryImpl @Inject constructor(
                         fullName
                     )
                 ).await()
-                if (result.isSuccessful)
+                if (result.isSuccessful) {
+                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
                     Resource.Success(result.body()?.dataResponse)
-                else {
+                } else {
                     val type = object : TypeToken<ResponseEntity>() {}.type
                     val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
@@ -94,10 +96,10 @@ class AuthRepositoryImpl @Inject constructor(
             }, "Exception occurred!")
         }
 
-    override suspend fun getProfileFather(token: String): Resource<AuthResponse.AuthData> =
+    override suspend fun getProfileFather(): Resource<AuthResponse.AuthData> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
-                val result = apiServices.loadProfileFatherAsync("Bearer $token").await()
+                val result = apiServices.loadProfileFatherAsync().await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body()?.dataResponse)
                 } else {

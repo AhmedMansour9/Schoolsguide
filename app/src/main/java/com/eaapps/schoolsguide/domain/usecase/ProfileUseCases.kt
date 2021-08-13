@@ -14,14 +14,14 @@ import javax.inject.Inject
 
 class AddSchoolUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
 
-    suspend fun execute(addSchoolModel: AddSchoolModel, token: String): Resource<ResponseEntity> =
+    suspend fun execute(addSchoolModel: AddSchoolModel): Resource<ResponseEntity> =
         profileRepository.addSchool(
             AddSchoolEntity(
                 addSchoolModel.school_name,
                 addSchoolModel.phone,
                 addSchoolModel.email,
                 addSchoolModel.notes
-            ), token
+            )
         )
 
     fun isValid(addSchoolModel: AddSchoolModel): Boolean =
@@ -121,8 +121,7 @@ class UpdatePasswordUseCase @Inject constructor(private val profileRepository: P
 class UpdateFatherProfileUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
 
     suspend fun execute(
-        updateProfileModel: UpdateProfileModel,
-        token: String
+        updateProfileModel: UpdateProfileModel
     ): Resource<ResponseEntity> =
         profileRepository.updateProfileFather(
             ChangeFatherProfileEntity(
@@ -132,7 +131,7 @@ class UpdateFatherProfileUseCase @Inject constructor(private val profileReposito
                 updateProfileModel.city_id,
                 updateProfileModel.gender,
                 updateProfileModel.image
-            ), token
+            )
         )
 
     fun isValid(updateProfileModel: UpdateProfileModel): Boolean =

@@ -10,7 +10,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentHomeBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
+import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.utils.FlowEvent
+import com.eaapps.schoolsguide.utils.launchFragment
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -29,12 +31,19 @@ import kotlinx.coroutines.flow.onStart
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
+
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
-    private val schoolTypeAdapter = SchoolTypeAdapter()
+
+    private val schoolTypeAdapter = SchoolTypeAdapter{
+        launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(it.id, recommended = false, featured = false)))
+    }
+
     private val sliderAdapter = SliderAdapter()
+
     private val featureSchoolHomeAdapter = SchoolHomeAdapter {
         toggleFavorite(it)
     }
+
     private val recommendedSchoolHomeAdapter = SchoolHomeAdapter {
         toggleFavorite(it)
     }
@@ -44,7 +53,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.executePendingBindings()
         //requireActivity().colorStatusBar(R.color.transparent, R.color.black, false)
         // requireActivity().transparentStatusBar()
-
         setupSlider()
         val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
         flexBoxLayoutManager.apply {
@@ -56,14 +64,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rcSchoolType.layoutManager = flexBoxLayoutManager
         binding.rcSchoolType.adapter = schoolTypeAdapter
 
-         binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
+        binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
 
-         binding.rcFeature.adapter = featureSchoolHomeAdapter
+        binding.rcFeature.adapter = featureSchoolHomeAdapter
+
+        binding.cardSearch.setOnClickListener {
+            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = false, featured = false)))
+        }
 
         schoolTypeCollectData()
         sliderCollectData()
         recommendedCollectData()
         featureCollectData()
+
+        binding.viewAllFeature.setOnClickListener {
+            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = false, featured = true)))
+
+        }
+
+        binding.viewAllRecommended.setOnClickListener {
+            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = true, featured = false)))
+        }
     }
 
     private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)

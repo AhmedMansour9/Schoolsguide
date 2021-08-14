@@ -24,7 +24,7 @@
     <string name="view_all">View All</string>
     <string name="featured_schools">Featured Schools</string>
     <string name="_new">New</string>
-     <string name="explore_school">Explore School</string>
+    <string name="explore_school">Explore School</string>
     <string name="discover_you_perfect_school">Discover You Perfect School</string>
     <string name="profile">Profile</string>
     <string name="new_password">New Password</string>
@@ -42,6 +42,9 @@
     <string name="school_email">School Email</string>
     <string name="favorite">Favorite</string>
     <string name="retry">Retry</string>
+    <string name="search_by_map">Search By Map</string>
+    <string name="city_name">City name</string>
+    <string name="school_type">School type</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

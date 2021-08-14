@@ -1,7 +1,7 @@
 package com.eaapps.schoolsguide.di
 
 import com.eaapps.schoolsguide.data.dataStore.DataStoreRepositoryImpl
-import com.eaapps.schoolsguide.data.network.*
+import com.eaapps.schoolsguide.data.network.repositories.*
 import com.eaapps.schoolsguide.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -46,6 +46,12 @@ object DataSourceModule {
     @Singleton
     fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository =
         favoriteRepositoryImpl
+
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository =
+        searchRepositoryImpl
 
 
 }

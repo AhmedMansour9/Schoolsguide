@@ -1,8 +1,9 @@
-package com.eaapps.schoolsguide.data.network
+package com.eaapps.schoolsguide.data.network.repositories
 
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.entity.SliderResponse
 import com.eaapps.schoolsguide.data.entity.TypeResponse
+import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.domain.repository.HomeRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall

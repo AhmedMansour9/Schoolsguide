@@ -1,6 +1,7 @@
-package com.eaapps.schoolsguide.data.network
+package com.eaapps.schoolsguide.data.network.repositories
 
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall

@@ -43,7 +43,11 @@
         android:id="@+id/homeFragment"
         tools:layout="@layout/fragment_home"
         android:name="com.eaapps.schoolsguide.features.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.eaapps.schoolsguide.features.profile.ProfileFragment"
@@ -79,4 +83,13 @@
         tools:layout="@layout/fragment_favorite"
         android:name="com.eaapps.schoolsguide.features.favorite.FavoriteFragment"
         android:label="FavoriteFragment" />
+    <dialog
+        android:id="@+id/searchFragment"
+        tools:layout="@layout/fragment_search"
+        android:name="com.eaapps.schoolsguide.features.search.SearchFragment"
+        android:label="SearchFragment" >
+        <argument
+            android:name="searchType"
+            app:argType="com.eaapps.schoolsguide.domain.model.SearchType" />
+    </dialog>
 </navigation>

@@ -168,11 +168,11 @@ data class SchoolResponse(
     }
 }
 
-data class TypeResponse(
+public data class TypeResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("data") val data: List<TypeData>,
     @SerializedName("message") val message: String
 ) {
 
-    data class TypeData(val id: Int, val name: String, val image: String)
+ public   data class TypeData(val id: Int, val name: String, val image: String)
 }

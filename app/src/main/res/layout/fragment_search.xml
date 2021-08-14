@@ -1,6 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:background="?selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@id/exploreField"
+        app:layout_constraintEnd_toStartOf="@id/exploreField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/exploreField"
+        app:srcCompat="@drawable/ic_round_arrow_back_24"
+        app:tint="@color/black"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/filterBtn"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/exploreField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/exploreField"
+        app:layout_constraintTop_toTopOf="@id/exploreField"
+        app:srcCompat="@drawable/ic_filter__1_"
+        app:tint="@color/black"
+        tools:ignore="ContentDescription" />
+
+    <EditText
+        android:id="@+id/exploreField"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="#F2F2F2"
+        android:drawableEnd="@drawable/ic_search_"
+        android:fontFamily="@font/rpt_bold"
+        android:gravity="start|center"
+        android:hint="@string/explore_school"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:textColorHighlight="@color/textColor1"
+        android:textColorHint="@color/textColor1"
+        app:layout_constraintEnd_toStartOf="@id/filterBtn"
+        app:layout_constraintStart_toEndOf="@id/backBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mapSearchBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:fontFamily="@font/rpt_bold"
+        android:padding="4dp"
+        android:text="@string/search_by_map"
+        android:textAllCaps="false"
+        android:textColor="@color/textColor1"
+        android:textSize="@dimen/_9sdp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_baseline_map_24"
+        app:iconGravity="textStart"
+        app:iconTint="@color/red_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterBtn" />
+
+    <ImageView
+        android:id="@+id/line"
+        android:layout_width="2dp"
+        android:layout_height="30dp"
+        android:background="@color/colorApp1"
+        app:layout_constraintBottom_toBottomOf="@id/mapSearchBtn"
+        app:layout_constraintEnd_toStartOf="@id/mapSearchBtn"
+        app:layout_constraintTop_toTopOf="@id/mapSearchBtn"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/modeListBtn"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/mapSearchBtn"
+        app:layout_constraintEnd_toStartOf="@id/line"
+        app:layout_constraintTop_toTopOf="@id/mapSearchBtn"
+        app:srcCompat="@drawable/ic_round_table_rows_24"
+        app:tint="@color/red_dark"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/mapSearchBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mapSearchBtn"
+        tools:ignore="UseCompoundDrawables">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/school_type"
+            android:textColor="@color/red_dark"
+            android:textSize="@dimen/_14ssp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:layout_gravity="center"
+            android:src="@drawable/ic_round_keyboard_arrow_down_24"
+            app:tint="@color/black"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="#F2F2F2"
+        app:layout_constraintTop_toBottomOf="@id/mapSearchBtn"
+        tools:ignore="ContentDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schoolsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:id="@+id/progressBar"
+        android:indeterminateTint="@color/colorApp3"
+        android:progressTint="@color/colorApp3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/retry_button"
+        android:text="@string/retry"
+        android:fontFamily="@font/rpt_bold"
+        app:backgroundTint="@color/colorApp3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

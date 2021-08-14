@@ -49,10 +49,37 @@ interface ApiServices {
     fun getFeaturedSchoolAsync(): Deferred<Response<SchoolResponse>>
 
     @POST("/api/father/toggle_favorite")
-    fun toggleFavoriteAsync(@Query("school_id") school_id: Int, ):Deferred<Response<ResponseEntity>>
+    fun toggleFavoriteAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
 
     @GET("/api/father/favoirtes")
-    suspend fun loadFavoriteAsync(@Query("page") page: Int, @Query("per_page") limitedItemLoad: Int): SchoolResponse
+    suspend fun loadFavoriteAsync(
+        @Query("page") page: Int,
+        @Query("per_page") limitedItemLoad: Int
+    ): SchoolResponse
+
+    @GET("/api/schools?recommended")
+    suspend fun loadAllRecommendedSchool(
+        @Query("page") page: Int,
+        @Query("per_page") limitedItemLoad: Int
+    ): SchoolResponse
+
+    @GET("/api/schools?featured")
+    suspend fun loadAllFeaturedSchool(
+        @Query("page") page: Int,
+        @Query("per_page") limitedItemLoad: Int
+    ): SchoolResponse
+
+
+
+    @GET("/api/schools?featured")
+    suspend fun loadAllTypedSchool(
+        @Query("type_id") type_id: Int,
+        @Query("page") page: Int,
+        @Query("per_page") limitedItemLoad: Int
+    ): SchoolResponse
+
+
+
 
 
 }

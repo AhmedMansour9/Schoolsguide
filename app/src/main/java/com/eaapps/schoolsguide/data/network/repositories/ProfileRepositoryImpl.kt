@@ -1,9 +1,10 @@
-package com.eaapps.schoolsguide.data.network
+package com.eaapps.schoolsguide.data.network.repositories
 
 import com.eaapps.schoolsguide.data.entity.AddSchoolEntity
 import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
 import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.domain.repository.ProfileRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.resourceError

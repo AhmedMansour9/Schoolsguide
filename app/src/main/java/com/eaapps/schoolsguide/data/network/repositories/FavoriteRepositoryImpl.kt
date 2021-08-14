@@ -1,10 +1,11 @@
-package com.eaapps.schoolsguide.data.network
+package com.eaapps.schoolsguide.data.network.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.data.network.dataSources.FavoritePagingDataSource
 import com.eaapps.schoolsguide.domain.repository.FavoriteRepository
 import com.eaapps.schoolsguide.utils.Resource

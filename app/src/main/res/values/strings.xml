@@ -45,8 +45,29 @@
     <string name="search_by_map">Search By Map</string>
     <string name="city_name">City name</string>
     <string name="school_type">School type</string>
+    <string name="filter">Filter</string>
+    <string name="clear_all">Clear all</string>
+    <string name="educational_level">Educational Level</string>
+    <string name="curriculum_type">Curriculum type</string>
+    <string name="type_school">Type School</string>
+    <string name="school_evaluation">School evaluation</string>
+    <string name="school_fees">School Fees</string>
+    <string name="_0">0</string>
+    <string name="_500000">500000</string>
+    <string name="apply">Apply</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+    <string-array name="schoolType">
+        <item>Males</item>
+        <item>Females</item>
+        <item>Males and Females</item>
+    </string-array>
+
+    <array name="initial_slider_values">
+        <item>0</item>
+        <item>500000.0</item>
+    </array>
 </resources>

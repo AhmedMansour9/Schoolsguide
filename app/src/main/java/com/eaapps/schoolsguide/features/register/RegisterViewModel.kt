@@ -21,8 +21,8 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var registerNavigator: RegisterNavigator
-    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> =
-        MutableStateFlow(Resource.Nothing())
+
+    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> = MutableStateFlow(Resource.Nothing())
     val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
 
     private val _registerStateFlow = MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())

@@ -18,6 +18,30 @@ data class CityResponse(
     )
 }
 
+
+data class ProgramsResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: List<Programs>,
+    @SerializedName("message") val message: String
+) {
+    data class Programs(
+        @SerializedName("id") val id: Int,
+        @SerializedName("name") val name: String
+    )
+}
+
+
+data class GradesResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: List<Grades>,
+    @SerializedName("message") val message: String
+) {
+    data class Grades(
+        @SerializedName("id") val id: Int,
+        @SerializedName("name") val name: String
+    )
+}
+
 data class AuthResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("message") val message: String,
@@ -32,7 +56,9 @@ data class AuthResponse(
         @SerializedName("created_at") val created_at: String,
         @SerializedName("access_token") val access_token: String,
         @SerializedName("token_type") val token_type: String,
-        @SerializedName("expires_at") val expires_at: String
+        @SerializedName("expires_at") val expires_at: String,
+        @SerializedName("image") val image: String,
+        @SerializedName("gender") val gender: String
     )
 }
 

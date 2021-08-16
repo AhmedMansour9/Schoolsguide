@@ -1,16 +1,20 @@
 package com.eaapps.schoolsguide.features.profile.updateProfile
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
+import android.database.Cursor
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toFile
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,7 +29,11 @@ import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import www.sanju.motiontoast.MotionToast
+import java.io.File
 
 @AndroidEntryPoint
 @InternalCoroutinesApi
@@ -43,7 +51,7 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     private lateinit var permisson: ActivityResultLauncher<String>
 
-    private lateinit var resultIntentActivity: ActivityResultLauncher<String>
+    private lateinit var resultIntentActivity: ActivityResultLauncher<Intent>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         createDialog(R.style.AppTheme, Color.WHITE, true)
@@ -77,6 +85,11 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         val gender = resources.getStringArray(R.array.gender)
         val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, gender)
         binding.genderEditProfile.setAdapter(adapter)
+
+        binding.genderEditProfile.setOnItemClickListener { _, _, position, _ ->
+            viewModel.updateProfileModel.gender = gender[position]
+        }
+
     }
 
     private fun setupClicks() {
@@ -97,7 +110,14 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
     }
 
     private fun chooseImageFromGalleries() {
-        resultIntentActivity.launch("image/*")
+
+        resultIntentActivity.launch(Intent(
+            Intent.ACTION_PICK,
+            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        ).apply {
+
+        })
+//        resultIntentActivity.launch("image/*")
     }
 
     private fun setupPermissionStorage() {
@@ -113,12 +133,79 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     @SuppressLint("SetTextI18n")
     private fun setupContentActivityResult() {
-        resultIntentActivity = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            if (it != null) {
-                viewModel.updateProfileModel.image = it.toFile()
-                binding.profileImg.loadImage(it)
+        resultIntentActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    val uri = it.data?.data
+                    val es = uri?.let {
+                        var result = ""
+                        var isok = false
+                        var cursor: Cursor? = null
+                        try {
+                            val proj = arrayOf(MediaStore.Images.Media.DATA)
+                            cursor = requireContext().getContentResolver().query(
+                                it,
+                                proj,
+                                null,
+                                null,
+                                null
+                            )!!
+                            val column_index =
+                                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                            cursor.moveToFirst()
+                            result = cursor.getString(column_index)
+                            isok = true
+                        } finally {
+                            cursor?.close()
+                        }
+                        result
+                    }
+
+                    val sa = uri?.let {
+                        val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        val cursor: Cursor?
+                        val columnIndexID: Int
+                        val listOfAllImages: MutableList<Uri> = mutableListOf()
+                        val projection = arrayOf(MediaStore.Images.Media._ID)
+                        var imageId: Long
+                        cursor = requireContext().contentResolver.query(
+                            uriExternal,
+                            projection,
+                            null,
+                            null,
+                            null
+                        )
+                        cursor?.apply {
+                            columnIndexID =
+                                cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                            while (cursor.moveToNext()) {
+                                imageId = cursor.getLong(columnIndexID)
+                                val uriImage = Uri.withAppendedPath(uriExternal, "" + imageId)
+                                listOfAllImages.add(uriImage)
+                            }
+                        }
+                        cursor?.close()
+                        listOfAllImages
+
+                    }
+
+
+                    binding.profileImg.loadImage(es!!)
+                    viewModel.updateProfileModel.image = getPartBody(es)
+                }
             }
-        }
+//        resultIntentActivity = registerForActivityResult(ActivityResultContracts.GetContent()) {
+//            if (it != null) {
+//
+//                 //viewModel.updateProfileModel.image =  it.
+//                binding.profileImg.loadImage(it)
+//            }
+//        }
+    }
+
+    private fun getPartBody(path: String): MultipartBody.Part = File(path).let {
+        val requestFile = it.asRequestBody("multipart/form-data; charset=utf-8".toMediaTypeOrNull())
+        MultipartBody.Part.createFormData("image", filename = it.name, requestFile)
     }
 
     private fun updateProfileCollectResult() {
@@ -168,8 +255,20 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
             mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
                 viewModel.updateProfileModel =
-                    UpdateProfileModel(it.full_name, it.email, it.phone, it.city.id)
+                    UpdateProfileModel(
+                        it.full_name,
+                        it.email,
+                        it.phone,
+                        it.city.id,
+                        it.gender,
+                        getPartBody(it.image)
+                    )
                 binding.cityEditProfile.setText(it.city.name)
+                binding.profileImg.loadImage(it.image)
+                val gender = resources.getStringArray(R.array.gender)
+                binding.genderEditProfile.setSelection(0)
+//                binding.genderEditProfile.setSelection(gender.indexOfFirst { per -> per == it.gender })
+
             }))
         }
     }

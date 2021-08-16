@@ -54,4 +54,10 @@ object DataSourceModule {
         searchRepositoryImpl
 
 
+    @Provides
+    @Singleton
+    fun provideGeneralRepository(generalRepositoryImpl: GeneralRepositoryImpl): GeneralRepository =
+        generalRepositoryImpl
+
+
 }

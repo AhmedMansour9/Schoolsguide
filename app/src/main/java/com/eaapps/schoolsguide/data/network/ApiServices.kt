@@ -2,11 +2,10 @@ package com.eaapps.schoolsguide.data.network
 
 import com.eaapps.schoolsguide.data.entity.*
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiServices {
 
@@ -25,9 +24,20 @@ interface ApiServices {
     @POST("/api/changePassword")
     fun changePasswordAsync(@Body changePasswordEntity: ChangePasswordEntity): Deferred<Response<ResponseEntity>>
 
+
+    @Multipart
     @POST("/api/father/editFatherProfile")
     fun changeFatherProfileAsync(
-        @Body changeFatherProfileEntity: ChangeFatherProfileEntity
+        @Part("_method") _method: RequestBody,
+        @Part("full_name") full_name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("city_id") city_id: RequestBody,
+        @Part("gender") gender: RequestBody? = null,
+        @Part image: MultipartBody.Part,
+        //@Body params: RequestBody
+//           image: File?=File("/storage/emulated/0/Android/iPad – 1.png")
+        //@Body changeFatherProfileEntity: ChangeFatherProfileEntity
     ): Deferred<Response<ResponseEntity>>
 
     @POST("/api/add_school_request")
@@ -38,6 +48,12 @@ interface ApiServices {
 
     @GET("/api/types")
     fun getSchoolTypeAsync(): Deferred<Response<TypeResponse>>
+
+    @GET("/api/grades")
+    fun getSchoolGradesAsync(): Deferred<Response<GradesResponse>>
+
+    @GET("/api/programs")
+    fun getSchoolProgramsAsync(): Deferred<Response<ProgramsResponse>>
 
     @GET("/api/sliders")
     fun getSliderAsync(): Deferred<Response<SliderResponse>>
@@ -70,7 +86,6 @@ interface ApiServices {
     ): SchoolResponse
 
 
-
     @GET("/api/schools?featured")
     suspend fun loadAllTypedSchool(
         @Query("type_id") type_id: Int,
@@ -79,7 +94,18 @@ interface ApiServices {
     ): SchoolResponse
 
 
-
-
+    @GET("/api/schools")
+    suspend fun filterSchool(
+        @Query("page") page: Int? = null,
+        @Query("perPage") perPage: Int? = null,
+        @Query("search") search: String? = null,
+        @Query("type_id") type_id: Int? = null,
+        @Query("school_type") school_type: String? = null,
+        @Query("grade_id") grade_id: Int? = null,
+        @Query("from_price") from_price: Int? = null,
+        @Query("to_price") to_price: Int? = null,
+        @Query("program_id") program_id: Int? = null,
+        @Query("city_id") city_id: Int? = null
+    ): Response<SchoolResponse>
 
 }

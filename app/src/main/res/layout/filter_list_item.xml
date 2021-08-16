@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="line"
+            type="Boolean" />
+
+        <variable
+            name="itemSelect"
+            type="String" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/filterTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{title}"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Education Level" />
+
+        <TextView
+            android:id="@+id/filterItemSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{itemSelect}"
+            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
+            android:textColor="#989898"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/filterTitleLabel"
+            app:layout_constraintTop_toTopOf="@id/filterTitleLabel"
+            tools:text="Item Selection"/>
+
+        <ListView
+            android:id="@+id/listViewChoice"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:choiceMode="singleChoice"
+            android:divider="@color/transparent"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/filterTitleLabel" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="#DADADA"
+            android:visibility="@{line?View.VISIBLE:View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/listViewChoice"
+            tools:ignore="ContentDescription" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

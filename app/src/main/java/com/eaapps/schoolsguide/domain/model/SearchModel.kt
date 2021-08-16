@@ -31,3 +31,15 @@ data class SearchType(var type: Int, var recommended: Boolean, var featured: Boo
         }
     }
 }
+
+data class FilterModel(
+    var search: String? = null,
+    var type_id: Int?=null,
+    var school_type: String?=null,
+    var grade_id: Int? = null,
+    var from_price: Int? = null,
+    var to_price: Int? = null,
+    var program_id: Int? = null,
+    var city_id: Int? = null,
+    var review: Int? = null
+)

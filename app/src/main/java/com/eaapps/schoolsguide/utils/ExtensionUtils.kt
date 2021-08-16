@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
+import android.provider.ContactsContract
 import android.view.*
 import android.view.View
 import android.view.ViewGroup
@@ -307,7 +308,10 @@ fun Fragment.requestPermissionWithRationale(
     return resultRequestPermission!!
 }
 
-fun ImageView.loadImage(uri: Uri) {
+
+
+
+fun ImageView.loadImage(uri: String) {
     Glide.with(this).load(uri).placeholder(R.drawable.user__).into(this)
 }
 
@@ -409,6 +413,7 @@ suspend fun <T> DataStore<Preferences>.setValue(key: Preferences.Key<T>, value: 
         it[key] = value
     }
 }
+
 
 
 

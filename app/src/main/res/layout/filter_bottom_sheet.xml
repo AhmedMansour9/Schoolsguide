@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/desing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/filterLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/filter"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_21ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearAllBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/clear_all"
+                android:textAllCaps="false"
+                android:textColor="@color/colorApp3"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="@id/filterLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/filterLabel"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/background_clear_circle"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_round_clear_24"
+
+                tools:ignore="ContentDescription" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+                            android:id="@+id/cities"
+                            layout="@layout/filter_list_item"
+                            line="@{true}"
+                            title="@{@string/city}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <include
+                            android:id="@+id/education_level"
+                            layout="@layout/filter_list_item"
+                            line="@{true}"
+                            title="@{@string/educational_level}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            app:layout_constraintTop_toBottomOf="@id/cities" />
+
+
+                        <include
+                            android:id="@+id/curriculum_type"
+                            layout="@layout/filter_list_item"
+                            line="@{true}"
+                            title="@{@string/curriculum_type}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            app:layout_constraintTop_toBottomOf="@id/education_level" />
+
+
+                        <include
+                            android:id="@+id/type_school"
+                            layout="@layout/filter_list_item"
+                            line="@{true}"
+                            title="@{@string/type_school}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            app:layout_constraintTop_toBottomOf="@id/curriculum_type" />
+
+                        <TextView
+                            android:id="@+id/school_evaluationLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/school_evaluation"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_18ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/type_school"
+                            tools:text="School evaluation" />
+
+                        <androidx.appcompat.widget.AppCompatRatingBar
+                            android:id="@+id/evaluationValue"
+                            style="@style/RateBar.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:isIndicator="false"
+                            android:numStars="5"
+                            android:progressTint="@color/black"
+                            android:rating="0"
+                            android:soundEffectsEnabled="true"
+                            android:stepSize="1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/school_evaluationLabel" />
+
+                        <ImageView
+                            android:id="@+id/lineRate"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:background="#DADADA"
+                            app:layout_constraintTop_toBottomOf="@id/evaluationValue"
+                            tools:ignore="ContentDescription" />
+
+                        <include
+                            android:id="@+id/schoolFees"
+                            layout="@layout/school_fees_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/lineRate" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="68dp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/apply"
+                            android:id="@+id/applyFilter"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_20ssp"
+                            app:backgroundTint="@color/colorApp3"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/schoolFees" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

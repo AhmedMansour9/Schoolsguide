@@ -34,7 +34,7 @@ class UpdateProfileViewModel @Inject constructor(
         MutableStateFlow(Resource.Nothing())
     val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
 
-    lateinit var updateProfileModel: UpdateProfileModel
+      var updateProfileModel: UpdateProfileModel = UpdateProfileModel()
 
 
     private var helperValid = HashMap<String, String>().apply {

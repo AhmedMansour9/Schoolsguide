@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.data.network.repositories
 
+import android.util.Log
 import com.eaapps.schoolsguide.data.entity.AddSchoolEntity
 import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
 import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
@@ -13,6 +14,12 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.File
 import javax.inject.Inject
 
 class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServices) :
@@ -50,15 +57,47 @@ class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServ
             }, "Exception occurred!")
         }
 
+    private fun createJsonRequestBody(vararg params: Pair<String, Any?>) =
+        JSONObject(mapOf(*params)).toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
     override suspend fun updateProfileFather(
         changeFatherProfileEntity: ChangeFatherProfileEntity,
     ): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
+                Log.d("ppasod", "updateProfileFather: ")
+
+                val requestFile =
+                    File("/storage/emulated/0/Pictures/Screenshots/Screenshot_20210813_015150_com.yaschoolparent.jpg")
+                        .asRequestBody("multipart/form-data; charset=utf-8".toMediaTypeOrNull())
+                val mut = MultipartBody.Part.createFormData(
+                    "image",
+                    filename = File("/storage/emulated/0/Pictures/Screenshots/Screenshot_20210813_015150_com.yaschoolparent.jpg").name,
+                    requestFile
+                )
+
+                val es = createJsonRequestBody(
+                    "_method" to "put",
+                    "full_name" to changeFatherProfileEntity.full_name,
+                    "email" to changeFatherProfileEntity.email,
+                    "city_id" to changeFatherProfileEntity.city_id,
+                    "gender" to changeFatherProfileEntity.gender,
+                    "phone" to changeFatherProfileEntity.phone
+                    // "image" to mut,
+                )
+
                 val result =
-                    apiServices.changeFatherProfileAsync(changeFatherProfileEntity)
-                        .await()
+                    apiServices.changeFatherProfileAsync(
+                        // changeFatherProfileEntity
+                        "put".toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        changeFatherProfileEntity.full_name.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        changeFatherProfileEntity.email.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        changeFatherProfileEntity.phone.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        "${changeFatherProfileEntity.city_id}".toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        changeFatherProfileEntity.gender?.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                        changeFatherProfileEntity.image!!
+                    ).await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body())
                 } else {

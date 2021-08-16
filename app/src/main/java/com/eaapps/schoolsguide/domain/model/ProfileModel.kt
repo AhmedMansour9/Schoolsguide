@@ -1,6 +1,6 @@
 package com.eaapps.schoolsguide.domain.model
 
-import java.io.File
+import okhttp3.MultipartBody
 
 data class AddSchoolModel(
     var school_name: String = "",
@@ -21,5 +21,5 @@ data class UpdateProfileModel(
     var phone: String = "",
     var city_id: Int = 1,
     var gender: String = "",
-    var image: File? = null
+    var image: MultipartBody.Part? = null
 )

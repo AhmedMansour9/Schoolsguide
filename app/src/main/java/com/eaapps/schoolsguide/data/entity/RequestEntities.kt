@@ -1,9 +1,6 @@
 package com.eaapps.schoolsguide.data.entity
 
-import android.net.Uri
-import retrofit2.http.Multipart
-import retrofit2.http.Part
-import java.io.File
+import okhttp3.MultipartBody
 
 data class LoginEntity(var email: String, var password: String)
 
@@ -42,7 +39,19 @@ data class ChangeFatherProfileEntity(
     var email: String,
     var phone: String,
     var city_id: Int,
-    var gender: String?=null,
-    @Part("file") var image: File?=null,
-    val _method:String = "put"
-    )
+    var gender: String? = null,
+    var image: MultipartBody.Part? = null,
+    val _method: String = "put"
+)
+
+data class FilterRequestEntity(
+    var search: String? = null,
+    var school_type: String? = null,
+    var type_id: Int? = null,
+    var grade_id: Int? = null,
+    var from_price: Int? = null,
+    var to_price: Int? = null,
+    var program_id: Int? = null,
+    var city_id: Int? = null,
+    var review: Int? = null
+)

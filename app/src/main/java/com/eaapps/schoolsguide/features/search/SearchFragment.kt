@@ -394,7 +394,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             }, onSuccess = {
                 val list: ArrayList<String> = ArrayList()
                 it.forEach { typeData ->
-                    list.add(typeData.name)
+                    list.add(typeData.name!!)
                 }
                 pairGrades = Pair(it, list)
 

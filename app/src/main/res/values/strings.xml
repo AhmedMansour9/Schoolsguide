@@ -55,6 +55,11 @@
     <string name="_0">0</string>
     <string name="_500000">500000</string>
     <string name="apply">Apply</string>
+    <string name="recommend_it">Recommend It</string>
+    <string name="evaluation">Evaluation</string>
+    <string name="follow">Follow school</string>
+    <string name="join_discount">Join discount</string>
+    <string name="contact_info">Contact Info</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

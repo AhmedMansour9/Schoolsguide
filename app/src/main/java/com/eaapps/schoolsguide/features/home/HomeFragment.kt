@@ -34,18 +34,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
 
-    private val schoolTypeAdapter = SchoolTypeAdapter{
-        launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(it.id, recommended = false, featured = false)))
+    private val schoolTypeAdapter = SchoolTypeAdapter {
+        launchFragment(
+            HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                SearchType(
+                    it.id,
+                    recommended = false,
+                    featured = false
+                )
+            )
+        )
     }
 
     private val sliderAdapter = SliderAdapter()
 
-    private val featureSchoolHomeAdapter = SchoolHomeAdapter {
-        toggleFavorite(it)
+    private val featureSchoolHomeAdapter = SchoolHomeAdapter({ toggleFavorite(it) }) {
+        launchFragment(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
     }
 
-    private val recommendedSchoolHomeAdapter = SchoolHomeAdapter {
-        toggleFavorite(it)
+    private val recommendedSchoolHomeAdapter =SchoolHomeAdapter({ toggleFavorite(it) }) {
+        launchFragment(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +77,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rcFeature.adapter = featureSchoolHomeAdapter
 
         binding.cardSearch.setOnClickListener {
-            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = false, featured = false)))
+            launchFragment(
+                HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                    SearchType(
+                        -1,
+                        recommended = false,
+                        featured = false
+                    )
+                )
+            )
         }
 
         schoolTypeCollectData()
@@ -78,12 +94,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         featureCollectData()
 
         binding.viewAllFeature.setOnClickListener {
-            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = false, featured = true)))
+            launchFragment(
+                HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                    SearchType(
+                        -1,
+                        recommended = false,
+                        featured = true
+                    )
+                )
+            )
 
         }
 
         binding.viewAllRecommended.setOnClickListener {
-            launchFragment(HomeFragmentDirections.actionHomeFragmentToSearchFragment(SearchType(-1, recommended = true, featured = false)))
+            launchFragment(
+                HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                    SearchType(
+                        -1,
+                        recommended = true,
+                        featured = false
+                    )
+                )
+            )
         }
     }
 

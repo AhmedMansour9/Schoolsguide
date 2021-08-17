@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="dataSchool"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_240sdp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?colorPrimary"
+                app:expandedTitleMarginStart="12dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax">
+
+                    <ImageView
+                        android:id="@+id/picSchool"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/pic"
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/scrim" />
+
+                    <LinearLayout
+                        android:id="@+id/groupSee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:background="@drawable/shape_see_details"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.3">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:src="@drawable/ic_round_remove_red_eye_24"
+                            app:tint="@color/colorApp3"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/seeSchool"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:gravity="center"
+                            android:text="@{dataSchool.number_views+``}"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_13ssp"
+                            tools:text="100K" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/groupRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/shape_see_details"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/groupSee"
+                        app:layout_constraintVertical_bias="0.3">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:src="@drawable/ic_round_star_rate_24"
+                            app:tint="@color/rate_active"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/rateTotalSchool"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:gravity="center"
+                            android:text="@{dataSchool.total_number_review+``}"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_13ssp"
+                            tools:text="1000" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_14sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@{dataSchool.name}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_16ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/scrim"
+                    android:visibility="gone" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_round_clear__24"
+                    app:navigationIconTint="@color/white"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:titleTextColor="@color/white" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Content -->
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/shortDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@{dataSchool.short_description}"
+                    android:textColor="@color/gray_1"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="School Good For student because give yours free to play football and study" />
+
+                <TextView
+                    android:id="@+id/type_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@{`School type : `+dataSchool.type.name}"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                    app:layout_constraintStart_toStartOf="@id/shortDesc"
+                    app:layout_constraintTop_toBottomOf="@id/shortDesc"
+                    tools:text="School type : International" />
+
+                <TextView
+                    android:id="@+id/program_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@{`Curriculum : `+dataSchool.program.name}"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                    app:layout_constraintStart_toStartOf="@id/shortDesc"
+                    app:layout_constraintTop_toBottomOf="@id/type_school"
+                    tools:text="Curriculum : Egyptian track" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/groupClicks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
+                    app:alignContent="space_between"
+                    app:alignItems="center"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_evenly"
+                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                    app:layout_constraintStart_toStartOf="@id/shortDesc"
+                    app:layout_constraintTop_toBottomOf="@id/program_school">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_outline_thumb_up_alt_30"
+                            app:tint="@color/colorApp3"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/recommend_it"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_outline_group_add_30"
+                            app:tint="@color/colorApp3"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/join_discount"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_round_star_outline_24"
+                            app:tint="@color/colorApp3"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/evaluation"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_favorite_border_30"
+                            app:tint="@color/colorApp3"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/follow"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <ImageView
+                    android:id="@+id/lineGroup1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/gray_1"
+                    app:layout_constraintTop_toBottomOf="@id/groupClicks"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/contactIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:src="@drawable/ic_baseline_contact_support_32"
+                    app:layout_constraintStart_toStartOf="@id/lineGroup1"
+                    app:layout_constraintTop_toBottomOf="@id/lineGroup1"
+                    app:tint="@color/black"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/contact_info"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/contactIcon"
+                    app:layout_constraintStart_toEndOf="@id/contactIcon"
+                    app:layout_constraintTop_toTopOf="@id/contactIcon" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/groupInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:alignContent="space_between"
+                    app:alignItems="flex_start"
+                    app:flexDirection="column"
+                    app:flexWrap="wrap"
+                    app:justifyContent="space_between"
+                    app:layout_constraintEnd_toEndOf="@id/lineGroup1"
+                    app:layout_constraintStart_toStartOf="@id/lineGroup1"
+                    app:layout_constraintTop_toBottomOf="@id/contactIcon">
+
+                    <include
+                        android:id="@+id/te_phoneNumber"
+                        icon="@{@drawable/ic_baseline_phone_24}"
+                        layout="@layout/details_contact_info_item"
+                        titleOne="@{dataSchool.phone1}"
+                        titleTwo="@{dataSchool.phone2}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+
+                    <include
+                        android:id="@+id/phoneNumber"
+                        icon="@{@drawable/ic_round_smartphone_24}"
+                        layout="@layout/details_contact_info_item"
+                        titleOne="@{dataSchool.mobil1}"
+                        titleTwo="@{dataSchool.mobil2}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/email"
+                        icon="@{@drawable/ic_round_email_24}"
+                        layout="@layout/details_contact_info_item"
+                        titleOne="@{dataSchool.email}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+
+                    <include
+                        android:id="@+id/address"
+                        icon="@{@drawable/ic_round_location_on_24}"
+                        layout="@layout/details_contact_info_item"
+                        titleOne="@{dataSchool.address}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/timeWork"
+                        icon="@{@drawable/ic_watch_later_black_24dp}"
+                        layout="@layout/details_contact_info_item"
+                        titleOne="@{dataSchool.dates_for_communicating_with_supervisors}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/groupSocial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:alignContent="center"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_evenly"
+                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                    app:layout_constraintStart_toStartOf="@id/groupInfo"
+                    app:layout_constraintTop_toBottomOf="@id/groupInfo">
+
+                    <ImageButton
+                        android:id="@+id/faceBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/facebook_"
+                        tools:ignore="ContentDescription" />
+
+
+                    <ImageButton
+                        android:id="@+id/googleBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/google_plus_"
+                        tools:ignore="ContentDescription" />
+
+
+                    <ImageButton
+                        android:id="@+id/twitterBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/twitter_"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageButton
+                        android:id="@+id/linkedInBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/linkedin_"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageButton
+                        android:id="@+id/youtubeBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/youtube_"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageButton
+                        android:id="@+id/instaBtn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/insta_"
+                        tools:ignore="ContentDescription" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/navigationOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:alignContent="space_between"
+                     app:flexDirection="row"
+                     app:flexWrap="nowrap"
+                    app:justifyContent="center"
+                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                    app:layout_constraintStart_toStartOf="@id/groupInfo"
+                    app:layout_constraintTop_toBottomOf="@id/groupSocial">
+
+
+                    <include
+                        iconItem="@{@drawable/attach_money_black_24dp}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Tuition fees`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        iconItem="@{@drawable/date_range_black_24dp}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Contact times`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        iconItem="@{@drawable/military_tech_black_24dp}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Awards School`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        iconItem="@{@drawable/training}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Service Statistics`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/navigationTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:alignContent="space_between"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="center"
+                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                    app:layout_constraintStart_toStartOf="@id/groupInfo"
+                    app:layout_constraintTop_toBottomOf="@id/navigationOne">
+
+
+
+                    <include
+                        iconItem="@{@drawable/news}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`News School`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        iconItem="@{@drawable/party}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Events School`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        iconItem="@{@drawable/podium_}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Achievements`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <include
+                        iconItem="@{@drawable/comment}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Parent comments`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/navigationThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:alignContent="space_between"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="center"
+                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                    app:layout_constraintStart_toStartOf="@id/groupInfo"
+                    app:layout_constraintTop_toBottomOf="@id/navigationTwo">
+
+
+                    <include
+                        iconItem="@{@drawable/folder_job}"
+                        layout="@layout/details_item_navigations"
+                        title="@{`Job available`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

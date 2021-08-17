@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -91,5 +94,14 @@
         <argument
             android:name="searchType"
             app:argType="com.eaapps.schoolsguide.domain.model.SearchType" />
+    </dialog>
+    <dialog
+        android:id="@+id/detailsFragment"
+        android:name="com.eaapps.schoolsguide.features.details.DetailsFragment"
+        tools:layout="@layout/fragment_details_dialog"
+        android:label="DetailsFragment" >
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
     </dialog>
 </navigation>

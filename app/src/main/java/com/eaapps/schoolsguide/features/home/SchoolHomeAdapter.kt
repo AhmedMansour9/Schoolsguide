@@ -1,13 +1,12 @@
 package com.eaapps.schoolsguide.features.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemHomeBinding
 
-class SchoolHomeAdapter(val toggleFavorite: (Int) -> Unit) :
+class SchoolHomeAdapter(val onToggleFavorite: (Int) -> Unit, val onSelectItem: (SchoolResponse.SchoolData.DataSchool) -> Unit) :
     RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolder>() {
 
     private val dataSchoolList = ArrayList<SchoolResponse.SchoolData.DataSchool>()
@@ -22,7 +21,7 @@ class SchoolHomeAdapter(val toggleFavorite: (Int) -> Unit) :
         val schoolData: SchoolResponse.SchoolData.DataSchool = dataSchoolList[position]
         schoolData.isFavoired = checked
         dataSchoolList[position] = schoolData
-        toggleFavorite(schoolData.id)
+        onToggleFavorite(schoolData.id)
         notifyItemChanged(position)
     }
 
@@ -38,6 +37,10 @@ class SchoolHomeAdapter(val toggleFavorite: (Int) -> Unit) :
                 if (button.isPressed) {
                     updateItem(position, isChecked)
                 }
+            }
+
+            itemView.setOnClickListener {
+                onSelectItem(schoolData)
             }
         }
 

@@ -184,7 +184,8 @@ fun Dialog.loadDialog(context: Context): FoldingCube {
     return progress.foldingCube()
 }
 
-fun Activity.colorStatusBar(
+fun Window.colorStatusBar(
+    context: Context,
     @ColorRes colorStatus: Int,
     @ColorRes colorNavigationBar: Int,
     lightBar: Boolean
@@ -192,31 +193,31 @@ fun Activity.colorStatusBar(
 
     if (lightBar) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.setSystemBarsAppearance(
+            insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
             )
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.setSystemBarsAppearance(
+            insetsController?.setSystemBarsAppearance(
                 0,
                 0
             )
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = 0
+            decorView.systemUiVisibility = 0
         }
     }
 
-    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    window.statusBarColor = ContextCompat.getColor(this, colorStatus)
-    window.navigationBarColor = ContextCompat.getColor(this, colorNavigationBar)
+    addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    statusBarColor = ContextCompat.getColor(context, colorStatus)
+    navigationBarColor = ContextCompat.getColor(context, colorNavigationBar)
 
 }
 

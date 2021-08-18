@@ -76,6 +76,17 @@ interface ApiServices {
     @POST("/api/father/toggle_favorite")
     fun toggleFavoriteAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
 
+    @POST("/api/father/toggle_follow")
+    fun toggleFollowAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
+
+    @POST("/api/father/toggle_recommend")
+    fun toggleRecommendedAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
+
+
+    @GET("/api/schoolDetails/")
+    fun schoolDetailsAsync(@Query("school_id") school_id: Int): Deferred<Response<SchoolDetailsResponse>>
+
+
     @GET("/api/father/favoirtes")
     suspend fun loadFavoriteAsync(
         @Query("page") page: Int,
@@ -116,5 +127,6 @@ interface ApiServices {
         @Query("program_id") program_id: Int? = null,
         @Query("city_id") city_id: Int? = null
     ): Response<SchoolResponse>
+
 
 }

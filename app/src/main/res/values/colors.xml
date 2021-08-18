@@ -25,4 +25,5 @@
     <color name="rate_active">#FCAE19</color>
     <color name="rate_un_active">#575757</color>
     <color name="gray_1">#A4A4A4</color>
+    <color name="gray_2">#858585</color>
 </resources>

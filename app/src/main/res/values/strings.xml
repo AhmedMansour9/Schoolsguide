@@ -55,9 +55,9 @@
     <string name="_0">0</string>
     <string name="_500000">500000</string>
     <string name="apply">Apply</string>
-    <string name="recommend_it">Recommend It</string>
+    <string name="recommend_it">Recommend</string>
     <string name="evaluation">Evaluation</string>
-    <string name="follow">Follow school</string>
+    <string name="follow">Follow</string>
     <string name="join_discount">Join discount</string>
     <string name="contact_info">Contact Info</string>
 
@@ -72,6 +72,16 @@
     <string name="check_your_mail">Email has been sent!</string>
     <string name="checkLabel_msg">Please check your inbox and click in the received link to reset a password</string>
     <string name="didn_t_receive_the_link_resend">Didn\'t receive the link? {Resend}</string>
+    <string name="book_now">Book Now</string>
+    <string name="_tuition_fees">Tuition fees</string>
+    <string name="contact_times">Contact times</string>
+    <string name="awards_school">Awards school</string>
+    <string name="service_statistics">Service statistics</string>
+    <string name="news_school">News school</string>
+    <string name="event_school">Events school</string>
+    <string name="achievements">Achievements</string>
+    <string name="parent_comment">Parent comments</string>
+    <string name="job_available">Job available</string>
 
     <string-array name="gender">
 

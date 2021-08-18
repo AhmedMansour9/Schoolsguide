@@ -143,6 +143,10 @@ data class SliderResponse(
     )
 }
 
+data class SchoolDetailsResponse(@SerializedName("success") val success: Boolean,
+                                 @SerializedName("data") val data: SchoolResponse.SchoolData.DataSchool,
+                                 @SerializedName("message") val message: String)
+
 data class SchoolResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("data") val data: SchoolData,
@@ -177,8 +181,8 @@ data class SchoolResponse(
             val image: String,
             val instgram_link: String,
             var isFavoired: Boolean,
-            val isFollowed: Boolean,
-            val isRecommended: Boolean,
+            var isFollowed: Boolean,
+            var isRecommended: Boolean,
             val is_new: Boolean,
             val jobs: List<JobData>,
             val lat: Double,

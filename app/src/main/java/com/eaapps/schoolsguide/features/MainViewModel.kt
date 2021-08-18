@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    // private val profileFatherStoredUseCase: ProfileFatherStoredUseCase,
     private val getProfileFatherUseCase: GetProfileFatherUseCase,
     private val logoutFatherUseCase: LogoutFatherUseCase
 ) : ViewModel() {
@@ -48,6 +47,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _logoutStateFlow.emit(Resource.Loading())
+                _profileStateFlow.emit(Resource.Nothing())
                 val result = logoutFatherUseCase.execute()
                 _logoutStateFlow.emit(result)
             } catch (e: Exception) {

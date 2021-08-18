@@ -115,4 +115,34 @@ class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServ
             }, "Exception occurred!")
         }
 
+    override suspend fun toggleRecommendedIt(schoolId: Int): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.toggleRecommendedAsync(schoolId).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun toggleFollow(schoolId: Int): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.toggleFollowAsync(schoolId).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
 }

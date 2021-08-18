@@ -59,8 +59,8 @@
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingTop="@dimen/_4sdp"
-                        android:paddingBottom="@dimen/_4sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -98,8 +98,8 @@
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingTop="@dimen/_4sdp"
-                        android:paddingBottom="@dimen/_4sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/groupSee"
                         app:layout_constraintVertical_bias="0.3">
@@ -182,7 +182,7 @@
                     android:layout_margin="@dimen/_10sdp"
                     android:fontFamily="@font/rpt_bold"
                     android:text="@{dataSchool.short_description}"
-                    android:textColor="@color/gray_1"
+                    android:textColor="@color/gray_2"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -223,113 +223,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:orientation="horizontal"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     app:alignContent="space_between"
                     app:alignItems="center"
                     app:flexWrap="nowrap"
-                    app:justifyContent="space_evenly"
+                    app:justifyContent="space_between"
                     app:layout_constraintEnd_toEndOf="@id/shortDesc"
                     app:layout_constraintStart_toStartOf="@id/shortDesc"
                     app:layout_constraintTop_toBottomOf="@id/program_school">
 
-                    <LinearLayout
+                    <include
+                        android:id="@+id/recommended"
+                        icon="@{dataSchool.recommended?@drawable/round_thumb_up_black_24:@drawable/outline_thumb_up_black_24}"
+                        layout="@layout/details_item_interactions"
+                        title="@{@string/recommend_it}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:layout_height="wrap_content" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_outline_thumb_up_alt_30"
-                            app:tint="@color/colorApp3"
-                            tools:ignore="ContentDescription" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/recommend_it"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <include
+                        android:id="@+id/joinDiscount"
+                        icon="@{@drawable/round_group_add_black_24}"
+                        layout="@layout/details_item_interactions"
+                        title="@{@string/join_discount}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:layout_height="wrap_content" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_outline_group_add_30"
-                            app:tint="@color/colorApp3"
-                            tools:ignore="ContentDescription" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/join_discount"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <include
+                        android:id="@+id/valuation"
+                        icon="@{@drawable/round_star_border_24}"
+                        layout="@layout/details_item_interactions"
+                        title="@{@string/evaluation}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:layout_height="wrap_content" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_round_star_outline_24"
-                            app:tint="@color/colorApp3"
-                            tools:ignore="ContentDescription" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/evaluation"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <include
+                        android:id="@+id/follow"
+                        icon="@{dataSchool.followed?@drawable/round_favorite_black_24:@drawable/round_favorite_border_black_24}"
+                        layout="@layout/details_item_interactions"
+                        title="@{@string/follow}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_favorite_border_30"
-                            app:tint="@color/colorApp3"
-                            tools:ignore="ContentDescription" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/follow"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
 
                 </com.google.android.flexbox.FlexboxLayout>
 
@@ -383,7 +318,7 @@
 
                     <include
                         android:id="@+id/te_phoneNumber"
-                        icon="@{@drawable/ic_baseline_phone_24}"
+                        icon="@{@drawable/round_phone_black_24}"
                         layout="@layout/details_contact_info_item"
                         titleOne="@{dataSchool.phone1}"
                         titleTwo="@{dataSchool.phone2}"
@@ -393,7 +328,7 @@
 
                     <include
                         android:id="@+id/phoneNumber"
-                        icon="@{@drawable/ic_round_smartphone_24}"
+                        icon="@{@drawable/round_phone_android_black_24}"
                         layout="@layout/details_contact_info_item"
                         titleOne="@{dataSchool.mobil1}"
                         titleTwo="@{dataSchool.mobil2}"
@@ -402,7 +337,7 @@
 
                     <include
                         android:id="@+id/email"
-                        icon="@{@drawable/ic_round_email_24}"
+                        icon="@{@drawable/round_email_black_24}"
                         layout="@layout/details_contact_info_item"
                         titleOne="@{dataSchool.email}"
                         android:layout_width="match_parent"
@@ -411,7 +346,7 @@
 
                     <include
                         android:id="@+id/address"
-                        icon="@{@drawable/ic_round_location_on_24}"
+                        icon="@{@drawable/round_location_on_black_24}"
                         layout="@layout/details_contact_info_item"
                         titleOne="@{dataSchool.address}"
                         android:layout_width="match_parent"
@@ -419,7 +354,7 @@
 
                     <include
                         android:id="@+id/timeWork"
-                        icon="@{@drawable/ic_watch_later_black_24dp}"
+                        icon="@{@drawable/round_watch_later_black_24}"
                         layout="@layout/details_contact_info_item"
                         titleOne="@{dataSchool.dates_for_communicating_with_supervisors}"
                         android:layout_width="match_parent"
@@ -498,123 +433,32 @@
 
                 </com.google.android.flexbox.FlexboxLayout>
 
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/navigationOne"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcListProperties"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
-                    app:alignContent="space_between"
-                     app:flexDirection="row"
-                     app:flexWrap="nowrap"
-                    app:justifyContent="center"
                     app:layout_constraintEnd_toEndOf="@id/groupInfo"
                     app:layout_constraintStart_toStartOf="@id/groupInfo"
-                    app:layout_constraintTop_toBottomOf="@id/groupSocial">
+                    app:layout_constraintTop_toBottomOf="@id/groupSocial" />
 
-
-                    <include
-                        iconItem="@{@drawable/attach_money_black_24dp}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Tuition fees`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        iconItem="@{@drawable/date_range_black_24dp}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Contact times`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        iconItem="@{@drawable/military_tech_black_24dp}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Awards School`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        iconItem="@{@drawable/training}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Service Statistics`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/navigationTwo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    app:alignContent="space_between"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="center"
-                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
-                    app:layout_constraintStart_toStartOf="@id/groupInfo"
-                    app:layout_constraintTop_toBottomOf="@id/navigationOne">
-
-
-
-                    <include
-                        iconItem="@{@drawable/news}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`News School`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        iconItem="@{@drawable/party}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Events School`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        iconItem="@{@drawable/podium_}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Achievements`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-                    <include
-                        iconItem="@{@drawable/comment}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Parent comments`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/navigationThree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    app:alignContent="space_between"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="center"
-                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
-                    app:layout_constraintStart_toStartOf="@id/groupInfo"
-                    app:layout_constraintTop_toBottomOf="@id/navigationTwo">
-
-
-                    <include
-                        iconItem="@{@drawable/folder_job}"
-                        layout="@layout/details_item_navigations"
-                        title="@{`Job available`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-
-
-                </com.google.android.flexbox.FlexboxLayout>
-
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bookNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/book_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    app:backgroundTint="@color/colorApp3"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rcListProperties" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

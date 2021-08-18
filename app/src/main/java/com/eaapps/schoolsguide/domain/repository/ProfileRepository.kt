@@ -14,4 +14,8 @@ interface ProfileRepository {
 
     suspend fun updateProfileFather(changeFatherProfileEntity: ChangeFatherProfileEntity): Resource<ResponseEntity>
 
+    suspend fun toggleRecommendedIt(schoolId: Int): Resource<ResponseEntity>
+
+    suspend fun toggleFollow(schoolId: Int): Resource<ResponseEntity>
+
 }

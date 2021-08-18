@@ -1,25 +1,37 @@
 package com.eaapps.schoolsguide.features.details
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentDetailsDialogBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
+import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
+import com.eaapps.schoolsguide.utils.FlowEvent
 import com.eaapps.schoolsguide.utils.createDialog
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlin.math.abs
 
+typealias navigationItem = NavigationPropertiesModel
 
+@InternalCoroutinesApi
 @AndroidEntryPoint
 class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     private val binding: FragmentDetailsDialogBinding by viewBinding(FragmentDetailsDialogBinding::bind)
+
+    private val viewModel: DetailsViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         createDialog(R.style.AppTheme, Color.TRANSPARENT, false)
@@ -28,8 +40,12 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.executePendingBindings()
+        toggleFollowResultData()
+        toggleRecommendedResultData()
         binding.bindActionBar()
         binding.bindArgs()
+        binding.bindPropertiesList()
+        binding.bindClicks()
     }
 
     private fun FragmentDetailsDialogBinding.bindActionBar() {
@@ -52,6 +68,92 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     private fun FragmentDetailsDialogBinding.bindArgs() {
         dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
+        viewModel.loadSchoolDetails(dataSchool?.id!!)
+        schoolDetailsCollectData()
+    }
+
+    private fun FragmentDetailsDialogBinding.bindPropertiesList() {
+        val grid = GridLayoutManager(requireContext(), 3)
+        rcListProperties.layoutManager = grid
+        rcListProperties.adapter = PropertiesAdapter(
+            arrayListOf(
+                navigationItem(
+                    getString(R.string._tuition_fees),
+                    R.drawable.attach_money_black_24dp
+                ),
+                navigationItem(getString(R.string.contact_times), R.drawable.date_range_black_24dp),
+                navigationItem(
+                    getString(R.string.awards_school),
+                    R.drawable.military_tech_black_24dp
+                ),
+                navigationItem(getString(R.string.service_statistics), R.drawable.training),
+                navigationItem(getString(R.string.news_school), R.drawable.news),
+                navigationItem(getString(R.string.event_school), R.drawable.party),
+                navigationItem(getString(R.string.achievements), R.drawable.podium_),
+                navigationItem(getString(R.string.parent_comment), R.drawable.comment),
+                navigationItem(getString(R.string.job_available), R.drawable.folder_job)
+            )
+        ) {
+
+        }
+    }
+
+    private fun FragmentDetailsDialogBinding.bindClicks() {
+
+        toolbar.setNavigationOnClickListener { dismiss() }
+
+        follow.group.setOnClickListener {
+            viewModel.toggleFollow(dataSchool?.id!!)
+        }
+
+        recommended.group.setOnClickListener {
+            viewModel.toggleRecommended(dataSchool?.id!!)
+        }
+
+        joinDiscount.group.setOnClickListener {
+
+        }
+
+        valuation.group.setOnClickListener { }
+
+    }
+
+    private fun schoolDetailsCollectData() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.schoolDetailsStateFlow.collect(FlowEvent(onError = {
+            }, onSuccess = {
+                binding.dataSchool = it
+            }))
+        }
+    }
+
+    private fun toggleRecommendedResultData() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.toggleRecommendedStateFlow.collect(FlowEvent(onError = {
+            }, onSuccess = {
+                binding.dataSchool?.isRecommended?.apply {
+                    binding.dataSchool?.isRecommended = !this
+                    binding.dataSchool = binding.dataSchool
+                }
+            }))
+        }
+    }
+
+    private fun toggleFollowResultData() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.toggleFollowStateFlow.collect(FlowEvent(onError = {
+            }, onSuccess = {
+                binding.dataSchool?.isFollowed?.apply {
+                    binding.dataSchool?.isFollowed = !this
+                    binding.dataSchool = binding.dataSchool
+                }
+            }))
+        }
+    }
+
+
+    override fun onDismiss(dialog: DialogInterface) {
+        findNavController().navigateUp()
     }
 
 }

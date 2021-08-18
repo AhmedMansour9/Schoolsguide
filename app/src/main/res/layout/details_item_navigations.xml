@@ -3,18 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="title"
-            type="String" />
-
-        <variable
-            name="iconItem"
-            type="android.graphics.drawable.Drawable" />
+            name="propertiesModel"
+            type="com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel" />
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
@@ -29,16 +24,16 @@
             android:layout_height="@dimen/_32sdp"
             android:background="@drawable/item_navigation_shape"
             android:padding="@dimen/_5sdp"
-            android:src="@{iconItem}"
+            android:src="@{propertiesModel.icon}"
             android:scaleType="centerInside"
             tools:ignore="ContentDescription"
             tools:src="@drawable/info_black_24dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rpt_bold"
-            android:text="@{title}"
+            android:text="@{propertiesModel.title}"
             android:gravity="center"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/textColor1"

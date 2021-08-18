@@ -1,9 +1,6 @@
 package com.eaapps.schoolsguide.data.network.repositories
 
-import com.eaapps.schoolsguide.data.entity.CityResponse
-import com.eaapps.schoolsguide.data.entity.GradesResponse
-import com.eaapps.schoolsguide.data.entity.ProgramsResponse
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -45,6 +42,22 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.getCitiesAsync().await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body()?.data)
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+
+            }, "Exception occurred!")
+        }
+
+    override suspend fun getSchoolDetails(schoolId: Int): Resource<SchoolResponse.SchoolData.DataSchool> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.schoolDetailsAsync(schoolId).await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body()?.data)
                 } else {

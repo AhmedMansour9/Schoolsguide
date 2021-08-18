@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
         destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.splashFragment, R.id.loginFragment, R.id.registerFragment ->
+                    R.id.splashFragment, R.id.loginFragment, R.id.registerFragment,R.id.forgetPasswordFragment ->
                         binding.bottomNav.visibleOrGone(false)
                     else -> binding.bottomNav.visibleOrGone(true)
                 }

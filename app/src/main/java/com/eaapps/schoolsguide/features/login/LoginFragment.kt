@@ -26,6 +26,7 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
     private val loginViewModel: LoginViewModel by viewModels()
     private val binding: FragmentLoginBinding by viewBinding(FragmentLoginBinding::bind)
     private lateinit var dialog: Dialog
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel.navigator = this
@@ -33,7 +34,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
         dialog =
             requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
         collectLoginFlow()
-
     }
 
     private fun collectLoginFlow() {
@@ -63,6 +63,11 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
         }
     }
 
+
+    private fun navigateToForgetPassword() =
+        launchFragment(LoginFragmentDirections.actionLoginFragmentToForgetPasswordFragment(binding.emailEditLogin.text.toString()))
+
+
     private fun navigateToHome() =
         launchFragment(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
 
@@ -76,6 +81,8 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
     override fun facebookLogin() {
 
     }
+
+    override fun forgetPassword() = navigateToForgetPassword()
 
     override fun onDestroy() {
         dialog.dismiss()

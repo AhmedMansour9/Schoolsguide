@@ -1,7 +1,6 @@
 package com.eaapps.schoolsguide.domain.repository
 
-import com.eaapps.schoolsguide.data.entity.AuthResponse
-import com.eaapps.schoolsguide.data.entity.LoginEntity
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.utils.Resource
 
 interface AuthRepository {
@@ -21,7 +20,12 @@ interface AuthRepository {
     suspend fun loginBySocial(provider: String, social_id: String, email: String, fullName: String)
             : Resource<AuthResponse.AuthData>
 
+    suspend fun resetPassword(resetPasswordRequestEntity: ResetPasswordRequestEntity): Resource<AuthResetResponse>
+
+    suspend fun createPassword(email: String): Resource<AuthResetResponse>
 
     suspend fun getProfileFather(): Resource<AuthResponse.AuthData>
+
+    suspend fun logoutFather():Resource<ResponseEntity>
 
 }

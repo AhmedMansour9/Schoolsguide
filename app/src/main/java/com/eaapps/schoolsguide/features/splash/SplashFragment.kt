@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.features.splash
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,6 +25,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
+                Log.d("asasaaa", "onViewCreated: $it")
                 setupCountDown(false)
             }, onSuccess = {
                 if (it.full_name.isNotBlank() && it.email.isNotBlank())

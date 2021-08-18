@@ -24,3 +24,9 @@ data class SocialModel(
 )
 
 
+data class ResetPasswordModel(
+    var email: String = "",
+    var password: String = "",
+    var password_confirmation: String = "",
+    var token: String = ""
+)

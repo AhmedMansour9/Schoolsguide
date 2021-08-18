@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
     }
 
-    private fun login() {
+      fun loginClicked() {
         inputEditError.set(helperValid)
         inputEditError.notifyChange()
         if (loginUseCase.isValid(loginModel)) {
@@ -53,10 +53,9 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         }
     }
 
-    fun loginClicked() = login()
 
-    fun forgetClicked() {
-    }
+    fun forgetClicked()
+     = navigator.forgetPassword()
 
 
 }

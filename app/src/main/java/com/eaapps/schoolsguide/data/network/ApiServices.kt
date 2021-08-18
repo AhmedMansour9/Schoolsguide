@@ -24,6 +24,15 @@ interface ApiServices {
     @POST("/api/changePassword")
     fun changePasswordAsync(@Body changePasswordEntity: ChangePasswordEntity): Deferred<Response<ResponseEntity>>
 
+    @POST("/api/password/create")
+    fun createPasswordAsync(@Body body: HashMap<String, String>): Deferred<Response<AuthResetResponse>>
+
+    @POST("/api/password/reset")
+    fun resetPasswordAsync(@Body resetPasswordRequestEntity: ResetPasswordRequestEntity): Deferred<Response<AuthResetResponse>>
+
+    @GET("/api/father/logout")
+    fun logoutAsync(): Deferred<Response<ResponseEntity>>
+
 
     @Multipart
     @POST("/api/father/editFatherProfile")

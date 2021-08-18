@@ -55,3 +55,10 @@ data class FilterRequestEntity(
     var city_id: Int? = null,
     var review: Int? = null
 )
+
+data class ResetPasswordRequestEntity(
+    var email: String,
+    var password: String,
+    var password_confirmation: String,
+    var token: String
+)

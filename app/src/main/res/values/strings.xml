@@ -60,7 +60,21 @@
     <string name="follow">Follow school</string>
     <string name="join_discount">Join discount</string>
     <string name="contact_info">Contact Info</string>
+
+    <string name="create_new_password">Create new Password</string>
+    <string name="you_new_password_must_be_different_from_previous_used_passwords">You new password must be different from previous used passwords.</string>
+    <string name="reset_passwordBtn">Reset Password</string>
+    <string name="password">Password</string>
+    <string name="confirm_email_address">Confirm Email Address</string>
+    <string name="reset_password">Reset password</string>
+    <string name="reset_pass_msg">Enter the email associated with your account and we\'ll send an email with instructions to reset your password</string>
+    <string name="send_instructions">Send instructions</string>
+    <string name="check_your_mail">Email has been sent!</string>
+    <string name="checkLabel_msg">Please check your inbox and click in the received link to reset a password</string>
+    <string name="didn_t_receive_the_link_resend">Didn\'t receive the link? {Resend}</string>
+
     <string-array name="gender">
+
         <item>Male</item>
         <item>Female</item>
     </string-array>

@@ -8,4 +8,6 @@ interface LoginNavigator {
 
     fun facebookLogin()
 
+    fun forgetPassword()
+
 }

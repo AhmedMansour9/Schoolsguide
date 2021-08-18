@@ -97,16 +97,71 @@ class AuthRepositoryImpl @Inject constructor(
             }, "Exception occurred!")
         }
 
-    override suspend fun getProfileFather(): Resource<AuthResponse.AuthData> =
+    override suspend fun resetPassword(resetPasswordRequestEntity: ResetPasswordRequestEntity): Resource<AuthResetResponse> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
-                val result = apiServices.loadProfileFatherAsync().await()
+                val result = apiServices.resetPasswordAsync(resetPasswordRequestEntity).await()
                 if (result.isSuccessful) {
-                    Resource.Success(result.body()?.dataResponse)
+                    Resource.Success(result.body())
                 } else {
                     val type = object : TypeToken<ResponseEntity>() {}.type
                     val responseFailure: ResponseEntity? =
                         Gson().fromJson(result.errorBody()!!.charStream(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun createPassword(email: String): Resource<AuthResetResponse> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.createPasswordAsync(HashMap<String, String>().apply {
+                    put("email", email)
+                }).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun getProfileFather(): Resource<AuthResponse.AuthData> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                if (dataStoreRepository.loadSessionToken()?.isNotBlank()!!) {
+                    val result = apiServices.loadProfileFatherAsync().await()
+                    if (result.isSuccessful) {
+                        Resource.Success(result.body()?.dataResponse)
+                    } else {
+//                        val type = object : TypeToken<ResponseEntity>() {}.type
+//                        val responseFailure: ResponseEntity? =
+//                            Gson().fromJson(result.errorBody()!!.charStream(), type)
+                        Resource.Error(404,"Father Not Login")
+
+                     //   Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                    }
+                }else{
+                    Resource.Error(404,"Father Not Login")
+
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun logoutFather(): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.logoutAsync().await()
+                if (result.isSuccessful) {
+                    dataStoreRepository.saveTokenSession("")
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
                     Resource.Error(result.code(), responseFailure?.message ?: result.message())
                 }
             }, "Exception occurred!")

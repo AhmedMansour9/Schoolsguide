@@ -18,7 +18,7 @@ data class CityResponse(
     data class City(
         @SerializedName("id") val id: Int,
         @SerializedName("name") val name: String
-    ): Parcelable {
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readString()!!
@@ -67,7 +67,7 @@ data class GradesResponse(
     data class Grades(
         @SerializedName("id") val id: Int,
         @SerializedName("name") val name: String?
-    ): Parcelable {
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readString()
@@ -115,6 +115,14 @@ data class AuthResponse(
     )
 }
 
+data class AuthResetResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: String,
+    @SerializedName("data") val dataResponse: String? = null
+)
+
+
+
 data class SliderResponse(
     @SerializedName("success")
     val success: Boolean,
@@ -144,7 +152,7 @@ data class SchoolResponse(
         @SerializedName("data") val data: List<DataSchool>,
         @SerializedName("meta") val meta: Meta
     ) {
-          @Parcelize
+        @Parcelize
         data class DataSchool(
             val about: String,
             val achievements: List<ShareData>,
@@ -206,7 +214,7 @@ data class SchoolResponse(
         ) : Parcelable {
             data class Gallary(
                 val image: String
-            ): Parcelable {
+            ) : Parcelable {
                 constructor(parcel: Parcel) : this(parcel.readString()!!) {
                 }
 
@@ -229,7 +237,7 @@ data class SchoolResponse(
                 }
             }
 
-              data class TuitionFee(
+            data class TuitionFee(
                 val created_at: String?,
                 val grade: GradesResponse.Grades?,
                 val id: Int,
@@ -265,74 +273,74 @@ data class SchoolResponse(
                 }
             }
 
-              data class Program(
+            data class Program(
                 val id: Int,
                 val name: String
-            ): Parcelable {
-                  constructor(parcel: Parcel) : this(
-                      parcel.readInt(),
-                      parcel.readString()!!
-                  ) {
-                  }
+            ) : Parcelable {
+                constructor(parcel: Parcel) : this(
+                    parcel.readInt(),
+                    parcel.readString()!!
+                ) {
+                }
 
-                  override fun writeToParcel(parcel: Parcel, flags: Int) {
-                      parcel.writeInt(id)
-                      parcel.writeString(name)
-                  }
+                override fun writeToParcel(parcel: Parcel, flags: Int) {
+                    parcel.writeInt(id)
+                    parcel.writeString(name)
+                }
 
-                  override fun describeContents(): Int {
-                      return 0
-                  }
+                override fun describeContents(): Int {
+                    return 0
+                }
 
-                  companion object CREATOR : Parcelable.Creator<Program> {
-                      override fun createFromParcel(parcel: Parcel): Program {
-                          return Program(parcel)
-                      }
+                companion object CREATOR : Parcelable.Creator<Program> {
+                    override fun createFromParcel(parcel: Parcel): Program {
+                        return Program(parcel)
+                    }
 
-                      override fun newArray(size: Int): Array<Program?> {
-                          return arrayOfNulls(size)
-                      }
-                  }
-              }
+                    override fun newArray(size: Int): Array<Program?> {
+                        return arrayOfNulls(size)
+                    }
+                }
+            }
 
-              data class Service(
-                val id: Int,
-                val image: String,
-                val name: String
-            ): Parcelable {
-                  constructor(parcel: Parcel) : this(
-                      parcel.readInt(),
-                      parcel.readString()!!,
-                      parcel.readString()!!
-                  ) {
-                  }
-
-                  override fun writeToParcel(parcel: Parcel, flags: Int) {
-                      parcel.writeInt(id)
-                      parcel.writeString(image)
-                      parcel.writeString(name)
-                  }
-
-                  override fun describeContents(): Int {
-                      return 0
-                  }
-
-                  companion object CREATOR : Parcelable.Creator<Service> {
-                      override fun createFromParcel(parcel: Parcel): Service {
-                          return Service(parcel)
-                      }
-
-                      override fun newArray(size: Int): Array<Service?> {
-                          return arrayOfNulls(size)
-                      }
-                  }
-              }
-
-              data class Type(
+            data class Service(
                 val id: Int,
                 val image: String,
                 val name: String
-            ): Parcelable {
+            ) : Parcelable {
+                constructor(parcel: Parcel) : this(
+                    parcel.readInt(),
+                    parcel.readString()!!,
+                    parcel.readString()!!
+                ) {
+                }
+
+                override fun writeToParcel(parcel: Parcel, flags: Int) {
+                    parcel.writeInt(id)
+                    parcel.writeString(image)
+                    parcel.writeString(name)
+                }
+
+                override fun describeContents(): Int {
+                    return 0
+                }
+
+                companion object CREATOR : Parcelable.Creator<Service> {
+                    override fun createFromParcel(parcel: Parcel): Service {
+                        return Service(parcel)
+                    }
+
+                    override fun newArray(size: Int): Array<Service?> {
+                        return arrayOfNulls(size)
+                    }
+                }
+            }
+
+            data class Type(
+                val id: Int,
+                val image: String,
+                val name: String
+            ) : Parcelable {
                 constructor(parcel: Parcel) : this(
                     parcel.readInt(),
                     parcel.readString()!!,
@@ -361,77 +369,77 @@ data class SchoolResponse(
                 }
             }
 
-              data class Approval(
+            data class Approval(
                 val id: Int,
                 val image: String,
                 val name: String
-            ): Parcelable {
-                  constructor(parcel: Parcel) : this(
-                      parcel.readInt(),
-                      parcel.readString()!!,
-                      parcel.readString()!!
-                  ) {
-                  }
+            ) : Parcelable {
+                constructor(parcel: Parcel) : this(
+                    parcel.readInt(),
+                    parcel.readString()!!,
+                    parcel.readString()!!
+                ) {
+                }
 
-                  override fun writeToParcel(parcel: Parcel, flags: Int) {
-                      parcel.writeInt(id)
-                      parcel.writeString(image)
-                      parcel.writeString(name)
-                  }
+                override fun writeToParcel(parcel: Parcel, flags: Int) {
+                    parcel.writeInt(id)
+                    parcel.writeString(image)
+                    parcel.writeString(name)
+                }
 
-                  override fun describeContents(): Int {
-                      return 0
-                  }
+                override fun describeContents(): Int {
+                    return 0
+                }
 
-                  companion object CREATOR : Parcelable.Creator<Approval> {
-                      override fun createFromParcel(parcel: Parcel): Approval {
-                          return Approval(parcel)
-                      }
+                companion object CREATOR : Parcelable.Creator<Approval> {
+                    override fun createFromParcel(parcel: Parcel): Approval {
+                        return Approval(parcel)
+                    }
 
-                      override fun newArray(size: Int): Array<Approval?> {
-                          return arrayOfNulls(size)
-                      }
-                  }
-              }
+                    override fun newArray(size: Int): Array<Approval?> {
+                        return arrayOfNulls(size)
+                    }
+                }
+            }
 
-              data class Grade(
+            data class Grade(
                 val id: Int,
                 val name: String
-            ): Parcelable {
-                  constructor(parcel: Parcel) : this(
-                      parcel.readInt(),
-                      parcel.readString()!!
-                  ) {
-                  }
+            ) : Parcelable {
+                constructor(parcel: Parcel) : this(
+                    parcel.readInt(),
+                    parcel.readString()!!
+                ) {
+                }
 
-                  override fun writeToParcel(parcel: Parcel, flags: Int) {
-                      parcel.writeInt(id)
-                      parcel.writeString(name)
-                  }
+                override fun writeToParcel(parcel: Parcel, flags: Int) {
+                    parcel.writeInt(id)
+                    parcel.writeString(name)
+                }
 
-                  override fun describeContents(): Int {
-                      return 0
-                  }
+                override fun describeContents(): Int {
+                    return 0
+                }
 
-                  companion object CREATOR : Parcelable.Creator<Grade> {
-                      override fun createFromParcel(parcel: Parcel): Grade {
-                          return Grade(parcel)
-                      }
+                companion object CREATOR : Parcelable.Creator<Grade> {
+                    override fun createFromParcel(parcel: Parcel): Grade {
+                        return Grade(parcel)
+                    }
 
-                      override fun newArray(size: Int): Array<Grade?> {
-                          return arrayOfNulls(size)
-                      }
-                  }
-              }
+                    override fun newArray(size: Int): Array<Grade?> {
+                        return arrayOfNulls(size)
+                    }
+                }
+            }
 
-              data class CommunicateData(
+            data class CommunicateData(
                 val id: Int,
                 val suprevisor_name: String,
                 val suprevisor_email: String,
                 val suprevisor_phone: String,
                 val grades: String,
                 val shunt: String
-            ): Parcelable {
+            ) : Parcelable {
                 constructor(parcel: Parcel) : this(
                     parcel.readInt(),
                     parcel.readString()!!,
@@ -466,14 +474,14 @@ data class SchoolResponse(
                 }
             }
 
-              data class JobData(
+            data class JobData(
                 val id: Int,
                 val vacant_places: Int,
                 val years_of_experience: Int,
                 val name: String,
                 val description: String,
                 val nationality: String
-            ): Parcelable {
+            ) : Parcelable {
                 constructor(parcel: Parcel) : this(
                     parcel.readInt(),
                     parcel.readInt(),
@@ -508,21 +516,21 @@ data class SchoolResponse(
                 }
             }
 
-              data class SchoolReview(
-                  val comment: String,
-                  val created_at: String,
-                  val father: Father?,
-                  val review: Int
+            data class SchoolReview(
+                val comment: String,
+                val created_at: String,
+                val father: Father?,
+                val review: Int
             ) : Parcelable {
-                  constructor(parcel: Parcel) : this(
-                      parcel.readString()!!,
-                      parcel.readString()!!,
-                      parcel.readParcelable(Father::class.java.classLoader),
-                      parcel.readInt()
-                  ) {
-                  }
+                constructor(parcel: Parcel) : this(
+                    parcel.readString()!!,
+                    parcel.readString()!!,
+                    parcel.readParcelable(Father::class.java.classLoader),
+                    parcel.readInt()
+                ) {
+                }
 
-                  data class Father(
+                data class Father(
                     val city: CityResponse.City?,
                     val created_at: String,
                     val district: String,
@@ -531,7 +539,7 @@ data class SchoolResponse(
                     val gender: String,
                     val image: String,
                     val phone: String
-                ): Parcelable {
+                ) : Parcelable {
                     constructor(parcel: Parcel) : this(
                         parcel.readParcelable(CityResponse.City::class.java.classLoader),
                         parcel.readString()!!,
@@ -570,27 +578,27 @@ data class SchoolResponse(
                     }
                 }
 
-                  override fun writeToParcel(parcel: Parcel, flags: Int) {
-                      parcel.writeString(comment)
-                      parcel.writeString(created_at)
-                      parcel.writeParcelable(father, flags)
-                      parcel.writeInt(review)
-                  }
+                override fun writeToParcel(parcel: Parcel, flags: Int) {
+                    parcel.writeString(comment)
+                    parcel.writeString(created_at)
+                    parcel.writeParcelable(father, flags)
+                    parcel.writeInt(review)
+                }
 
-                  override fun describeContents(): Int {
-                      return 0
-                  }
+                override fun describeContents(): Int {
+                    return 0
+                }
 
-                  companion object CREATOR : Parcelable.Creator<SchoolReview> {
-                      override fun createFromParcel(parcel: Parcel): SchoolReview {
-                          return SchoolReview(parcel)
-                      }
+                companion object CREATOR : Parcelable.Creator<SchoolReview> {
+                    override fun createFromParcel(parcel: Parcel): SchoolReview {
+                        return SchoolReview(parcel)
+                    }
 
-                      override fun newArray(size: Int): Array<SchoolReview?> {
-                          return arrayOfNulls(size)
-                      }
-                  }
-              }
+                    override fun newArray(size: Int): Array<SchoolReview?> {
+                        return arrayOfNulls(size)
+                    }
+                }
+            }
 
             data class ShareData(
                 val created_at: String?,
@@ -598,7 +606,7 @@ data class SchoolResponse(
                 val image: String?,
                 val short_description: String?,
                 val title: String?
-            ): Parcelable {
+            ) : Parcelable {
                 constructor(parcel: Parcel) : this(
                     parcel.readString(),
                     parcel.readString(),
@@ -630,7 +638,7 @@ data class SchoolResponse(
                     }
                 }
             }
-          }
+        }
 
         data class Meta(
             val current_page: Int,

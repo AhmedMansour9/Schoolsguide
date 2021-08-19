@@ -8,11 +8,11 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Build
-import android.provider.ContactsContract
+import android.util.DisplayMetrics
 import android.view.*
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +32,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.ViewDataBinding
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -46,6 +47,9 @@ import com.bumptech.glide.Glide
 import com.eaapps.schoolsguide.R
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.github.ybq.android.spinkit.style.FoldingCube
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -309,9 +313,6 @@ fun Fragment.requestPermissionWithRationale(
     return resultRequestPermission!!
 }
 
-
-
-
 fun ImageView.loadImage(uri: String) {
     Glide.with(this).load(uri).placeholder(R.drawable.user__).into(this)
 }
@@ -415,9 +416,6 @@ suspend fun <T> DataStore<Preferences>.setValue(key: Preferences.Key<T>, value: 
     }
 }
 
-
-
-
 fun View.expand() {
     if (visibility == View.VISIBLE) return
     val durations: Long
@@ -510,6 +508,46 @@ fun Activity.transparentStatusBar() {
             (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     else
         window.setDecorFitsSystemWindows(false)
+}
+
+fun ViewDataBinding.showBottomSheet(
+    window: WindowManager?,
+    @StyleRes style: Int = R.style.ThemeOverlay_MaterialComponents_BottomSheetDialog,
+    fullScreen: Boolean = false
+): BottomSheetDialog {
+    val bottomSheetDialog = BottomSheetDialog(this.root.context, style)
+    bottomSheetDialog.setContentView(this.root)
+    val view = bottomSheetDialog.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+    val behavior = BottomSheetBehavior.from<View>(view!!)
+    bottomSheetDialog.setCancelable(false)
+    val displayMetrics = DisplayMetrics()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        this.root.context.display?.getRealMetrics(displayMetrics)
+    } else {
+        window?.defaultDisplay?.getMetrics(displayMetrics)
+    }
+    val size = fullScreen.let {
+        if (it)
+            displayMetrics.heightPixels
+        else
+            displayMetrics.heightPixels * 90 / 100
+    }
+    behavior.setPeekHeight(size, true)
+    behavior.isDraggable = false
+    bottomSheetDialog.show()
+    return bottomSheetDialog
+}
+
+fun Dialog.createDialog(resources:Resources,peekHeightOffset: Float = 1.0f): Dialog {
+    this.setCancelable(false)
+     val displayMetrics = resources.displayMetrics
+    val size = displayMetrics.heightPixels * peekHeightOffset
+    (this as? BottomSheetDialog)
+        ?.behavior?.peekHeight = size.toInt()
+
+    (this as? BottomSheetDialog)
+        ?.behavior?.isDraggable = false
+    return this
 }
 
 

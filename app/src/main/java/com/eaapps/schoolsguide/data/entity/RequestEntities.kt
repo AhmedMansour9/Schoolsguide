@@ -62,3 +62,19 @@ data class ResetPasswordRequestEntity(
     var password_confirmation: String,
     var token: String
 )
+
+data class InquiryRequestEntity(
+    var message_type: String,
+    var reply_type: String,
+    var prefered_reply_time: String,
+    var message: String,
+    var school_id: Int
+)
+
+data class DiscountRequestEntity(
+    var full_name: String = "",
+    var phone: String = "",
+    var email: String = "",
+    var number_of_students: Int? = null,
+    var school_id: Int? = null
+)

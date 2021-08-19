@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServices) :
     GeneralRepository {
+
     override suspend fun getSchoolPrograms(): Resource<List<ProgramsResponse.Programs>> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
@@ -36,7 +37,6 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
                 }
             }, "")
         }
-
 
     override suspend fun getCities(): Resource<List<CityResponse.City>> =
         withContext(Dispatchers.IO) {
@@ -67,6 +67,51 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
                     Resource.Error(result.code(), responseFailure?.message ?: result.message())
                 }
 
+            }, "Exception occurred!")
+        }
+
+    override suspend fun addInquiry(addInquiryRequestEntity: InquiryRequestEntity) =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.addInquiryAsync(addInquiryRequestEntity).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun joinDiscount(discountRequestEntity: DiscountRequestEntity): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.joinDiscountAsync(discountRequestEntity).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun bookNow(body: HashMap<String, Any>): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.bookSchoolAsync(body).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
             }, "Exception occurred!")
         }
 

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="detailsViewModel"
+            type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/filterLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/send_inquiry"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_21ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/background_clear_circle"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_round_clear_24"
+
+                tools:ignore="ContentDescription" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/typMessageLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                            input_Helper="@{detailsViewModel.inputEditHelper[`typeMessage`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/type_message"
+                            app:boxBackgroundColor="@color/gray_0"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:endIconTint="@color/black"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/typeMessageEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="none"
+                                android:text="@={detailsViewModel.inquiryModel.message_type}"
+                                android:textColor="@color/textColor1"
+                                tools:ignore="LabelFor" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/replayMessageLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                            input_Helper="@{detailsViewModel.inputEditHelper[`replay_message`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/replay_method"
+                            app:boxBackgroundColor="@color/gray_0"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:endIconTint="@color/black"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/typMessageLayout">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/replayMessageEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="none"
+                                android:text="@={detailsViewModel.inquiryModel.reply_type}"
+                                android:textColor="@color/textColor1"
+                                tools:ignore="LabelFor" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/replayTimeLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                            input_Helper="@{detailsViewModel.inputEditHelper[`replay_time`]}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:backgroundTint="@color/black"
+                            android:hint="@string/best_time_to_call_you"
+                            app:boxBackgroundColor="@color/gray_0"
+                            app:boxBackgroundMode="filled"
+                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeWidth="2dp"
+                            app:endIconTint="@color/black"
+                            app:helperTextEnabled="true"
+                            app:helperTextTextColor="@color/red"
+                            app:hintEnabled="true"
+                            app:hintTextColor="#444444"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/replayMessageLayout">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/replayTimeEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rpt_bold"
+                                android:inputType="none"
+                                android:text="@={detailsViewModel.inquiryModel.reply_time}"
+                                android:textColor="@color/textColor1"
+                                tools:ignore="LabelFor" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <EditText
+                            android:id="@+id/editDetails"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_160sdp"
+                            android:layout_marginTop="@dimen/_18sdp"
+                            android:background="@drawable/edit_field_background"
+                            android:fontFamily="@font/rpt_bold"
+                            android:gravity="top|start"
+                            android:hint="@string/write_message_to_school"
+                            android:padding="10dp"
+                            android:text="@={detailsViewModel.inquiryModel.message}"
+                            android:textColor="@color/textColor1"
+                            android:textColorHint="#AEAEAE"
+                            app:layout_constraintEnd_toEndOf="@id/typMessageLayout"
+                            app:layout_constraintStart_toStartOf="@id/typMessageLayout"
+                            app:layout_constraintTop_toBottomOf="@id/replayTimeLayout"
+                            tools:ignore="Autofill,LabelFor,TextFields" />
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/sendMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="68dp"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:onClick="@{()->detailsViewModel.sendInquiry()}"
+                            android:text="@string/send_message"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_20ssp"
+                            app:backgroundTint="@color/colorApp3"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/editDetails" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

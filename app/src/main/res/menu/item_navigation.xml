@@ -4,13 +4,13 @@
     <item
         android:id="@+id/homeFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/home_select_nav"
         android:title="" />
 
     <item
         android:id="@+id/favoriteFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_favorite_24"
+        android:icon="@drawable/fav_selector_nav"
         android:title="" />
 
 
@@ -18,7 +18,7 @@
     <item
         android:id="@+id/profileFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_person_24"
+        android:icon="@drawable/person_selector_nav"
         android:title="" />
 
 

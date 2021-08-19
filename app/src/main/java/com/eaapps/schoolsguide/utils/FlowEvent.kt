@@ -1,7 +1,12 @@
 package com.eaapps.schoolsguide.utils
 
 import androidx.lifecycle.Observer
+import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class FlowEvent<T : Any>(
     private inline val onError: ((String) -> Unit)? = null,
@@ -29,6 +34,18 @@ class FlowEvent<T : Any>(
                     it()
                 }
             }
+        }
+    }
+}
+
+class StateFlows<T : Any>(private val viewModelScoped: CoroutineScope) {
+    private val _stateFlowMutable: MutableStateFlow<Resource<T>> =
+        MutableStateFlow(Resource.Nothing())
+    val stateFlow: StateFlow<Resource<T>> = _stateFlowMutable
+
+    fun setValue(t: Resource<T>) {
+        viewModelScoped.launch {
+            _stateFlowMutable.emit(t)
         }
     }
 }

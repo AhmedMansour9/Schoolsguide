@@ -116,6 +116,9 @@
         <argument
             android:name="dataSchool"
             app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+        <action
+            android:id="@+id/action_detailsFragment_to_bookNowBottomFragment"
+            app:destination="@id/bookNowBottomFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -125,5 +128,13 @@
         <argument
             android:name="email"
             app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/bookNowBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.BookNowBottomFragment"
+        android:label="BookNowBottomFragment" >
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
     </dialog>
 </navigation>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="detailsViewModel"
+            type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/filterLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/parent_data"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_21ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/background_clear_circle"
+                android:scaleType="centerInside"
+                android:src="@drawable/round_clear_black_24"
+
+                tools:ignore="ContentDescription" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/fullNameLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        input_Helper="@{detailsViewModel.inputEditHelper[`full_name`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/black"
+                        android:hint="@string/enter_full_name"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:boxBackgroundMode="filled"
+                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeWidth="2dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/red"
+                        app:hintEnabled="true"
+                        app:hintTextColor="#444444"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/fullNameEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/rpt_bold"
+                            android:inputType="textPersonName"
+                            android:text="@={detailsViewModel.bookSchoolModel.full_name}"
+                            android:textColor="@color/textColor1"
+                            tools:text="Eslam gamal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/emailLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        input_Helper="@{detailsViewModel.inputEditHelper[`email`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/black"
+                        android:hint="@string/enter_email"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:boxBackgroundMode="filled"
+                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeWidth="2dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/red"
+                        app:hintEnabled="true"
+                        app:hintTextColor="#444444"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fullNameLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/emailEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/rpt_bold"
+                            android:inputType="textEmailAddress|textNoSuggestions"
+                            android:text="@={detailsViewModel.bookSchoolModel.email}"
+                            android:textColor="@color/textColor1"
+                            tools:text="admin@gmail.com" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phoneLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        input_Helper="@{detailsViewModel.inputEditHelper[`phone`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/black"
+                        android:hint="@string/enter_phone_number"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:boxBackgroundMode="filled"
+                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeWidth="2dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/red"
+                        app:hintEnabled="true"
+                        app:hintTextColor="#444444"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/emailLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phoneEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/rpt_bold"
+                            android:inputType="phone"
+                            android:text="@={detailsViewModel.bookSchoolModel.phone}"
+                            android:textColor="@color/textColor1"
+                            tools:text="01275264136" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/addressLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        input_Helper="@{detailsViewModel.inputEditHelper[`address`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/black"
+                        android:hint="@string/address"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:boxBackgroundMode="filled"
+                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeWidth="2dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/red"
+                        app:hintEnabled="true"
+                        app:hintTextColor="#444444"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/phoneLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/addressEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/rpt_bold"
+                            android:inputType="textPersonName"
+                            android:text="@={detailsViewModel.bookSchoolModel.address}"
+                            android:textColor="@color/textColor1"
+                            tools:text="Eslam gamal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/studentNumberLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                        input_Helper="@{detailsViewModel.inputEditHelper[`student_number`]}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/black"
+                        android:hint="@string/student_numbers"
+                        app:boxBackgroundColor="@color/gray_0"
+                        app:boxBackgroundMode="filled"
+                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeWidth="2dp"
+                        app:endIconTint="@color/black"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/red"
+                        app:hintEnabled="true"
+                        app:hintTextColor="#444444"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/addressLayout">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/studentNumberEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/rpt_bold"
+                            android:inputType="none"
+                            android:text="@={detailsViewModel.inquiryModel.reply_type}"
+                            android:textColor="@color/textColor1"
+                            tools:ignore="LabelFor" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/studentGradeChoose"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_55sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:gravity="start|center"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingEnd="@dimen/_12sdp"
+                        android:text="@string/student_grades"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColor1"
+                        app:backgroundTint="@color/gray_0"
+                        app:elevation="0dp"
+                        app:icon="@drawable/baseline_arrow_drop_down_18"
+                        app:iconGravity="end"
+                        app:iconTint="@color/textColor1"
+                        app:layout_constraintTop_toBottomOf="@id/studentNumberLayout" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bookNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:onClick="@{()->detailsViewModel.bookSchoolNow()}"
+                        android:text="@string/book_now"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20ssp"
+                        app:backgroundTint="@color/colorApp3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/studentGradeChoose" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

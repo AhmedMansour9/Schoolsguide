@@ -98,6 +98,12 @@
     <string name="_cancel">Cancel</string>
     <string name="booking_school">Book School</string>
     <string name="success_booking">Successful Booking</string>
+    <string name="join_discountLabel">Join Discount</string>
+    <string name="send">Send</string>
+    <string name="number_of_children">Number of children</string>
+    <string name="join_successful">Join Discount Group successfully</string>
+    <string name="add_inquiry_label">Send Inquiry</string>
+    <string name="inquiry_successfully">Send Inquiry successfully</string>
 
     <string-array name="gender">
 

@@ -4,10 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -16,16 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.databinding.AddInquiryBottomSheetBinding
 import com.eaapps.schoolsguide.databinding.FragmentDetailsDialogBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
 import com.eaapps.schoolsguide.utils.FlowEvent
 import com.eaapps.schoolsguide.utils.createDialog
 import com.eaapps.schoolsguide.utils.launchFragment
-import com.eaapps.schoolsguide.utils.showBottomSheet
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlin.math.abs
@@ -119,10 +113,19 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         }
 
         joinDiscount.group.setOnClickListener {
+            launchFragment(
+                DetailsFragmentDirections.actionDetailsFragmentToJoinDiscountBottomFragment(
+                    dataSchool?.id!!
+                )
+            )
         }
 
         valuation.group.setOnClickListener {
-            inquiryBottomSheet()
+            launchFragment(
+                DetailsFragmentDirections.actionDetailsFragmentToAddInquiryBottomFragment(
+                    dataSchool?.id!!
+                )
+            )
         }
 
         bookNow.setOnClickListener {
@@ -133,55 +136,6 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             )
         }
 
-    }
-
-    private fun inquiryBottomSheet() {
-        val binding = AddInquiryBottomSheetBinding.inflate(LayoutInflater.from(requireContext()))
-        val bottom = binding.showBottomSheet(requireActivity().windowManager, fullScreen = true)
-        binding.bindListsDown()
-        binding.bindClicks(bottom)
-    }
-
-    private fun AddInquiryBottomSheetBinding.bindListsDown() {
-        val adapterType = ArrayAdapter(
-            requireContext(),
-            R.layout.city_list_item,
-            resources.getStringArray(R.array.type_message)
-        )
-
-        val adapterMethod = ArrayAdapter(
-            requireContext(),
-            R.layout.city_list_item,
-            resources.getStringArray(R.array.replay_method)
-        )
-
-        val adapterReplayTime = ArrayAdapter(
-            requireContext(),
-            R.layout.city_list_item,
-            resources.getStringArray(R.array.replay_time)
-        )
-
-        (typeMessageEdit as? AutoCompleteTextView)?.setAdapter(adapterType)
-        (replayMessageEdit as? AutoCompleteTextView)?.setAdapter(adapterMethod)
-        (replayTimeEdit as? AutoCompleteTextView)?.setAdapter(adapterReplayTime)
-
-    }
-
-    private fun AddInquiryBottomSheetBinding.bindClicks(bottomSheetDialog: BottomSheetDialog) {
-        cancelBtn.setOnClickListener {
-            bottomSheetDialog.cancel()
-        }
-
-        sendMessage.setOnClickListener {
-
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.sendInquiryFlow.stateFlow.collect(FlowEvent(onError = {
-            }, onSuccess = {
-
-            }))
-        }
     }
 
     private fun schoolDetailsResultData() {

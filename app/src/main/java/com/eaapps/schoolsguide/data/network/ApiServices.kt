@@ -83,13 +83,13 @@ interface ApiServices {
     fun toggleRecommendedAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
 
     @POST("/api/add_enquery")
-    fun addInquiryAsync(addInquiryRequestEntity: InquiryRequestEntity): Deferred<Response<ResponseEntity>>
+    fun addInquiryAsync(@Body addInquiryRequestEntity: InquiryRequestEntity): Deferred<Response<ResponseEntity>>
 
     @POST("/api/bookSchool")
     fun bookSchoolAsync(@Body body: HashMap<String, Any>): Deferred<Response<ResponseEntity>>
 
     @POST("/api/joinDiscount")
-    fun joinDiscountAsync(discountRequestEntity:DiscountRequestEntity): Deferred<Response<ResponseEntity>>
+    fun joinDiscountAsync(@Body discountRequestEntity:DiscountRequestEntity): Deferred<Response<ResponseEntity>>
 
     @GET("/api/schoolDetails/")
     fun schoolDetailsAsync(@Query("school_id") school_id: Int): Deferred<Response<SchoolDetailsResponse>>

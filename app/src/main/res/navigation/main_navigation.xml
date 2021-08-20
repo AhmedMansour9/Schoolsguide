@@ -119,6 +119,12 @@
         <action
             android:id="@+id/action_detailsFragment_to_bookNowBottomFragment"
             app:destination="@id/bookNowBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_joinDiscountBottomFragment"
+            app:destination="@id/joinDiscountBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_addInquiryBottomFragment"
+            app:destination="@id/addInquiryBottomFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -132,7 +138,26 @@
     <dialog
         android:id="@+id/bookNowBottomFragment"
         android:name="com.eaapps.schoolsguide.features.details.subfeature.BookNowBottomFragment"
+        tools:layout="@layout/book_now_bottom_sheet"
         android:label="BookNowBottomFragment" >
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/joinDiscountBottomFragment"
+        tools:layout="@layout/join_discount_bottom_sheet"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.JoinDiscountBottomFragment"
+        android:label="JoinDiscountBottomFragment" >
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/addInquiryBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.AddInquiryBottomFragment"
+        tools:layout="@layout/add_inquiry_bottom_sheet"
+        android:label="AddInquiryBottomFragment" >
         <argument
             android:name="schoolId"
             app:argType="integer" />

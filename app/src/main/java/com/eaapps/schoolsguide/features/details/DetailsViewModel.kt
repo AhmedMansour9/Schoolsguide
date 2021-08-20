@@ -29,7 +29,6 @@ class DetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        Log.d("asdasssa", "asd: ")
         loadSchoolGrades()
     }
 

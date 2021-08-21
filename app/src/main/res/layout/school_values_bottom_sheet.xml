@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="detailsViewModel"
+            type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/filterLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/school_value"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_21ssp" />
+
+            <ImageButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/background_clear_circle"
+                android:scaleType="centerInside"
+                android:src="@drawable/round_clear_black_24"
+                tools:ignore="ContentDescription" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_60sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/education"
+                        layout="@layout/review_rate_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        title="@{`Academic and educational level`}"
+                        />
+
+                    <include
+                        android:id="@+id/communication"
+                        layout="@layout/review_rate_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        title="@{`The department communicates with parents and responds to inquiries and complaints`}"
+                        />
+
+                    <include
+                        android:id="@+id/facilities"
+                        layout="@layout/review_rate_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        title="@{`Classrooms and school facilities`}"
+                        />
+
+                    <include
+                        android:id="@+id/safety"
+                        layout="@layout/review_rate_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        title="@{`The school's interest in public safety and hygiene`}"
+                        />
+
+                    <include
+                        android:id="@+id/activities"
+                        layout="@layout/review_rate_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        title="@{`The school's interest in recreational activities`}"
+                        />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/comments"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_18sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:padding="3dp"
+                         app:hintEnabled="false"
+                        app:boxStrokeWidth="0dp"
+                        android:background="@drawable/edit_field_background"
+                        app:boxStrokeColor="@color/transparent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="filled"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="@color/textColor1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/commentEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="@dimen/_70sdp"
+                            android:gravity="top|start"
+                            android:text="@={detailsViewModel.reviewModel.comment}"
+                            android:textColorHint="@color/gray_2"
+                            android:fontFamily="@font/rpt_bold"
+                            android:textColor="@color/textColor1"
+                            android:hint="@string/write_comment"
+                            android:inputType="text" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sendComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:onClick="@{()->detailsViewModel.sendComment()}"
+                        android:text="@string/send_comment"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20ssp"
+                        app:backgroundTint="@color/colorApp3" />
+
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

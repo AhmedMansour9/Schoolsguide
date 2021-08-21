@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,8 @@ import com.eaapps.schoolsguide.utils.launchFragment
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToast.Companion.LONG_DURATION
 import kotlin.math.abs
 
 typealias navigationItem = NavigationPropertiesModel
@@ -80,23 +83,54 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         rcListProperties.adapter = PropertiesAdapter(
             arrayListOf(
                 navigationItem(
+                    1,
                     getString(R.string._tuition_fees),
                     R.drawable.attach_money_black_24dp
                 ),
-                navigationItem(getString(R.string.contact_times), R.drawable.date_range_black_24dp),
                 navigationItem(
+                    2,
+                    getString(R.string.contact_times),
+                    R.drawable.date_range_black_24dp
+                ),
+                navigationItem(
+                    3,
                     getString(R.string.awards_school),
                     R.drawable.military_tech_black_24dp
                 ),
-                navigationItem(getString(R.string.service_statistics), R.drawable.training),
-                navigationItem(getString(R.string.news_school), R.drawable.news),
-                navigationItem(getString(R.string.event_school), R.drawable.party),
-                navigationItem(getString(R.string.achievements), R.drawable.podium_),
-                navigationItem(getString(R.string.parent_comment), R.drawable.comment),
-                navigationItem(getString(R.string.job_available), R.drawable.folder_job)
+                navigationItem(4, getString(R.string.service_statistics), R.drawable.training),
+                navigationItem(5, getString(R.string.news_school), R.drawable.news),
+                navigationItem(6, getString(R.string.event_school), R.drawable.party),
+                navigationItem(7, getString(R.string.achievements), R.drawable.podium_),
+                navigationItem(8, getString(R.string.parent_comment), R.drawable.comment),
+                navigationItem(9, getString(R.string.job_available), R.drawable.folder_job)
             )
         ) {
+            when (it.id) {
+                1 -> {
+                    if (dataSchool?.tuition_fees?.size!! > 0)
+                        launchFragment(
+                            DetailsFragmentDirections.actionDetailsFragmentToTuiitionFeesBottomFragment(
+                                dataSchool!!
+                            )
+                        )
+                    else
+                        MotionToast.createColorToast(
+                            requireActivity(),
+                            getString(R.string.info),
+                            getString(R.string._info_fees),
+                            MotionToast.TOAST_INFO,
+                            MotionToast.GRAVITY_BOTTOM,
+                            LONG_DURATION,
+                            ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
+                        )
 
+                }
+                4 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToServiceStatisticsBottomFragment(
+                        dataSchool!!
+                    )
+                )
+            }
         }
     }
 
@@ -122,7 +156,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
         valuation.group.setOnClickListener {
             launchFragment(
-                DetailsFragmentDirections.actionDetailsFragmentToAddInquiryBottomFragment(
+                DetailsFragmentDirections.actionDetailsFragmentToSchoolValueBottomFragment(
                     dataSchool?.id!!
                 )
             )

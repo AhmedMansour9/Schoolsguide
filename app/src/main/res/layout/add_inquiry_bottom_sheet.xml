@@ -10,11 +10,11 @@
             type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white"
- >
+        app:cardCornerRadius="16dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                     <EditText
                         android:id="@+id/editDetails"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_160sdp"
+                        android:layout_height="@dimen/_140sdp"
                         android:layout_marginTop="@dimen/_18sdp"
                         android:background="@drawable/edit_field_background"
                         android:fontFamily="@font/rpt_bold"
@@ -213,5 +213,5 @@
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -1,19 +1,21 @@
 package com.eaapps.schoolsguide.features.details.subfeature
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.databinding.JoinDiscountBottomSheetBinding
+import com.eaapps.schoolsguide.databinding.SchoolValuesBottomSheetBinding
+import com.eaapps.schoolsguide.domain.model.ReviewModel
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.utils.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -21,68 +23,81 @@ import www.sanju.motiontoast.MotionToast
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
-class JoinDiscountBottomFragment : BottomSheetDialogFragment() {
+class SchoolValueBottomFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: JoinDiscountBottomSheetBinding
+    private lateinit var binding: SchoolValuesBottomSheetBinding
+    private lateinit var dialogProcess: Dialog
+
     private val viewModel: DetailsViewModel by lazy {
         ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
     }
-
-    private lateinit var dialogProcess: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = JoinDiscountBottomSheetBinding.inflate(inflater, container, false)
+        binding = SchoolValuesBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        super.onCreateDialog(savedInstanceState).apply {
-            this.createDialog(resources, .80f)
-        }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheet = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheet.dialogShow(
+            resources,
+            0.75f,
+            draggable = true,
+            state = BottomSheetBehavior.STATE_COLLAPSED
+        )
+        return bottomSheet
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.detailsViewModel = viewModel
         dialogProcess =
             requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
+        binding.executePendingBindings()
         buildArgs()
-        collectResultJoinDiscount()
-        binding.bindListsDown()
         binding.bindClicks()
+        binding.bindRate()
+        collectResultReview()
+
     }
 
     private fun buildArgs() {
-        viewModel.joinDiscountModel.school_id =
-            JoinDiscountBottomFragmentArgs.fromBundle(requireArguments()).schoolId
+        viewModel.reviewModel.school_id =
+            SchoolValueBottomFragmentArgs.fromBundle(requireArguments()).schoolId
     }
 
-    private fun JoinDiscountBottomSheetBinding.bindListsDown() {
-        val arrayItem = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-        val adapterNumber = ArrayAdapter(
-            requireContext(),
-            R.layout.city_list_item,
-            arrayItem
-        )
-        (studentNumberEdit as? AutoCompleteTextView)?.setAdapter(adapterNumber)
-        (studentNumberEdit as? AutoCompleteTextView)?.setOnItemClickListener { parent, view, position, id ->
-            viewModel.joinDiscountModel.number_of_students = arrayItem[position]
+    private fun SchoolValuesBottomSheetBinding.bindRate() {
+        education.rateSeek.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.reviewModel.education = rating.toInt()
         }
-
+        facilities.rateSeek.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.reviewModel.facilities = rating.toInt()
+        }
+        safety.rateSeek.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.reviewModel.safety = rating.toInt()
+        }
+        activities.rateSeek.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.reviewModel.activities = rating.toInt()
+        }
+        communication.rateSeek.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.reviewModel.communication = rating.toInt()
+        }
     }
 
-    private fun JoinDiscountBottomSheetBinding.bindClicks() {
+    private fun SchoolValuesBottomSheetBinding.bindClicks() {
         cancelBtn.setOnClickListener {
             dismiss()
         }
     }
 
-    private fun collectResultJoinDiscount() {
+    private fun collectResultReview() {
         lifecycleScope.launchWhenStarted {
-            viewModel.joinDiscountFlow.stateFlow.collect(FlowEvent(onError = {
+            viewModel.reviewSchoolFlow.stateFlow.collect(FlowEvent(onError = {
+                viewModel.reviewSchoolFlow.setValue(Resource.Nothing())
                 dialogProcess.dismiss()
                 MotionToast.createColorToast(
                     requireActivity(),
@@ -90,7 +105,7 @@ class JoinDiscountBottomFragment : BottomSheetDialogFragment() {
                     it,
                     MotionToast.TOAST_ERROR,
                     MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
+                    10_000L,
                     ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
 
                 )
@@ -101,14 +116,14 @@ class JoinDiscountBottomFragment : BottomSheetDialogFragment() {
                 onSuccess = {
                     MotionToast.createColorToast(
                         requireActivity(),
-                        getString(R.string.join_discountLabel),
-                        getString(R.string.join_successful),
+                        getString(R.string.school_value),
+                        getString(R.string.successful_review),
                         MotionToast.TOAST_SUCCESS,
                         MotionToast.GRAVITY_BOTTOM,
                         8000L,
                         ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
                     )
-                    viewModel.joinDiscountFlow.setValue(Resource.Nothing())
+                    viewModel.reviewSchoolFlow.setValue(Resource.Nothing())
                     dialogProcess.dismiss()
                     dismiss()
                 },
@@ -116,4 +131,10 @@ class JoinDiscountBottomFragment : BottomSheetDialogFragment() {
             ))
         }
     }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        viewModel.reviewModel = ReviewModel()
+        super.onDismiss(dialog)
+    }
+
 }

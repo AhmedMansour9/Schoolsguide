@@ -1,6 +1,5 @@
 package com.eaapps.schoolsguide.features.details
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.domain.model.BookSchoolModel
 import com.eaapps.schoolsguide.domain.model.InquiryModel
 import com.eaapps.schoolsguide.domain.model.JoinDiscountModel
+import com.eaapps.schoolsguide.domain.model.ReviewModel
 import com.eaapps.schoolsguide.domain.usecase.*
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.StateFlows
@@ -25,7 +25,8 @@ class DetailsViewModel @Inject constructor(
     private val addInquiryUseCase: AddInquiryUseCase,
     private val schoolBookSchoolUseCase: BookSchoolUseCase,
     private val joinDiscountSchoolUseCase: JoinDiscountSchoolUseCase,
-    private val gradesSchoolUseCase: GradesSchoolUseCase
+    private val gradesSchoolUseCase: GradesSchoolUseCase,
+    private val putReviewUseCase: PutReviewUseCase
 ) : ViewModel() {
 
     init {
@@ -38,12 +39,14 @@ class DetailsViewModel @Inject constructor(
     internal val toggleRecommendedFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val sendInquiryFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val bookSchoolFlow = StateFlows<ResponseEntity>(viewModelScope)
+    internal val reviewSchoolFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val joinDiscountFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val schoolGradesFlow = StateFlows<List<GradesResponse.Grades>>(viewModelScope)
 
     val inquiryModel = InquiryModel()
     val bookSchoolModel = BookSchoolModel()
     val joinDiscountModel = JoinDiscountModel()
+    var reviewModel = ReviewModel()
 
     val inputEditHelper = ObservableField<HashMap<String, String>>(HashMap())
     private var helperValid = HashMap<String, String>().apply {
@@ -131,6 +134,25 @@ class DetailsViewModel @Inject constructor(
             inputEditHelper.set(joinDiscountSchoolUseCase.validMessage(joinDiscountModel))
             inputEditHelper.notifyChange()
         }
+    }
+
+    fun sendComment() {
+        viewModelScope.launch {
+            if (putReviewUseCase.isValid(reviewModel)) {
+                try {
+                    reviewSchoolFlow.setValue(Resource.Loading())
+                    val result = putReviewUseCase.execute(reviewModel)
+                    reviewSchoolFlow.setValue(result)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } else {
+                putReviewUseCase.validMessage(reviewModel).forEach {
+                    reviewSchoolFlow.setValue(Resource.Error(0,it.value))
+                }
+             }
+        }
+
     }
 
     private fun loadSchoolGrades() {

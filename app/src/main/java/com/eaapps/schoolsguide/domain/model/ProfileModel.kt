@@ -23,3 +23,13 @@ data class UpdateProfileModel(
     var gender: String = "",
     var image: MultipartBody.Part? = null
 )
+
+data class ReviewModel(
+    var school_id: Int = -1,
+    var comment: String = "",
+    var education: Int = 0,
+    var communication: Int = 0,
+    var facilities: Int = 0,
+    var safety: Int = 0,
+    var activities: Int = 0
+)

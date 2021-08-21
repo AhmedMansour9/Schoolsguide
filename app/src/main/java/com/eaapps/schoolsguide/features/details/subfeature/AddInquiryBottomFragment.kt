@@ -1,7 +1,6 @@
 package com.eaapps.schoolsguide.features.details.subfeature
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,10 @@ import android.widget.AutoCompleteTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.AddInquiryBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.createDialog
-import com.eaapps.schoolsguide.utils.getColorResource
-import com.eaapps.schoolsguide.utils.progressSmallDialog
+import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -46,7 +41,7 @@ class AddInquiryBottomFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         super.onCreateDialog(savedInstanceState).apply {
-            this.createDialog(resources, .50f)
+            this.createDialog(resources, 0.90f)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,49 +56,58 @@ class AddInquiryBottomFragment : BottomSheetDialogFragment() {
     }
 
     private fun buildArgs() {
-        viewModel.joinDiscountModel.school_id =
-            BookNowBottomFragmentArgs.fromBundle(requireArguments()).schoolId
+        viewModel.inquiryModel.school_id =
+            AddInquiryBottomFragmentArgs.fromBundle(requireArguments()).schoolId
     }
 
     private fun AddInquiryBottomSheetBinding.bindListsDown() {
-        val typeArray = resources.getStringArray(R.array.type_message)
+        val typeArray = Pair(
+            resources.getStringArray(R.array.type_message),
+            arrayOf("question", "enquery", "complaint")
+        )
         val adapterType = ArrayAdapter(
             requireContext(),
             R.layout.city_list_item,
-            typeArray
+            typeArray.first
         )
 
-        val typeMethod = resources.getStringArray(R.array.replay_method)
+        val typeMethod = Pair(
+            resources.getStringArray(R.array.replay_method),
+            arrayOf("email", "message", "phone")
+        )
         val adapterMethod = ArrayAdapter(
             requireContext(),
             R.layout.city_list_item,
-            typeMethod
+            typeMethod.first
         )
 
-        val replayTimeArray = resources.getStringArray(R.array.replay_time)
+        val replayTimeArray = Pair(
+            resources.getStringArray(R.array.replay_time),
+            arrayOf("any_time ", "morning_time ", "evening_time")
+        )
 
         val adapterReplayTime = ArrayAdapter(
             requireContext(),
             R.layout.city_list_item,
-            replayTimeArray
+            replayTimeArray.first
         )
 
         (typeMessageEdit as? AutoCompleteTextView)?.apply {
             setAdapter(adapterType)
             setOnItemClickListener { _, _, position, _ ->
-                viewModel.inquiryModel.message_type = typeArray[position]
+                viewModel.inquiryModel.message_type = typeArray.second[position]
             }
         }
         (replayMessageEdit as? AutoCompleteTextView)?.apply {
             setAdapter(adapterMethod)
             setOnItemClickListener { _, _, position, _ ->
-                viewModel.inquiryModel.reply_type = typeMethod[position]
+                viewModel.inquiryModel.reply_type = typeMethod.second[position]
             }
         }
         (replayTimeEdit as? AutoCompleteTextView)?.apply {
             setAdapter(adapterReplayTime)
             setOnItemClickListener { _, _, position, _ ->
-                viewModel.inquiryModel.reply_time = replayTimeArray[position]
+                viewModel.inquiryModel.reply_time = replayTimeArray.second[position]
             }
         }
 
@@ -143,6 +147,7 @@ class AddInquiryBottomFragment : BottomSheetDialogFragment() {
                         8000L,
                         ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
                     )
+                    viewModel.sendInquiryFlow.setValue(Resource.Nothing())
                     dialogProcess.dismiss()
                     dismiss()
                 },
@@ -151,7 +156,4 @@ class AddInquiryBottomFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        findNavController().navigateUp()
-    }
 }

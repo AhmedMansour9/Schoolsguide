@@ -1,7 +1,6 @@
 package com.eaapps.schoolsguide.features.details.subfeature
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +10,12 @@ import android.widget.AutoCompleteTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.GradesResponse
 import com.eaapps.schoolsguide.databinding.BookNowBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.createDialog
-import com.eaapps.schoolsguide.utils.getColorResource
-import com.eaapps.schoolsguide.utils.progressSmallDialog
+import com.eaapps.schoolsguide.utils.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,10 +42,11 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        super.onCreateDialog(savedInstanceState).apply {
-            this.createDialog(resources, .95f)
-        }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheet = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheet.dialogShow(resources, 0.95f,draggable = true)
+        return bottomSheet
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -167,6 +164,7 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
                         8000L,
                         ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
                     )
+                    viewModel.bookSchoolFlow.setValue(Resource.Nothing())
                     dialogProcess.dismiss()
                     dismiss()
                 },
@@ -186,9 +184,5 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
                 pairGrades = Pair(it, list)
             }))
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        findNavController().navigateUp()
     }
 }

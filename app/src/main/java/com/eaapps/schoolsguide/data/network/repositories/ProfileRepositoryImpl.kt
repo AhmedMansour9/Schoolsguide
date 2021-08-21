@@ -1,10 +1,7 @@
 package com.eaapps.schoolsguide.data.network.repositories
 
 import android.util.Log
-import com.eaapps.schoolsguide.data.entity.AddSchoolEntity
-import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
-import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.ApiServices
 import com.eaapps.schoolsguide.domain.repository.ProfileRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -66,8 +63,6 @@ class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServ
     ): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
-                Log.d("ppasod", "updateProfileFather: ")
-
                 val requestFile =
                     File("/storage/emulated/0/Pictures/Screenshots/Screenshot_20210813_015150_com.yaschoolparent.jpg")
                         .asRequestBody("multipart/form-data; charset=utf-8".toMediaTypeOrNull())
@@ -134,6 +129,21 @@ class ProfileRepositoryImpl @Inject constructor(private val apiServices: ApiServ
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.toggleFollowAsync(schoolId).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun putReview(reviewRequestEntity: ReviewRequestEntity): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.putReviewAsync(reviewRequestEntity).await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body())
                 } else {

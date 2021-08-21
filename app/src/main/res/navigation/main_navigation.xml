@@ -125,6 +125,15 @@
         <action
             android:id="@+id/action_detailsFragment_to_addInquiryBottomFragment"
             app:destination="@id/addInquiryBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_serviceStatisticsBottomFragment"
+            app:destination="@id/serviceStatisticsBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_tuiitionFeesBottomFragment"
+            app:destination="@id/tuiitionFeesBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_schoolValueBottomFragment"
+            app:destination="@id/schoolValueBottomFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -161,5 +170,34 @@
         <argument
             android:name="schoolId"
             app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/serviceStatisticsBottomFragment"
+        tools:layout="@layout/service_statistics_bottom_sheet"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.ServiceStatisticsBottomFragment"
+        android:label="ServiceStatisticsBottomFragment" >
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+    </dialog>
+    <dialog
+        android:id="@+id/tuiitionFeesBottomFragment"
+        tools:layout="@layout/tuition_fees_bottom_sheet"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.TuitionFeesBottomFragment"
+        android:label="TuiitionFeesBottomFragment" >
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+    </dialog>
+    <dialog
+        android:id="@+id/schoolValueBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.SchoolValueBottomFragment"
+        tools:layout="@layout/school_values_bottom_sheet"
+        android:label="SchoolValueBottomFragment" >
+
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
+
     </dialog>
 </navigation>

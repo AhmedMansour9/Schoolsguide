@@ -51,6 +51,7 @@
     <string name="curriculum_type">Curriculum type</string>
     <string name="type_school">Type School</string>
     <string name="school_evaluation">School evaluation</string>
+    <string name="school_value">School Value</string>
     <string name="school_fees">School Fees</string>
     <string name="_0">0</string>
     <string name="_500000">500000</string>
@@ -104,6 +105,12 @@
     <string name="join_successful">Join Discount Group successfully</string>
     <string name="add_inquiry_label">Send Inquiry</string>
     <string name="inquiry_successfully">Send Inquiry successfully</string>
+    <string name="tuition_fees">Tuition Fees</string>
+    <string name="info">Info</string>
+    <string name="_info_fees">This school not has any tuition fees</string>
+    <string name="write_comment">Write Comment</string>
+    <string name="send_comment">Send comment</string>
+    <string name="successful_review">Successful review</string>
 
     <string-array name="gender">
 

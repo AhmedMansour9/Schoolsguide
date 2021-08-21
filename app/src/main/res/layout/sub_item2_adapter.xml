@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="subModel"
+            type="com.eaapps.schoolsguide.domain.model.SubModel" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{subModel.title}"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_11ssp"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/line2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Grade 6" />
+
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:gravity="center"
+            android:minWidth="@dimen/_65sdp"
+            android:text="@{subModel.subTitle}"
+            android:textColor="@color/textColor1"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/gray_1"
+            android:visibility="@{subModel.lineBottom?View.VISIBLE:View.INVISIBLE}"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_1"
+            app:layout_constraintBottom_toTopOf="@id/line1"
+            app:layout_constraintEnd_toStartOf="@id/title2"
+            app:layout_constraintStart_toEndOf="@id/title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

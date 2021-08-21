@@ -78,3 +78,14 @@ data class DiscountRequestEntity(
     var number_of_students: Int? = null,
     var school_id: Int? = null
 )
+
+data class ReviewRequestEntity(
+    var school_id: Int,
+    var comment: String,
+    var education: Int,
+    var communication: Int,
+    var facilities: Int,
+    var safety: Int,
+    var activities: Int
+)
+

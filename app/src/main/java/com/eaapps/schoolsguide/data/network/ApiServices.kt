@@ -82,6 +82,9 @@ interface ApiServices {
     @POST("/api/father/toggle_recommend")
     fun toggleRecommendedAsync(@Query("school_id") school_id: Int): Deferred<Response<ResponseEntity>>
 
+    @POST("/api/father/setReview")
+    fun putReviewAsync(@Body reviewRequestEntity: ReviewRequestEntity): Deferred<Response<ResponseEntity>>
+
     @POST("/api/add_enquery")
     fun addInquiryAsync(@Body addInquiryRequestEntity: InquiryRequestEntity): Deferred<Response<ResponseEntity>>
 

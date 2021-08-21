@@ -49,7 +49,6 @@ import com.github.ybq.android.spinkit.style.FadingCircle
 import com.github.ybq.android.spinkit.style.FoldingCube
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -538,16 +537,38 @@ fun ViewDataBinding.showBottomSheet(
     return bottomSheetDialog
 }
 
-fun Dialog.createDialog(resources:Resources,peekHeightOffset: Float = 1.0f): Dialog {
+fun Dialog.createDialog(resources: Resources, peekHeightOffset: Float = 1.0f): Dialog {
     this.setCancelable(false)
-     val displayMetrics = resources.displayMetrics
+    val displayMetrics = resources.displayMetrics
     val size = displayMetrics.heightPixels * peekHeightOffset
     (this as? BottomSheetDialog)
         ?.behavior?.peekHeight = size.toInt()
-
-    (this as? BottomSheetDialog)
-        ?.behavior?.isDraggable = false
+    val behavior = (this as? BottomSheetDialog)?.behavior
+    behavior?.isHideable = false
+    behavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+    //behavior?.isDraggable = false
     return this
+}
+
+fun BottomSheetDialog.dialogShow(
+    resources: Resources,
+    peekHeightOffset: Float = 1.0f,
+    draggable: Boolean = false,
+    hidden: Boolean = false,
+    state: Int = BottomSheetBehavior.STATE_COLLAPSED,
+
+) {
+    setOnShowListener {
+        val d = it as BottomSheetDialog
+        val sheet = d.findViewById<View>(R.id.design_bottom_sheet)
+        val displayMetrics = resources.displayMetrics
+        val size = displayMetrics.heightPixels * peekHeightOffset
+        val behavior = BottomSheetBehavior.from(sheet!!)
+        behavior.isHideable = hidden
+        behavior.isDraggable = draggable
+        behavior.peekHeight = size.toInt()
+        behavior.state = state
+    }
 }
 
 

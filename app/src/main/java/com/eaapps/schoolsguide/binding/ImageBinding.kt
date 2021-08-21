@@ -8,7 +8,13 @@ import android.widget.TextView
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.eaapps.schoolsguide.R
 
 
@@ -40,5 +46,28 @@ object ImageBinding {
             Glide.with(imageView).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.progress_animation).into(imageView)
+    }
+
+    @BindingAdapter("android:background")
+    @JvmStatic
+    fun imageBackgroundByUrl(imageView: ImageView, url: String?) {
+        url?.apply {
+            if (this.isNotBlank())
+                Glide.with(imageView).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.progress_animation).into(object :CustomTarget<Drawable>(){
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            imageView.background = resource
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+
+                        }
+                    })
+        }
+
     }
 }

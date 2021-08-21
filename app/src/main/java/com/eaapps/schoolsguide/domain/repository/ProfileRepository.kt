@@ -1,9 +1,6 @@
 package com.eaapps.schoolsguide.domain.repository
 
-import com.eaapps.schoolsguide.data.entity.AddSchoolEntity
-import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
-import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.utils.Resource
 
 interface ProfileRepository {
@@ -17,5 +14,7 @@ interface ProfileRepository {
     suspend fun toggleRecommendedIt(schoolId: Int): Resource<ResponseEntity>
 
     suspend fun toggleFollow(schoolId: Int): Resource<ResponseEntity>
+
+    suspend fun putReview(reviewRequestEntity: ReviewRequestEntity): Resource<ResponseEntity>
 
 }

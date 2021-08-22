@@ -608,13 +608,17 @@ data class SchoolResponse(
                 val created_at: String?,
                 val description: String?,
                 val image: String?,
+                val name:String?,
+                val id:Int?,
                 val short_description: String?,
-                val title: String?
+                val title: String?,
             ) : Parcelable {
                 constructor(parcel: Parcel) : this(
                     parcel.readString(),
                     parcel.readString(),
                     parcel.readString(),
+                    parcel.readString(),
+                    parcel.readValue(Int::class.java.classLoader) as? Int,
                     parcel.readString(),
                     parcel.readString()
                 ) {
@@ -624,6 +628,8 @@ data class SchoolResponse(
                     parcel.writeString(created_at)
                     parcel.writeString(description)
                     parcel.writeString(image)
+                    parcel.writeString(name)
+                    parcel.writeValue(id)
                     parcel.writeString(short_description)
                     parcel.writeString(title)
                 }
@@ -641,6 +647,7 @@ data class SchoolResponse(
                         return arrayOfNulls(size)
                     }
                 }
+
             }
         }
 

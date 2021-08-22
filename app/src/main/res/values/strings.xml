@@ -111,6 +111,9 @@
     <string name="write_comment">Write Comment</string>
     <string name="send_comment">Send comment</string>
     <string name="successful_review">Successful review</string>
+    <string name="loading_data">loading data</string>
+    <string name="parent_reviews">Parents reviews</string>
+    <string name="notifications">Notifications</string>
 
     <string-array name="gender">
 

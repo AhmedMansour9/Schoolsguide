@@ -13,6 +13,7 @@ import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.utils.FlowEvent
 import com.eaapps.schoolsguide.utils.launchFragment
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -52,16 +53,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         launchFragment(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
     }
 
-    private val recommendedSchoolHomeAdapter =SchoolHomeAdapter({ toggleFavorite(it) }) {
+    private val recommendedSchoolHomeAdapter = SchoolHomeAdapter({ toggleFavorite(it) }) {
         launchFragment(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.executePendingBindings()
-        //requireActivity().colorStatusBar(R.color.transparent, R.color.black, false)
-        // requireActivity().transparentStatusBar()
-        setupSlider()
+        binding.bindAdapters()
+        binding.bindClicks()
+        binding.bindViewPagerSlider()
+        binding.bindSchoolTypeCollectData()
+        binding.bindRecommendedCollectData()
+        binding.bindFeatureCollectData()
+        binding.bindSliderCollectData()
+    }
+
+    private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)
+
+    private fun FragmentHomeBinding.bindAdapters() {
         val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
         flexBoxLayoutManager.apply {
             alignItems = AlignItems.CENTER
@@ -69,14 +79,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             flexWrap = FlexWrap.NOWRAP
             justifyContent = JustifyContent.SPACE_EVENLY
         }
-        binding.rcSchoolType.layoutManager = flexBoxLayoutManager
-        binding.rcSchoolType.adapter = schoolTypeAdapter
+        rcSchoolType.layoutManager = flexBoxLayoutManager
+        rcSchoolType.adapter = schoolTypeAdapter
+        rcRecommended.adapter = recommendedSchoolHomeAdapter
+        rcFeature.adapter = featureSchoolHomeAdapter
+    }
 
-        binding.rcRecommended.adapter = recommendedSchoolHomeAdapter
-
-        binding.rcFeature.adapter = featureSchoolHomeAdapter
-
-        binding.cardSearch.setOnClickListener {
+    private fun FragmentHomeBinding.bindClicks() {
+        cardSearch.setOnClickListener {
             launchFragment(
                 HomeFragmentDirections.actionHomeFragmentToSearchFragment(
                     SearchType(
@@ -88,12 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         }
 
-        schoolTypeCollectData()
-        sliderCollectData()
-        recommendedCollectData()
-        featureCollectData()
-
-        binding.viewAllFeature.setOnClickListener {
+        viewAllFeature.setOnClickListener {
             launchFragment(
                 HomeFragmentDirections.actionHomeFragmentToSearchFragment(
                     SearchType(
@@ -106,7 +111,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         }
 
-        binding.viewAllRecommended.setOnClickListener {
+        viewAllRecommended.setOnClickListener {
             launchFragment(
                 HomeFragmentDirections.actionHomeFragmentToSearchFragment(
                     SearchType(
@@ -119,18 +124,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)
-
-    private fun setupSlider() {
-        binding.viewSlider.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.viewSlider.adapter = sliderAdapter
+    private fun FragmentHomeBinding.bindViewPagerSlider() {
+        viewSlider.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        viewSlider.adapter = sliderAdapter
         val pagerOffset = resources.getDimensionPixelOffset(R.dimen.pagerOffset)
         val pagerMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
-        binding.viewSlider.offscreenPageLimit = 2
-        binding.viewSlider.setPageTransformer { page, position ->
+        viewSlider.offscreenPageLimit = 2
+        viewSlider.setPageTransformer { page, position ->
             val myOffset = position * -(2 * pagerOffset + pagerMarginPx)
-            if (binding.viewSlider.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(binding.viewSlider) == ViewCompat.LAYOUT_DIRECTION_RTL)
+            if (viewSlider.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(viewSlider) == ViewCompat.LAYOUT_DIRECTION_RTL)
                     page.translationX = -myOffset
                 else
                     page.translationX = myOffset
@@ -139,9 +142,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun setupIndicator(size: Int) {
+    private fun FragmentHomeBinding.bindIndicator(size: Int) {
         TabLayoutMediator(
-            binding.indicator, binding.viewSlider
+            indicator, viewSlider
         ) { _, _ -> }.attach()
 
         lifecycleScope.launchWhenStarted {
@@ -156,51 +159,88 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }.onStart {
                 emit(-1)
             }.onEach {
-                if (binding.viewSlider.currentItem < size - 1)
-                    binding.viewSlider.currentItem = binding.viewSlider.currentItem + 1
+                if (viewSlider.currentItem < size - 1)
+                    viewSlider.currentItem = viewSlider.currentItem + 1
                 else
-                    binding.viewSlider.currentItem = 0
+                    viewSlider.currentItem = 0
 
             }.launchIn(this)
         }
     }
 
-    private fun schoolTypeCollectData() {
+    private fun FragmentHomeBinding.bindSchoolTypeCollectData() {
         lifecycleScope.launchWhenCreated {
             homeViewModel.schoolTypeStateFlow.collect(FlowEvent(onError = {
+                shimmerSchoolType.visibleOrGone(false)
+                shimmerSchoolType.stopShimmer()
             }, onSuccess = {
+                shimmerSchoolType.visibleOrGone(false)
+                shimmerSchoolType.stopShimmer()
+                rcSchoolType.visibleOrGone(true)
                 schoolTypeAdapter.setData(it)
-            }))
+            },
+                onLoading = {
+                    shimmerSchoolType.visibleOrGone(true)
+                    shimmerSchoolType.startShimmer()
+                }
+            ))
         }
     }
 
-    private fun sliderCollectData() {
+    private fun FragmentHomeBinding.bindSliderCollectData() {
         lifecycleScope.launchWhenCreated {
             homeViewModel.sliderStateFlow.collect(FlowEvent(onError = {
+                shimmerSlider.visibleOrGone(false)
+                shimmerSlider.stopShimmer()
+
+            }, onLoading = {
+                viewSlider.visibleOrGone(false)
+                shimmerSlider.visibleOrGone(true)
+                shimmerSlider.startShimmer()
             }, onSuccess = {
+                shimmerSlider.visibleOrGone(false)
+                shimmerSlider.stopShimmer()
+                viewSlider.visibleOrGone(true)
                 sliderAdapter.setData(it.reversed())
-                setupIndicator(it.size)
+                bindIndicator(it.size)
             }))
         }
     }
 
-    private fun recommendedCollectData() {
+    private fun FragmentHomeBinding.bindRecommendedCollectData() {
         lifecycleScope.launchWhenCreated {
-            homeViewModel.recommendedStateFlow.collect(FlowEvent(onError = {}, onSuccess = {
+            homeViewModel.recommendedStateFlow.collect(FlowEvent(onError = {
+                shimmerRecommended.visibleOrGone(false)
+                shimmerRecommended.stopShimmer()
+            }, onLoading = {
+                shimmerRecommended.visibleOrGone(true)
+                shimmerRecommended.startShimmer()
+            }, onSuccess = {
+                shimmerRecommended.visibleOrGone(false)
+                shimmerRecommended.stopShimmer()
+                rcRecommended.visibleOrGone(true)
                 recommendedSchoolHomeAdapter.setData(it)
             }))
 
         }
     }
 
-    private fun featureCollectData() {
+    private fun FragmentHomeBinding.bindFeatureCollectData() {
         lifecycleScope.launchWhenCreated {
-            homeViewModel.featureStateFlow.collect(FlowEvent(onError = {}, onSuccess = {
+            homeViewModel.featureStateFlow.collect(FlowEvent(onError = {
+                shimmerFeature.visibleOrGone(false)
+                shimmerFeature.stopShimmer()
+            }, onLoading = {
+                shimmerFeature.visibleOrGone(true)
+                shimmerFeature.startShimmer()
+            }, onSuccess = {
+                shimmerFeature.visibleOrGone(false)
+                shimmerFeature.stopShimmer()
+                rcFeature.visibleOrGone(true)
                 featureSchoolHomeAdapter.setData(it)
             }))
 
         }
     }
-
 }
 

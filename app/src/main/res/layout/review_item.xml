@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="schoolReview"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.SchoolReview" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:scaleType="centerInside"
+                android:src="@{schoolReview.father.image}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/user__" />
+
+            <TextView
+                android:id="@+id/nameParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{schoolReview.father.full_name}"
+                android:textColor="@color/textColor1"
+                app:layout_constraintStart_toEndOf="@id/img"
+                app:layout_constraintTop_toTopOf="@id/img"
+                tools:text="Adel Hassan" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rateParent"
+                style="@style/RateBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:progressTint="@color/rate_active"
+                android:rating="@{schoolReview.review}"
+                android:secondaryProgressTint="@color/rate_un_active"
+                app:layout_constraintStart_toStartOf="@id/nameParent"
+                app:layout_constraintTop_toBottomOf="@+id/nameParent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:gravity="center"
+                android:text="@{schoolReview.review +`/5`}"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/rateParent"
+                app:layout_constraintStart_toEndOf="@id/rateParent"
+                app:layout_constraintTop_toTopOf="@id/rateParent"
+                tools:text="3/5" />
+
+            <TextView
+                android:id="@+id/commentParent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@{schoolReview.comment}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img"
+                tools:text="Good school because has good teachers" />
+
+            <TextView
+                android:id="@+id/dataComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/nameParent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/nameParent"
+                tools:text="25-04-2019" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

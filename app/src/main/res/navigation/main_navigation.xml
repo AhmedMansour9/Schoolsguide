@@ -134,6 +134,12 @@
         <action
             android:id="@+id/action_detailsFragment_to_schoolValueBottomFragment"
             app:destination="@id/schoolValueBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_reviewParentBottomFragment"
+            app:destination="@id/reviewParentBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_notificationBottomFragment"
+            app:destination="@id/notificationBottomFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -199,5 +205,25 @@
             android:name="schoolId"
             app:argType="integer" />
 
+    </dialog>
+    <dialog
+        android:id="@+id/reviewParentBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.ReviewParentBottomFragment"
+        tools:layout="@layout/review_parents_bottom_sheet"
+        android:label="ReviewParentBottomFragment" >
+
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+    </dialog>
+    <dialog
+        android:id="@+id/notificationBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.NotificationBottomFragment"
+        tools:layout="@layout/notifications_bottom_sheet"
+        android:label="NotificationBottomFragment" >
+
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
     </dialog>
 </navigation>

@@ -73,7 +73,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     private fun FragmentDetailsDialogBinding.bindArgs() {
         dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
-        viewModel.loadSchoolDetails(7)
+        viewModel.loadSchoolDetails(dataSchool?.id!!)
         schoolDetailsResultData()
     }
 
@@ -127,7 +127,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                 }
 
                 2 -> launchFragment(
-                    DetailsFragmentDirections.actionDetailsFragmentToNotificationBottomFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToSupervisorContactBottomFragment(
                         dataSchool!!
                     )
                 )

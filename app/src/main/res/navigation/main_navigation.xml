@@ -140,6 +140,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_notificationBottomFragment"
             app:destination="@id/notificationBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_supervisorContactBottomFragment"
+            app:destination="@id/supervisorContactBottomFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -222,6 +225,15 @@
         tools:layout="@layout/notifications_bottom_sheet"
         android:label="NotificationBottomFragment" >
 
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+    </dialog>
+    <dialog
+        android:id="@+id/supervisorContactBottomFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.SupervisorContactBottomFragment"
+        tools:layout="@layout/supervisor_contact_bottom_sheet"
+        android:label="SupervisorContactBottomFragment" >
         <argument
             android:name="dataSchool"
             app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="communicateData"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.CommunicateData" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="@dimen/_5sdp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/notification_shape"
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_contact_support_black_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/supervisorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{`Name : `+communicateData.suprevisor_name}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintTop_toTopOf="@id/icon"
+                tools:text="Name : Eslam Gamal" />
+
+            <TextView
+                android:id="@+id/supervisorEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{`Email : `+communicateData.suprevisor_email}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="@{communicateData.suprevisor_email==null?View.GONE:View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/supervisorName"
+                app:layout_constraintTop_toBottomOf="@id/supervisorName"
+                tools:text="Email : eslamdev902@gmail.com" />
+
+            <TextView
+                android:id="@+id/supervisorPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{`Phone : `+communicateData.suprevisor_phone}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="@{communicateData.suprevisor_phone==null?View.GONE:View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/supervisorEmail"
+                app:layout_constraintTop_toBottomOf="@id/supervisorEmail"
+                tools:text="Phone : 01275264136" />
+
+            <TextView
+                android:id="@+id/supervisorGrades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{`Grades : `+communicateData.grades}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="@{communicateData.grades==null?View.GONE:View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/supervisorPhone"
+                app:layout_constraintTop_toBottomOf="@id/supervisorPhone"
+                tools:text="Grades : KG1" />
+
+            <TextView
+                android:id="@+id/supervisorShunt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{`Shunt : `+communicateData.shunt}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="@{communicateData.shunt==null?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/supervisorGrades"
+                app:layout_constraintTop_toBottomOf="@id/supervisorGrades"
+                tools:text="Shunt : Shunt" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

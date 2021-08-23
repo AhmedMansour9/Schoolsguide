@@ -146,6 +146,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_awardsBottomFragment"
             app:destination="@id/awardsBottomFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_blogDialogFragment"
+            app:destination="@id/blogDialogFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -250,5 +253,28 @@
             android:name="dataSchool"
             app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
 
+    </dialog>
+    <dialog
+        android:id="@+id/blogDialogFragment"
+        tools:layout="@layout/fragment_dialog_blogs"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.BlogDialogFragment"
+        android:label="BlogDialogFragment" >
+
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+        <action
+            android:id="@+id/action_blogDialogFragment_to_blogViewDialogFragment"
+            app:destination="@id/blogViewDialogFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/blogViewDialogFragment"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.BlogViewDialogFragment"
+        tools:layout="@layout/fragment_blog_view_dialog"
+        android:label="BlogViewDialogFragment" >
+        <argument
+            android:name="blogData"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool$ShareData" />
     </dialog>
 </navigation>

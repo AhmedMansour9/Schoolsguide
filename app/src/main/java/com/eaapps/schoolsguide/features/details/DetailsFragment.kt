@@ -64,7 +64,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
         collapsing.isTitleEnabled = false
         appbar.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
-            if (abs(verticalOffset) > 200) toolbar.title = "School Details" else toolbar.title = ""
+           // if (abs(verticalOffset) > 200) toolbar.title = "School Details" else toolbar.title = ""
         })
     }
 
@@ -135,6 +135,12 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                 )
                 4 -> launchFragment(
                     DetailsFragmentDirections.actionDetailsFragmentToServiceStatisticsBottomFragment(
+                        dataSchool!!
+                    )
+                )
+
+                5 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToBlogDialogFragment(
                         dataSchool!!
                     )
                 )

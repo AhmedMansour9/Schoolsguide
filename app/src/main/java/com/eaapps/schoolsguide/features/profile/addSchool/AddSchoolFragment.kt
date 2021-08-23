@@ -42,8 +42,7 @@ class AddSchoolFragment : DialogFragment(R.layout.fragment_dialog_add_school) {
         super.onViewCreated(view, savedInstanceState)
         binding.addSchoolViewModel = viewModel
 
-        dialogProcess =
-            requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
+        dialogProcess = requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
 
         addSchoolResultCollect()
 

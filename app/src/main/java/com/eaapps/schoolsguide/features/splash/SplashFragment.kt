@@ -2,15 +2,14 @@ package com.eaapps.schoolsguide.features.splash
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.FlowEvent
+import com.eaapps.schoolsguide.utils.launchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -22,18 +21,25 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
-                Log.d("asasaaa", "onViewCreated: $it")
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
                 setupCountDown(false)
             }, onSuccess = {
-                if (it.full_name.isNotBlank() && it.email.isNotBlank())
+                if (it.email.isNotBlank())
                     setupCountDown(true)
                 else
                     setupCountDown(false)
+            }
+            ))
+        }
 
-            }))
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.logoutStateFlow.stateFlow.collect(FlowEvent(onError = {
+                setupCountDown(true)
+            }, onSuccess = {
+                setupCountDown(false)
+            }
+            ))
         }
     }
 
@@ -53,12 +59,11 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     private fun navigationToLogin() =
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            .navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+        launchFragment(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
 
     private fun navigationToHome() =
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            .navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+        launchFragment(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+
 
     override fun onStart() {
         super.onStart()

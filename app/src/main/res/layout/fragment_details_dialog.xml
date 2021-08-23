@@ -38,18 +38,54 @@
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax">
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/picShimmerLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription">
+
+                        <ImageView
+                            android:id="@+id/picShimmer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/shimmer_color"
+                             android:scaleType="centerCrop"
+                            tools:ignore="ContentDescription" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
                     <ImageView
                         android:id="@+id/picSchool"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@{dataSchool.image}"
                         android:scaleType="centerCrop"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/scrim" />
+
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:id="@+id/shimmerSee"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.3">
+
+                        <ImageView
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:background="@drawable/round_shimmer_shape"
+                            tools:ignore="ContentDescription" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
 
                     <LinearLayout
                         android:id="@+id/groupSee"
@@ -58,6 +94,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/_2sdp"
                         android:paddingBottom="@dimen/_2sdp"
@@ -89,6 +126,26 @@
 
                     </LinearLayout>
 
+
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:id="@+id/shimmerLike"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/shimmerSee"
+                        app:layout_constraintVertical_bias="0.3"
+                        >
+
+                        <ImageView
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:background="@drawable/round_shimmer_shape"
+                            tools:ignore="ContentDescription" />
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <LinearLayout
                         android:id="@+id/groupRate"
                         android:layout_width="wrap_content"
@@ -97,6 +154,7 @@
                         android:layout_marginTop="@dimen/_8sdp"
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/_2sdp"
                         android:paddingBottom="@dimen/_2sdp"
@@ -173,295 +231,312 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/shortDesc"
-                    android:layout_width="0dp"
+                <include layout="@layout/details_shimmer_item"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@{dataSchool.short_description}"
-                    android:textColor="@color/gray_2"
-                    android:textSize="@dimen/_13ssp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/details_shimmer"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="School Good For student because give yours free to play football and study" />
+                    />
 
-                <TextView
-                    android:id="@+id/type_school"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@{`School type : `+dataSchool.type.name}"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
-                    app:layout_constraintStart_toStartOf="@id/shortDesc"
-                    app:layout_constraintTop_toBottomOf="@id/shortDesc"
-                    tools:text="School type : International" />
-
-                <TextView
-                    android:id="@+id/program_school"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@{`Curriculum : `+dataSchool.program.name}"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
-                    app:layout_constraintStart_toStartOf="@id/shortDesc"
-                    app:layout_constraintTop_toBottomOf="@id/type_school"
-                    tools:text="Curriculum : Egyptian track" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/groupClicks"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:orientation="horizontal"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp"
-                    app:alignContent="space_between"
-                    app:alignItems="center"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="space_between"
-                    app:layout_constraintEnd_toEndOf="@id/shortDesc"
-                    app:layout_constraintStart_toStartOf="@id/shortDesc"
-                    app:layout_constraintTop_toBottomOf="@id/program_school">
-
-                    <include
-                        android:id="@+id/recommended"
-                        icon="@{dataSchool.recommended?@drawable/round_thumb_up_black_24:@drawable/outline_thumb_up_black_24}"
-                        layout="@layout/details_item_interactions"
-                        title="@{@string/recommend_it}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/joinDiscount"
-                        icon="@{@drawable/round_group_add_black_24}"
-                        layout="@layout/details_item_interactions"
-                        title="@{@string/join_discount}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/valuation"
-                        icon="@{@drawable/round_star_border_24}"
-                        layout="@layout/details_item_interactions"
-                        title="@{@string/evaluation}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-                    <include
-                        android:id="@+id/follow"
-                        icon="@{dataSchool.followed?@drawable/round_favorite_black_24:@drawable/round_favorite_border_black_24}"
-                        layout="@layout/details_item_interactions"
-                        title="@{@string/follow}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <ImageView
-                    android:id="@+id/lineGroup1"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:background="@color/gray_1"
-                    app:layout_constraintTop_toBottomOf="@id/groupClicks"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/contactIcon"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:src="@drawable/ic_baseline_contact_support_32"
-                    app:layout_constraintStart_toStartOf="@id/lineGroup1"
-                    app:layout_constraintTop_toBottomOf="@id/lineGroup1"
-                    app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+                    android:id="@+id/detailsGroup">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/contact_info"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_16ssp"
-                    app:layout_constraintBottom_toBottomOf="@id/contactIcon"
-                    app:layout_constraintStart_toEndOf="@id/contactIcon"
-                    app:layout_constraintTop_toTopOf="@id/contactIcon" />
+                    <TextView
+                        android:id="@+id/shortDesc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@{dataSchool.short_description}"
+                        android:textColor="@color/gray_2"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="School Good For student because give yours free to play football and study" />
 
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/groupInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:alignContent="space_between"
-                    app:alignItems="flex_start"
-                    app:flexDirection="column"
-                    app:flexWrap="wrap"
-                    app:justifyContent="space_between"
-                    app:layout_constraintEnd_toEndOf="@id/lineGroup1"
-                    app:layout_constraintStart_toStartOf="@id/lineGroup1"
-                    app:layout_constraintTop_toBottomOf="@id/contactIcon">
+                    <TextView
+                        android:id="@+id/type_school"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@{`School type : `+dataSchool.type.name}"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_15ssp"
+                        app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                        app:layout_constraintStart_toStartOf="@id/shortDesc"
+                        app:layout_constraintTop_toBottomOf="@id/shortDesc"
+                        tools:text="School type : International" />
 
-                    <include
-                        android:id="@+id/te_phoneNumber"
-                        icon="@{@drawable/round_phone_black_24}"
-                        layout="@layout/details_contact_info_item"
-                        titleOne="@{dataSchool.phone1}"
-                        titleTwo="@{dataSchool.phone2}"
+                    <TextView
+                        android:id="@+id/program_school"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@{`Curriculum : `+dataSchool.program.name}"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_15ssp"
+                        app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                        app:layout_constraintStart_toStartOf="@id/shortDesc"
+                        app:layout_constraintTop_toBottomOf="@id/type_school"
+                        tools:text="Curriculum : Egyptian track" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/groupClicks"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="horizontal"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        app:alignContent="space_between"
+                        app:alignItems="center"
+                        app:flexWrap="nowrap"
+                        app:justifyContent="space_between"
+                        app:layout_constraintEnd_toEndOf="@id/shortDesc"
+                        app:layout_constraintStart_toStartOf="@id/shortDesc"
+                        app:layout_constraintTop_toBottomOf="@id/program_school">
+
+                        <include
+                            android:id="@+id/recommended"
+                            icon="@{dataSchool.recommended?@drawable/round_thumb_up_black_24:@drawable/outline_thumb_up_black_24}"
+                            layout="@layout/details_item_interactions"
+                            title="@{@string/recommend_it}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/joinDiscount"
+                            icon="@{@drawable/round_group_add_black_24}"
+                            layout="@layout/details_item_interactions"
+                            title="@{@string/join_discount}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/valuation"
+                            icon="@{@drawable/round_star_border_24}"
+                            layout="@layout/details_item_interactions"
+                            title="@{@string/evaluation}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                        <include
+                            android:id="@+id/follow"
+                            icon="@{dataSchool.followed?@drawable/round_favorite_black_24:@drawable/round_favorite_border_black_24}"
+                            layout="@layout/details_item_interactions"
+                            title="@{@string/follow}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <ImageView
+                        android:id="@+id/lineGroup1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="2dp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:background="@color/gray_1"
+                        app:layout_constraintTop_toBottomOf="@id/groupClicks"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/contactIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:src="@drawable/ic_baseline_contact_support_32"
+                        app:layout_constraintStart_toStartOf="@id/lineGroup1"
+                        app:layout_constraintTop_toBottomOf="@id/lineGroup1"
+                        app:tint="@color/black"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/contact_info"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_16ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/contactIcon"
+                        app:layout_constraintStart_toEndOf="@id/contactIcon"
+                        app:layout_constraintTop_toTopOf="@id/contactIcon" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/groupInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:alignContent="space_between"
+                        app:alignItems="flex_start"
+                        app:flexDirection="column"
+                        app:flexWrap="wrap"
+                        app:justifyContent="space_between"
+                        app:layout_constraintEnd_toEndOf="@id/lineGroup1"
+                        app:layout_constraintStart_toStartOf="@id/lineGroup1"
+                        app:layout_constraintTop_toBottomOf="@id/contactIcon">
+
+                        <include
+                            android:id="@+id/te_phoneNumber"
+                            icon="@{@drawable/round_phone_black_24}"
+                            layout="@layout/details_contact_info_item"
+                            titleOne="@{dataSchool.phone1}"
+                            titleTwo="@{dataSchool.phone2}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
 
-                    <include
-                        android:id="@+id/phoneNumber"
-                        icon="@{@drawable/round_phone_android_black_24}"
-                        layout="@layout/details_contact_info_item"
-                        titleOne="@{dataSchool.mobil1}"
-                        titleTwo="@{dataSchool.mobil2}"
+                        <include
+                            android:id="@+id/phoneNumber"
+                            icon="@{@drawable/round_phone_android_black_24}"
+                            layout="@layout/details_contact_info_item"
+                            titleOne="@{dataSchool.mobil1}"
+                            titleTwo="@{dataSchool.mobil2}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/email"
+                            icon="@{@drawable/round_email_black_24}"
+                            layout="@layout/details_contact_info_item"
+                            titleOne="@{dataSchool.email}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+
+                        <include
+                            android:id="@+id/address"
+                            icon="@{@drawable/round_location_on_black_24}"
+                            layout="@layout/details_contact_info_item"
+                            titleOne="@{dataSchool.address}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/timeWork"
+                            icon="@{@drawable/round_watch_later_black_24}"
+                            layout="@layout/details_contact_info_item"
+                            titleOne="@{dataSchool.dates_for_communicating_with_supervisors}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/groupSocial"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:alignContent="center"
+                        app:flexDirection="row"
+                        app:flexWrap="nowrap"
+                        app:justifyContent="space_evenly"
+                        app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                        app:layout_constraintStart_toStartOf="@id/groupInfo"
+                        app:layout_constraintTop_toBottomOf="@id/groupInfo">
+
+                        <ImageButton
+                            android:id="@+id/faceBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/facebook_"
+                            tools:ignore="ContentDescription" />
+
+
+                        <ImageButton
+                            android:id="@+id/googleBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/google_plus_"
+                            tools:ignore="ContentDescription" />
+
+
+                        <ImageButton
+                            android:id="@+id/twitterBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/twitter_"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:id="@+id/linkedInBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/linkedin_"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:id="@+id/youtubeBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/youtube_"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:id="@+id/instaBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/insta_"
+                            tools:ignore="ContentDescription" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcListProperties"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        app:layout_constraintEnd_toEndOf="@id/groupInfo"
+                        app:layout_constraintStart_toStartOf="@id/groupInfo"
+                        app:layout_constraintTop_toBottomOf="@id/groupSocial" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bookNow"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="65dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/book_now"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20ssp"
+                        app:backgroundTint="@color/colorApp3"
+                        app:cornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rcListProperties" />
 
-                    <include
-                        android:id="@+id/email"
-                        icon="@{@drawable/round_email_black_24}"
-                        layout="@layout/details_contact_info_item"
-                        titleOne="@{dataSchool.email}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-
-                    <include
-                        android:id="@+id/address"
-                        icon="@{@drawable/round_location_on_black_24}"
-                        layout="@layout/details_contact_info_item"
-                        titleOne="@{dataSchool.address}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/timeWork"
-                        icon="@{@drawable/round_watch_later_black_24}"
-                        layout="@layout/details_contact_info_item"
-                        titleOne="@{dataSchool.dates_for_communicating_with_supervisors}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/groupSocial"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:alignContent="center"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="space_evenly"
-                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
-                    app:layout_constraintStart_toStartOf="@id/groupInfo"
-                    app:layout_constraintTop_toBottomOf="@id/groupInfo">
-
-                    <ImageButton
-                        android:id="@+id/faceBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/facebook_"
-                        tools:ignore="ContentDescription" />
-
-
-                    <ImageButton
-                        android:id="@+id/googleBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/google_plus_"
-                        tools:ignore="ContentDescription" />
-
-
-                    <ImageButton
-                        android:id="@+id/twitterBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/twitter_"
-                        tools:ignore="ContentDescription" />
-
-                    <ImageButton
-                        android:id="@+id/linkedInBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/linkedin_"
-                        tools:ignore="ContentDescription" />
-
-                    <ImageButton
-                        android:id="@+id/youtubeBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/youtube_"
-                        tools:ignore="ContentDescription" />
-
-                    <ImageButton
-                        android:id="@+id/instaBtn"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/insta_"
-                        tools:ignore="ContentDescription" />
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcListProperties"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:layout_constraintEnd_toEndOf="@id/groupInfo"
-                    app:layout_constraintStart_toStartOf="@id/groupInfo"
-                    app:layout_constraintTop_toBottomOf="@id/groupSocial" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/bookNow"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/book_now"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_20ssp"
-                    app:backgroundTint="@color/colorApp3"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rcListProperties" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+
+</androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

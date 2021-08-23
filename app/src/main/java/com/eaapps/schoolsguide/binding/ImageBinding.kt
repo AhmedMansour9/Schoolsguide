@@ -4,16 +4,11 @@ package com.eaapps.schoolsguide.binding
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.eaapps.schoolsguide.R
 
@@ -25,7 +20,6 @@ object ImageBinding {
     fun imageViewRes(imageView: ImageView, res: Int) {
         imageView.setImageResource(res)
     }
-
 
     @BindingAdapter("android:src")
     @JvmStatic
@@ -41,11 +35,14 @@ object ImageBinding {
 
     @BindingAdapter("android:src")
     @JvmStatic
-    fun imageByUrl(imageView: ImageView, url: String) {
-        if (url.isNotBlank())
-            Glide.with(imageView).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.progress_animation).into(imageView)
+    fun imageByUrl(imageView: ImageView, url: String?) {
+        url?.apply {
+            if (this.isNotBlank())
+                Glide.with(imageView).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.progress_animation).into(imageView)
+        }
+
     }
 
     @BindingAdapter("android:background")
@@ -55,7 +52,8 @@ object ImageBinding {
             if (this.isNotBlank())
                 Glide.with(imageView).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.progress_animation).into(object :CustomTarget<Drawable>(){
+                    .placeholder(R.drawable.progress_animation)
+                    .into(object : CustomTarget<Drawable>() {
                         override fun onResourceReady(
                             resource: Drawable,
                             transition: Transition<in Drawable>?

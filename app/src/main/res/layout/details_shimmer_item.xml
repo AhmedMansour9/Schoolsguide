@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailsShimmer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/shortDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/round_shimmer_shape"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/details_desc_shimmer"
+            android:textColor="@color/shimmer_color"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="School Good For student because give yours free to play football and study" />
+
+        <TextView
+            android:id="@+id/type_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/round_shimmer_shape"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/type_shool_shimmer_details"
+            android:textColor="@color/shimmer_color"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintEnd_toEndOf="@id/shortDesc"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/shortDesc"
+            app:layout_constraintTop_toBottomOf="@id/shortDesc"
+            tools:text="School type : International" />
+
+        <TextView
+            android:id="@+id/program_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/round_shimmer_shape"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/type_shool_shimmer_details"
+            android:textColor="@color/shimmer_color"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintStart_toStartOf="@id/shortDesc"
+            app:layout_constraintTop_toBottomOf="@id/type_school"
+            tools:text="Curriculum : Egyptian track" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/groupClicks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="horizontal"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            app:alignContent="space_between"
+            app:alignItems="center"
+            app:flexWrap="nowrap"
+            app:justifyContent="space_between"
+            app:layout_constraintEnd_toEndOf="@id/shortDesc"
+            app:layout_constraintStart_toStartOf="@id/shortDesc"
+            app:layout_constraintTop_toBottomOf="@id/program_school">
+
+            <include layout="@layout/item_shimmer_main_type" />
+
+            <include layout="@layout/item_shimmer_main_type" />
+
+            <include layout="@layout/item_shimmer_main_type" />
+
+            <include layout="@layout/item_shimmer_main_type" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <ImageView
+            android:id="@+id/lineGroup1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@color/shimmer_color"
+            app:layout_constraintTop_toBottomOf="@id/groupClicks"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/contactIcon"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/circle_shimmer_shape"
+            app:layout_constraintStart_toStartOf="@id/lineGroup1"
+            app:layout_constraintTop_toBottomOf="@id/lineGroup1"
+            app:tint="@color/black"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@string/contact_info"
+            android:background="@drawable/round_shimmer_shape"
+            android:textColor="@color/shimmer_color"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toBottomOf="@id/contactIcon"
+            app:layout_constraintStart_toEndOf="@id/contactIcon"
+            app:layout_constraintTop_toTopOf="@id/contactIcon" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/groupInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:alignContent="space_between"
+            app:alignItems="flex_start"
+            app:flexDirection="column"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between"
+            app:layout_constraintEnd_toEndOf="@id/lineGroup1"
+            app:layout_constraintStart_toStartOf="@id/lineGroup1"
+            app:layout_constraintTop_toBottomOf="@id/contactIcon">
+
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+            <include layout="@layout/item_shimmer_details_contact"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/groupSocial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:alignContent="center"
+            app:flexDirection="row"
+            app:flexWrap="nowrap"
+            app:justifyContent="space_evenly"
+            app:layout_constraintEnd_toEndOf="@id/groupInfo"
+            app:layout_constraintStart_toStartOf="@id/groupInfo"
+            app:layout_constraintTop_toBottomOf="@id/groupInfo">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_shimmer_shape"
+                android:scaleType="centerInside"
+                tools:ignore="ContentDescription" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.facebook.shimmer.ShimmerFrameLayout>

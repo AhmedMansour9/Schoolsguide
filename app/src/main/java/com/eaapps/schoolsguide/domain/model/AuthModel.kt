@@ -17,10 +17,10 @@ data class RegisterModel(
 )
 
 data class SocialModel(
-    var provider: String,
-    var social_id: String,
-    var email: String,
-    var fullName: String
+    var provider: String = "",
+    var social_id: String = "",
+    var email: String="",
+    var fullName: String=""
 )
 
 

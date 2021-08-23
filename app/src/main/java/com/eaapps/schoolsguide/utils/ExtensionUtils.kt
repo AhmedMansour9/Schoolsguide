@@ -28,6 +28,7 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -59,6 +60,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import www.sanju.motiontoast.MotionToast
 import java.io.IOException
 import java.io.Reader
 
@@ -569,6 +571,20 @@ fun BottomSheetDialog.dialogShow(
         behavior.peekHeight = size.toInt()
         behavior.state = state
     }
+}
+
+
+fun Activity.toastingError(msg:String){
+    MotionToast.createColorToast(
+        this,
+        "Failed ☹",
+        msg,
+        MotionToast.TOAST_ERROR,
+        MotionToast.GRAVITY_BOTTOM,
+        MotionToast.SHORT_DURATION,
+        ResourcesCompat.getFont(this, R.font.rpt_bold)
+
+    )
 }
 
 

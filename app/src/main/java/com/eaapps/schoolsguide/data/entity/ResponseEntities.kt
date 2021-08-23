@@ -16,7 +16,7 @@ data class CityResponse(
     @SerializedName("message") val message: String
 ) {
     data class City(
-        @SerializedName("id") val id: Int,
+        @SerializedName("id") val id: Int?,
         @SerializedName("name") val name: String
     ) : Parcelable {
         constructor(parcel: Parcel) : this(
@@ -26,7 +26,7 @@ data class CityResponse(
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeInt(id)
+            parcel.writeInt(id?:-1)
             parcel.writeString(name)
         }
 
@@ -103,15 +103,15 @@ data class AuthResponse(
     data class AuthData(
         @SerializedName("full_name") val full_name: String,
         @SerializedName("email") val email: String,
-        @SerializedName("phone") val phone: String,
-        @SerializedName("city") val city: CityResponse.City,
-        @SerializedName("district") val district: String,
+        @SerializedName("phone") val phone: String?,
+        @SerializedName("city") val city: CityResponse.City?,
+        @SerializedName("district") val district: String?,
         @SerializedName("created_at") val created_at: String,
         @SerializedName("access_token") val access_token: String,
         @SerializedName("token_type") val token_type: String,
         @SerializedName("expires_at") val expires_at: String,
-        @SerializedName("image") val image: String,
-        @SerializedName("gender") val gender: String
+        @SerializedName("image") val image: String?,
+        @SerializedName("gender") val gender: String?
     )
 }
 

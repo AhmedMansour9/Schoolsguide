@@ -3,7 +3,6 @@ package com.eaapps.schoolsguide.di
 import android.content.Context
 import com.eaapps.schoolsguide.BuildConfig
 import com.eaapps.schoolsguide.data.network.ApiServices
-import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import com.eaapps.schoolsguide.utils.NetworkChecker
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
@@ -34,29 +33,20 @@ object NetworkModule {
         }
     }
 
-    val interceptorAuthorization: (String?) -> Interceptor = { s ->
-        Interceptor {
-            val newRequest = it.request().newBuilder()
-            s?.apply {
-                newRequest.addHeader("Authorization", "Bearer $this")
-            }
-            it.proceed(newRequest.build())
-        }
-    }
-
     @Provides
     fun provideOkHttpClient(
         context: Context,
-        dataStoreRepository: DataStoreRepository
-    ): OkHttpClient =
-        OkHttpClient.Builder()
+        interceptorAuthorization: InterceptorAuthorization
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
             .readTimeout(READ_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
             .connectTimeout(CONNECT_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(interceptorConnectivityManager(context))
-            .addInterceptor(interceptorAuthorization(dataStoreRepository.loadSessionToken()))
+            .addInterceptor(interceptorAuthorization)
             .build()
+    }
 
     @Provides
     fun providerApiService(okHttpClient: OkHttpClient): ApiServices =

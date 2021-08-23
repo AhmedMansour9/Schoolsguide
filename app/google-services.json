@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "470230277993",
+    "project_id": "school-guide-4699c",
+    "storage_bucket": "school-guide-4699c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470230277993:android:2f3a33ebb26af7d065a7f8",
+        "android_client_info": {
+          "package_name": "com.eaapps.schoolsguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "470230277993-b3osm72elpugls8k5j86v1lm2p2bp9t6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eaapps.schoolsguide",
+            "certificate_hash": "cf4a2ae69efc2b068380ca9e8494e698eb54279d"
+          }
+        },
+        {
+          "client_id": "470230277993-14ghagdj7uqu6h4qu3uv7k4rispvndpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwdy8t1oR8OlYZSPMOUUAy2AmQZ6MLE-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "470230277993-14ghagdj7uqu6h4qu3uv7k4rispvndpc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

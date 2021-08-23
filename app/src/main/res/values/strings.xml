@@ -114,6 +114,14 @@
     <string name="loading_data">loading data</string>
     <string name="parent_reviews">Parents reviews</string>
     <string name="notifications">Notifications</string>
+    <string name="name_user">Name User</string>
+    <string name="admin00_gmail_com">admin00@gmail.com</string>
+    <string name="label">Label</string>
+    <string name="facebook_app_id">1135312883662693</string>
+    <string name="fb_login_protocol_scheme">fb1135312883662693</string>
+    <string name="details_desc_shimmer">School Good For student because give yours free to play football and study</string>
+    <string name="type_shool_shimmer_details">School type : International</string>
+    <string name="school_awards">School awards</string>
 
     <string-array name="gender">
 

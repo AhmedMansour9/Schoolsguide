@@ -63,7 +63,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailInputLogin"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                    input_Helper="@{loginViewModel.inputEditError[`email`]}"
+                    input_Helper="@{loginViewModel.inputEditHelper[`email`]}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
@@ -100,7 +100,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordInputLogin"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                    input_Helper="@{loginViewModel.inputEditError[`password`]}"
+                    input_Helper="@{loginViewModel.inputEditHelper[`password`]}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"

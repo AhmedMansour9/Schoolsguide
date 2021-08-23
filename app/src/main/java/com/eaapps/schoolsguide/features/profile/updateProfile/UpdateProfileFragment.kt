@@ -131,7 +131,7 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         ) { chooseImageFromGalleries() }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "Recycle")
     private fun setupContentActivityResult() {
         resultIntentActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -139,11 +139,10 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
                     val uri = it.data?.data
                     val es = uri?.let {
                         var result = ""
-                        var isok = false
                         var cursor: Cursor? = null
                         try {
                             val proj = arrayOf(MediaStore.Images.Media.DATA)
-                            cursor = requireContext().getContentResolver().query(
+                            cursor = requireContext().contentResolver.query(
                                 it,
                                 proj,
                                 null,
@@ -154,7 +153,6 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
                                 cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
                             cursor.moveToFirst()
                             result = cursor.getString(column_index)
-                            isok = true
                         } finally {
                             cursor?.close()
                         }
@@ -252,23 +250,22 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     private fun profileCollectCollectResult() {
         lifecycleScope.launchWhenStarted {
-            mainViewModel.profileStateFlow.collect(FlowEvent(onError = {
+            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
                 viewModel.updateProfileModel =
                     UpdateProfileModel(
                         it.full_name,
                         it.email,
-                        it.phone,
-                        it.city.id,
-                        it.gender,
-                        getPartBody(it.image)
+                        it.phone ?: "",
+                        it.city?.id ?: -1,
+                        it.gender ?: "",
+                        getPartBody(it.image ?: "")
                     )
-                binding.cityEditProfile.setText(it.city.name)
-                binding.profileImg.loadImage(it.image)
+                binding.cityEditProfile.setText(it.city?.name)
+                binding.profileImg.loadImage(it.image ?: "")
                 val gender = resources.getStringArray(R.array.gender)
                 binding.genderEditProfile.setSelection(0)
 //                binding.genderEditProfile.setSelection(gender.indexOfFirst { per -> per == it.gender })
-
             }))
         }
     }

@@ -5,57 +5,69 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.domain.model.LoginModel
+import com.eaapps.schoolsguide.domain.model.SocialModel
+import com.eaapps.schoolsguide.domain.usecase.LoginBySocialUseCase
 import com.eaapps.schoolsguide.domain.usecase.LoginUseCase
 import com.eaapps.schoolsguide.utils.Resource
+import com.eaapps.schoolsguide.utils.StateFlows
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase,
+    private val loginBySocialUseCase: LoginBySocialUseCase
+) : ViewModel() {
 
     lateinit var navigator: LoginNavigator
-    var loginModel: LoginModel = LoginModel()
+    val loginModel: LoginModel = LoginModel()
+    val socialModel = SocialModel()
 
-    val inputEditError = ObservableField<HashMap<String, String>>(HashMap())
+    internal val loginStateFlow = StateFlows<AuthResponse.AuthData>(viewModelScope)
+    internal val loginByGoogleStateFlow = StateFlows<AuthResponse.AuthData>(viewModelScope)
+
+    val inputEditHelper = ObservableField<HashMap<String, String>>(HashMap())
     private var helperValid = HashMap<String, String>().apply {
         put("email", "")
         put("password", "")
     }
 
-    private val _loginStateFlow =
-        MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())
-    val loginStateFlow: StateFlow<Resource<AuthResponse.AuthData>> = _loginStateFlow
-
     val registerNow = {
         navigator.registerNow()
-
     }
 
-      fun loginClicked() {
-        inputEditError.set(helperValid)
-        inputEditError.notifyChange()
+    fun loginClicked() {
+        inputEditHelper.set(helperValid)
+        inputEditHelper.notifyChange()
         if (loginUseCase.isValid(loginModel)) {
             viewModelScope.launch {
                 try {
-                    _loginStateFlow.emit(Resource.Loading())
+                    loginStateFlow.setValue(Resource.Loading())
                     val result = loginUseCase.execute(loginModel)
-                    _loginStateFlow.emit(result)
+                    loginStateFlow.setValue(result)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
         } else {
-            inputEditError.set(loginUseCase.validMessage(loginModel))
-            inputEditError.notifyChange()
+            inputEditHelper.set(loginUseCase.validMessage(loginModel))
+            inputEditHelper.notifyChange()
         }
     }
 
+    fun loginBySocial() {
+        viewModelScope.launch {
+            try {
+                loginByGoogleStateFlow.setValue(Resource.Loading())
+                val result = loginBySocialUseCase.execute(socialModel)
+                loginByGoogleStateFlow.setValue(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
-    fun forgetClicked()
-     = navigator.forgetPassword()
-
+    fun forgetClicked() = navigator.forgetPassword()
 
 }

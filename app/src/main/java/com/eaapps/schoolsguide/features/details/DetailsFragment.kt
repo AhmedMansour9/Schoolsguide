@@ -17,9 +17,7 @@ import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentDetailsDialogBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.createDialog
-import com.eaapps.schoolsguide.utils.launchFragment
+import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -39,8 +37,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        createDialog(R.style.AppTheme, Color.TRANSPARENT, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = createDialog(R.style.AppTheme, Color.TRANSPARENT, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,9 +69,9 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     }
 
     private fun FragmentDetailsDialogBinding.bindArgs() {
-        dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
-        viewModel.loadSchoolDetails(dataSchool?.id!!)
-        schoolDetailsResultData()
+        val dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
+        viewModel.loadSchoolDetails(dataSchool.id)
+        bindSchoolDetailsResultData()
     }
 
     private fun FragmentDetailsDialogBinding.bindPropertiesList() {
@@ -131,7 +128,11 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                         dataSchool!!
                     )
                 )
-
+                3 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToAwardsBottomFragment(
+                        dataSchool!!
+                    )
+                )
                 4 -> launchFragment(
                     DetailsFragmentDirections.actionDetailsFragmentToServiceStatisticsBottomFragment(
                         dataSchool!!
@@ -185,13 +186,53 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     }
 
-    private fun schoolDetailsResultData() {
+    private fun FragmentDetailsDialogBinding.bindSchoolDetailsResultData() {
         lifecycleScope.launchWhenCreated {
             viewModel.schoolDetailsFlow.stateFlow.collect(FlowEvent(onError = {
+                bindStopShimmer()
+                requireActivity().toastingError(it)
             }, onSuccess = {
+                bindStopShimmer()
                 binding.dataSchool = it
+            }, onLoading = {
+                bindStartShimmer()
             }))
         }
+    }
+
+    private fun FragmentDetailsDialogBinding.bindStartShimmer() {
+        picShimmerLayout.startShimmer()
+        picShimmerLayout.visibleOrGone(true)
+
+        detailsShimmer.detailsShimmer.startShimmer()
+        detailsShimmer.detailsShimmer.visibleOrGone(true)
+
+        shimmerLike.startShimmer()
+        shimmerLike.visibleOrGone(true)
+
+        shimmerSee.startShimmer()
+        shimmerSee.visibleOrGone(true)
+    }
+
+    private fun FragmentDetailsDialogBinding.bindStopShimmer() {
+
+        picShimmerLayout.stopShimmer()
+        picShimmerLayout.visibleOrGone(false)
+
+        detailsShimmer.detailsShimmer.stopShimmer()
+        detailsShimmer.detailsShimmer.visibleOrGone(false)
+
+        shimmerLike.stopShimmer()
+        shimmerLike.visibleOrGone(false)
+
+        shimmerSee.stopShimmer()
+        shimmerSee.visibleOrGone(false)
+
+        groupSee.visibleOrGone(true)
+        groupRate.visibleOrGone(true)
+        detailsGroup.visibleOrGone(true)
+        picSchool.visibleOrGone(true)
+
     }
 
     private fun toggleRecommendedResultData() {

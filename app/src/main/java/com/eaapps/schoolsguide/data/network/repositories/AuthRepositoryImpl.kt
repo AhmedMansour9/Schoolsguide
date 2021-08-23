@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.data.network.repositories
 
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.di.InterceptorAuthorization
 import com.eaapps.schoolsguide.domain.repository.AuthRepository
 import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val apiServices: ApiServices,
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
+    private val interceptorAuthorization: InterceptorAuthorization
 ) : AuthRepository {
 
     override suspend fun login(loginEntity: LoginEntity): Resource<AuthResponse.AuthData> =
@@ -22,7 +24,9 @@ class AuthRepositoryImpl @Inject constructor(
             safeCall(call = {
                 val result = apiServices.loginAsync(loginEntity).await()
                 if (result.isSuccessful) {
-                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
+                    val token = result.body()?.dataResponse?.access_token!!
+                    interceptorAuthorization.token = token
+                    dataStoreRepository.saveTokenSession(token)
                     dataStoreRepository.saveFatherData(result.body()?.dataResponse!!)
                     Resource.Success(result.body()?.dataResponse)
                 } else {
@@ -57,7 +61,9 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 ).await()
                 if (result.isSuccessful) {
-                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
+                    val token = result.body()?.dataResponse?.access_token!!
+                    interceptorAuthorization.token = token
+                    dataStoreRepository.saveTokenSession(token)
                     Resource.Success(result.body()?.dataResponse)
                 } else {
                     val type = object : TypeToken<ResponseEntity>() {}.type
@@ -86,7 +92,9 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 ).await()
                 if (result.isSuccessful) {
-                    dataStoreRepository.saveTokenSession(result.body()?.dataResponse?.access_token!!)
+                    val token = result.body()?.dataResponse?.access_token!!
+                    interceptorAuthorization.token = token
+                    dataStoreRepository.saveTokenSession(token)
                     Resource.Success(result.body()?.dataResponse)
                 } else {
                     val type = object : TypeToken<ResponseEntity>() {}.type
@@ -140,12 +148,12 @@ class AuthRepositoryImpl @Inject constructor(
 //                        val type = object : TypeToken<ResponseEntity>() {}.type
 //                        val responseFailure: ResponseEntity? =
 //                            Gson().fromJson(result.errorBody()!!.charStream(), type)
-                        Resource.Error(404,"Father Not Login")
+                        Resource.Error(404, "Father Not Login")
 
-                     //   Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                        //   Resource.Error(result.code(), responseFailure?.message ?: result.message())
                     }
-                }else{
-                    Resource.Error(404,"Father Not Login")
+                } else {
+                    Resource.Error(404, "Father Not Login")
 
                 }
             }, "Exception occurred!")

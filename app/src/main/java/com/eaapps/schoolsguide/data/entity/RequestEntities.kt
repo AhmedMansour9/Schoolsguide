@@ -18,7 +18,7 @@ data class SocialEntity(
     var provider: String,
     var social_id: String,
     var email: String,
-    var fullName: String
+    var full_name: String
 )
 
 data class AddSchoolEntity(

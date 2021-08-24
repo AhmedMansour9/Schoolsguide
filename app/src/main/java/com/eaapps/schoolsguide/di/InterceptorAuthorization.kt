@@ -18,7 +18,7 @@ class InterceptorAuthorization @Inject constructor(private val dataStoreReposito
     override fun intercept(chain: Interceptor.Chain): Response {
         val newRequest = chain.request().newBuilder()
         token.isNotBlank().apply {
-            //  newRequest.addHeader("X-localization", "ar")
+            //newRequest.addHeader("X-localization", "ar")
             newRequest.addHeader("Authorization", "Bearer $token")
         }
         return chain.proceed(newRequest.build())

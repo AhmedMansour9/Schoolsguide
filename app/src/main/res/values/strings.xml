@@ -123,6 +123,13 @@
     <string name="type_shool_shimmer_details">School type : International</string>
     <string name="school_awards">School awards</string>
     <string name="news">News</string>
+    <string name="events">Events</string>
+    <string name="school_details">School Details</string>
+    <string name="news_details">News details</string>
+    <string name="events_details">Events details</string>
+    <string name="events_no_msg">There are no events for this school</string>
+    <string name="news_no_msg">There are no news for this school</string>
+    <string name="achievement_no_msg">There are no achievement for this school</string>
 
     <string-array name="gender">
 

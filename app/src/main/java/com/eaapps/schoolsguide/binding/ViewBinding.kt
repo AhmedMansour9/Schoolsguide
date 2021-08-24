@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.format.DateUtils
+import android.text.format.DateUtils.getRelativeTimeSpanString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
@@ -79,7 +80,17 @@ object ViewBinding {
                     val date = simpleDate.parse(txt)
                     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS") val milliseconds =
                         date.time
-                    val dateText = DateUtils.getRelativeTimeSpanString(milliseconds, System.currentTimeMillis(), 0L, DateUtils.FORMAT_ABBREV_RELATIVE)
+                    /*
+                    FORMAT_SHOW_YEAR = August 17 ,2021
+                    FORMAT_ABBREV_MONTH = August 17
+                    formatDateTime(context,milliseconds,flag)
+                     */
+                    val dateText = getRelativeTimeSpanString(
+                        milliseconds,
+                        System.currentTimeMillis(),
+                        0L,
+                        DateUtils.FORMAT_ABBREV_RELATIVE
+                    )
                     text = dateText
                 } catch (e: ParseException) {
                     e.printStackTrace()

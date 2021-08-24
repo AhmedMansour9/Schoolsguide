@@ -22,12 +22,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_margin="@dimen/_8sdp"
-                android:scaleType="centerInside"
                 android:src="@{schoolReview.father.image}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:fontFamily="@font/rpt_bold"
                 android:text="@{schoolReview.father.full_name}"
                 android:textColor="@color/textColor1"
@@ -93,6 +92,7 @@
 
             <TextView
                 android:id="@+id/dataComment"
+                dateString="@{schoolReview.created_at}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"

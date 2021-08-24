@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentDialogBlogsBinding
@@ -11,6 +12,7 @@ import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.BlogAdapter
 import com.eaapps.schoolsguide.utils.createDialog
 import com.eaapps.schoolsguide.utils.launchFragment
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,13 +30,30 @@ class BlogDialogFragment : DialogFragment(R.layout.fragment_dialog_blogs) {
     }
 
     private fun FragmentDialogBlogsBinding.bindArgs() {
-        BlogDialogFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
-            rcNews.adapter = BlogAdapter(this.blogs) {
-                launchFragment(
-                    BlogDialogFragmentDirections.actionBlogDialogFragmentToBlogViewDialogFragment(
-                        it
+        BlogDialogFragmentArgs.fromBundle(requireArguments()).apply {
+            dataSchool.let { it ->
+                blogLabel.text =
+                    if (type == "news") getString(R.string.news) else getString(R.string.events)
+                rcBlogs.adapter = BlogAdapter(if (type == "news") it.blogs else it.events) {
+                    launchFragment(
+                        BlogDialogFragmentDirections.actionBlogDialogFragmentToBlogViewDialogFragment(
+                            it,
+                            type
+                        )
                     )
-                )
+                }
+
+                if (rcBlogs.adapter?.itemCount == 0)
+                    noItem.run {
+                        noItem.groupNo.visibleOrGone(true)
+                        if (type == "news") {
+                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_news)
+                            titleNo = getString(R.string.events_no_msg)
+                        } else {
+                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_event)
+                            titleNo = getString(R.string.events_no_msg)
+                        }
+                    }
             }
         }
     }

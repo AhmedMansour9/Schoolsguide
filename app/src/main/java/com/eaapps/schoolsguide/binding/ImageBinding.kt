@@ -23,8 +23,10 @@ object ImageBinding {
 
     @BindingAdapter("android:src")
     @JvmStatic
-    fun imageViewDrawable(imageView: ImageView, drawable: Drawable) {
-        imageView.setImageDrawable(drawable)
+    fun imageViewDrawable(imageView: ImageView, drawable: Drawable?) {
+        drawable?.apply {
+            imageView.setImageDrawable(drawable)
+        }
     }
 
     @BindingAdapter("app:tint")

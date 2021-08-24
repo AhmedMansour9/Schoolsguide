@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="blogData"
+            name="blog"
             type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.ShareData" />
     </data>
 
@@ -27,6 +27,7 @@
                 android:id="@+id/collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorApp1"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?colorPrimary"
                 app:expandedTitleMarginStart="12dp"
@@ -42,7 +43,7 @@
                         android:id="@+id/picSchool"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@{blogData.image}"
+                        android:background="@{blog.image}"
                         android:scaleType="centerCrop"
                         tools:ignore="ContentDescription" />
 
@@ -51,14 +52,31 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/scrim" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/text_date_shape"
+                        tools:text="Nov,23,2021"
+                        android:padding="@dimen/_5sdp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:textColor="@color/white"
+                        dateString="@{blog.created_at}"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        app:layout_constraintStart_toStartOf="@id/titleBlog"
+                        app:layout_constraintBottom_toTopOf="@id/titleBlog"
+                        android:textSize="@dimen/_13ssp"
+                        />
+
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_14sdp"
                         android:fontFamily="@font/rpt_bold"
-                        android:text="@{blogData.title}"
+                        android:text="@{blog.title}"
+                        android:id="@+id/titleBlog"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_16ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
+                    app:menu="@menu/view_blog_menu"
                     app:navigationIcon="@drawable/ic_round_clear__24"
                     app:navigationIconTint="@color/white"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -102,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
                     android:fontFamily="@font/rpt_bold"
-                    android:textColor="@color/gray_2"
+                    android:textColor="@color/textColor1"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

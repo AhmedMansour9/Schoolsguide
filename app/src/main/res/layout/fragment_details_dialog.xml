@@ -27,6 +27,7 @@
                 android:id="@+id/collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/gray_1"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?colorPrimary"
                 app:expandedTitleMarginStart="12dp"
@@ -50,10 +51,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/shimmer_color"
-                             android:scaleType="centerCrop"
+                            android:scaleType="centerCrop"
                             tools:ignore="ContentDescription" />
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <ImageView
                         android:id="@+id/picSchool"
                         android:layout_width="match_parent"
@@ -70,10 +72,10 @@
 
 
                     <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerSee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:id="@+id/shimmerSee"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -94,10 +96,10 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
-                        android:visibility="gone"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/_2sdp"
                         android:paddingBottom="@dimen/_2sdp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -126,18 +128,15 @@
 
                     </LinearLayout>
 
-
-
                     <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:id="@+id/shimmerLike"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/shimmerSee"
-                        app:layout_constraintVertical_bias="0.3"
-                        >
+                        app:layout_constraintVertical_bias="0.3">
 
                         <ImageView
                             android:layout_width="@dimen/_70sdp"
@@ -154,10 +153,10 @@
                         android:layout_marginTop="@dimen/_8sdp"
                         android:background="@drawable/shape_see_details"
                         android:gravity="center"
-                        android:visibility="gone"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/_2sdp"
                         android:paddingBottom="@dimen/_2sdp"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/groupSee"
                         app:layout_constraintVertical_bias="0.3">
@@ -189,6 +188,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_14sdp"
                         android:fontFamily="@font/rpt_bold"
                         android:text="@{dataSchool.name}"
@@ -233,19 +233,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include layout="@layout/details_shimmer_item"
+                <include
+                    android:id="@+id/details_shimmer"
+                    layout="@layout/details_shimmer_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/details_shimmer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detailsGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:visibility="gone"
-                    android:id="@+id/detailsGroup">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/shortDesc"
@@ -536,7 +536,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

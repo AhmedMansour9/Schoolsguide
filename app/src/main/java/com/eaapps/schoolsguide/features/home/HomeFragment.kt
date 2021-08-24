@@ -1,6 +1,7 @@
 package com.eaapps.schoolsguide.features.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -210,12 +211,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun FragmentHomeBinding.bindRecommendedCollectData() {
         lifecycleScope.launchWhenCreated {
             homeViewModel.recommendedStateFlow.collect(FlowEvent(onError = {
+                Log.d("asdassss", "onErrorbindRecommendedCollectData: ")
+
                 shimmerRecommended.visibleOrGone(false)
                 shimmerRecommended.stopShimmer()
             }, onLoading = {
+                Log.d("asdassss", "onLoadingbindRecommendedCollectData: ")
+
                 shimmerRecommended.visibleOrGone(true)
                 shimmerRecommended.startShimmer()
             }, onSuccess = {
+                Log.d("asdassss", "onSuccessbindRecommendedCollectData: ")
                 shimmerRecommended.visibleOrGone(false)
                 shimmerRecommended.stopShimmer()
                 rcRecommended.visibleOrGone(true)

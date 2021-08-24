@@ -64,7 +64,13 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
         collapsing.isTitleEnabled = false
         appbar.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
-           // if (abs(verticalOffset) > 200) toolbar.title = "School Details" else toolbar.title = ""
+            if (abs(verticalOffset) > 200) {
+                if (toolbar.title == "")
+                    toolbar.title = getString(R.string.school_details)
+            } else {
+                if (toolbar.title.isNotEmpty())
+                    toolbar.title = ""
+            }
         })
     }
 
@@ -79,21 +85,9 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         rcListProperties.layoutManager = grid
         rcListProperties.adapter = PropertiesAdapter(
             arrayListOf(
-                navigationItem(
-                    1,
-                    getString(R.string._tuition_fees),
-                    R.drawable.attach_money_black_24dp
-                ),
-                navigationItem(
-                    2,
-                    getString(R.string.contact_times),
-                    R.drawable.date_range_black_24dp
-                ),
-                navigationItem(
-                    3,
-                    getString(R.string.awards_school),
-                    R.drawable.military_tech_black_24dp
-                ),
+                navigationItem(1, getString(R.string._tuition_fees), R.drawable.attach_money_black_24dp),
+                navigationItem(2, getString(R.string.contact_times), R.drawable.date_range_black_24dp),
+                navigationItem(3, getString(R.string.awards_school), R.drawable.military_tech_black_24dp),
                 navigationItem(4, getString(R.string.service_statistics), R.drawable.training),
                 navigationItem(5, getString(R.string.news_school), R.drawable.news),
                 navigationItem(6, getString(R.string.event_school), R.drawable.party),
@@ -141,6 +135,18 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
                 5 -> launchFragment(
                     DetailsFragmentDirections.actionDetailsFragmentToBlogDialogFragment(
+                        dataSchool!!,"news"
+                    )
+                )
+
+                6 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToBlogDialogFragment(
+                        dataSchool!!,"events"
+                    )
+                )
+
+                7 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToAchievementDialogFragment(
                         dataSchool!!
                     )
                 )

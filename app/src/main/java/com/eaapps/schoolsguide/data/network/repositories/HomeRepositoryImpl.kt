@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.data.network.repositories
 
+import android.util.Log
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.entity.SliderResponse
 import com.eaapps.schoolsguide.data.entity.TypeResponse

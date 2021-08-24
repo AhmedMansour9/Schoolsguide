@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="achievement"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.ShareData" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageSchool"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@{achievement.image}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_school_item"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha=".7"
+                app:layout_constraintBottom_toBottomOf="@+id/imageSchool"
+                app:layout_constraintTop_toTopOf="@+id/imageSchool"
+                app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School"
+                app:srcCompat="@drawable/bg_gradiant"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:id="@+id/title_blog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{achievement.name}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@id/createAt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageSchool"
+                tools:text="International" />
+
+            <TextView
+                android:id="@+id/createAt"
+                dateString="@{achievement.created_at}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageSchool"
+                tools:text="2hr" />
+
+            <TextView
+                android:id="@+id/short_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:text="@{achievement.short_description.toString()}"
+                android:fontFamily="@font/rpt_bold"
+                android:textColor="#858585"
+                android:textSize="@dimen/_9ssp"
+                android:visibility="@{(achievement.short_description.toString()!=null &amp;&amp; !achievement.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_blog"
+                tools:text="Obhur Al-Shamaliyah, Jeddah 23814, KSA American • 1900 students • 30,000 m2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

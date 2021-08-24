@@ -333,14 +333,24 @@ fun View.enableNot() {
 fun Fragment.createDialog(
     @StyleRes styleRes: Int,
     colorStatusBar: Int? = null,
-    lightBar: Boolean = false
+    lightBar: Boolean = false,
+    shouldInterceptBackPress: Boolean = false,
+    onSpecialBackPressed: () -> Unit = {}
 ): Dialog {
     val relativeLayoutRoot = RelativeLayout(requireActivity())
     relativeLayoutRoot.layoutParams = ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
     )
-    val dialog = Dialog(requireContext(), styleRes)
+    val dialog = object : Dialog(requireContext(), styleRes) {
+        override fun onBackPressed() {
+            if (shouldInterceptBackPress)
+                onSpecialBackPressed()
+            else
+                super.onBackPressed()
+        }
+    }
+
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(relativeLayoutRoot)
     dialog.window?.setBackgroundDrawable(ColorDrawable())
@@ -559,7 +569,7 @@ fun BottomSheetDialog.dialogShow(
     hidden: Boolean = false,
     state: Int = BottomSheetBehavior.STATE_COLLAPSED,
 
-) {
+    ) {
     setOnShowListener {
         val d = it as BottomSheetDialog
         val sheet = d.findViewById<View>(R.id.design_bottom_sheet)
@@ -574,7 +584,7 @@ fun BottomSheetDialog.dialogShow(
 }
 
 
-fun Activity.toastingError(msg:String){
+fun Activity.toastingError(msg: String) {
     MotionToast.createColorToast(
         this,
         "Failed ☹",

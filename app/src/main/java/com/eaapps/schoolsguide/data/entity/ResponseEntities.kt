@@ -209,7 +209,7 @@ data class SchoolResponse(
             val short_description: String,
             val time_of_work: String,
             val total_number_review: Int,
-            val total_review: Int,
+            val total_review: Long,
             val tuition_fees: List<TuitionFee>,
             val twitter_link: String,
             val type: Type,

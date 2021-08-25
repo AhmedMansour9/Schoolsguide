@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemVerticalBinding
 
-class FavoriteAdapter(private val toggleFavorite: (Int) -> Unit) :
+class FavoriteAdapter(private val toggleFavorite: (Int, Int, List<SchoolResponse.SchoolData.DataSchool>) -> Unit) :
     PagingDataAdapter<SchoolResponse.SchoolData.DataSchool, FavoriteAdapter.FavoriteViewHolder>(
         object :
             DiffUtil.ItemCallback<SchoolResponse.SchoolData.DataSchool>() {
@@ -24,29 +24,9 @@ class FavoriteAdapter(private val toggleFavorite: (Int) -> Unit) :
 
         }) {
 
-
-    fun removeItem(position: Int, checked: Boolean) {
+    fun removeItem(position: Int) {
         val schoolData = getItem(position)
-        toggleFavorite(schoolData?.id!!)
-        peek(position)
-        notifyItemRemoved(position)
-    }
-
-
-    inner class FavoriteViewHolder(private val schoolItemVerticalBinding: SchoolItemVerticalBinding) :
-        RecyclerView.ViewHolder(schoolItemVerticalBinding.root) {
-
-
-        fun bind(position: Int) {
-            val schoolData = getItem(position)
-            schoolItemVerticalBinding.dataSchool = schoolData
-            schoolItemVerticalBinding.executePendingBindings()
-            schoolItemVerticalBinding.favBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (buttonView.isPressed) {
-                    removeItem(position, isChecked)
-                }
-            }
-        }
+        toggleFavorite(schoolData?.id!!, position, snapshot().items)
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) = holder.bind(position)
@@ -59,4 +39,24 @@ class FavoriteAdapter(private val toggleFavorite: (Int) -> Unit) :
                 false
             )
         )
+
+    inner class FavoriteViewHolder(private val schoolItemVerticalBinding: SchoolItemVerticalBinding) :
+        RecyclerView.ViewHolder(schoolItemVerticalBinding.root) {
+
+
+        fun bind(position: Int) {
+            val schoolData = getItem(position)
+            schoolItemVerticalBinding.dataSchool = schoolData
+            schoolItemVerticalBinding.executePendingBindings()
+            itemView.setOnClickListener {
+                notifyDataSetChanged()
+
+            }
+            schoolItemVerticalBinding.favBox.setOnCheckedChangeListener { buttonView, _ ->
+                if (buttonView.isPressed) {
+                    removeItem(position)
+                }
+            }
+        }
+    }
 }

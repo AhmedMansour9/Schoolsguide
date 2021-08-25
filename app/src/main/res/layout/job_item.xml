@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="jobData"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.JobData" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title_blog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{jobData.name}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Teacher Math Required" />
+
+            <TextView
+                android:id="@+id/nationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{`Nationality - `+jobData.nationality}"
+                android:textColor="@color/red_dark"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_blog"
+                tools:text="Nationality - Egyptian" />
+
+
+            <TextView
+                android:id="@+id/short_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@{jobData.description.toString()}"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/_11ssp"
+                android:visibility="@{(jobData.description.toString()!=null &amp;&amp; !jobData.description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintEnd_toEndOf="@id/title_blog"
+                app:layout_constraintStart_toStartOf="@id/title_blog"
+                app:layout_constraintTop_toBottomOf="@id/nationality"
+                tools:text="Obhur Al-Shamaliyah, Jeddah 23814, KSA American • 1900 students • 30,000 m2" />
+
+
+            <TextView
+                android:id="@+id/vacant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{`Vacant - `+jobData.vacant_places+` Places`}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/short_desc"
+                tools:text="Vacant - 3 Places" />
+
+            <TextView
+                android:id="@+id/experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{`Experience - `+jobData.years_of_experience+` Years`}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintStart_toEndOf="@id/vacant"
+                app:layout_constraintTop_toBottomOf="@id/short_desc"
+                tools:text="Experience - 3 Years" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/applyBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="@string/apply_job"
+                android:textAllCaps="false"
+                app:backgroundTint="@color/colorApp3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/title_blog"
+                app:layout_constraintTop_toBottomOf="@id/experience" />
+
+            <ImageButton
+                android:id="@+id/shareBtn"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/background_clear_rect"
+                android:src="@drawable/round_share_black_24"
+                app:layout_constraintBottom_toBottomOf="@id/applyBtn"
+                app:layout_constraintStart_toStartOf="@id/title_blog"
+                app:layout_constraintTop_toTopOf="@id/applyBtn"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

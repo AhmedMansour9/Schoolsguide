@@ -152,6 +152,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_achievementDialogFragment"
             app:destination="@id/achievementDialogFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_jobDialogFragment"
+            app:destination="@id/jobDialogFragment" />
     </dialog>
     <dialog
         android:id="@+id/forgetPasswordFragment"
@@ -296,5 +299,30 @@
         <argument
             android:name="dataSchool"
             app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+    </dialog>
+    <dialog
+        android:id="@+id/jobDialogFragment"
+        tools:layout="@layout/fragment_dialog_job"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.JobDialogFragment"
+        android:label="JobDialogFragment" >
+
+        <argument
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
+        <action
+            android:id="@+id/action_jobDialogFragment_to_jobViewDialogFragment"
+            app:destination="@id/jobViewDialogFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/jobViewDialogFragment"
+        tools:layout="@layout/fragment_dialog_job_view"
+        android:name="com.eaapps.schoolsguide.features.details.subfeature.JobViewDialogFragment"
+        android:label="JobViewDialogFragment" >
+        <argument
+            android:name="dataJob"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool$JobData" />
+        <argument
+            android:name="schoolId"
+            app:argType="integer" />
     </dialog>
 </navigation>

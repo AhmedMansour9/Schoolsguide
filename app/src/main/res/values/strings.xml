@@ -130,6 +130,13 @@
     <string name="events_no_msg">There are no events for this school</string>
     <string name="news_no_msg">There are no news for this school</string>
     <string name="achievement_no_msg">There are no achievement for this school</string>
+    <string name="favorite_no_msg">You did not choose your favorite schools</string>
+    <string name="job_no_msg">There are no jobs in this school</string>
+    <string name="jobs">Jobs</string>
+    <string name="apply_job">Apply Job</string>
+    <string name="job_apply">Job Apply</string>
+    <string name="please_choose_file">Please choose your file in on the following [DOC,DOCX,PDF] and then click Upload and wait a while</string>
+    <string name="choose_file">Choose File</string>
 
     <string-array name="gender">
 

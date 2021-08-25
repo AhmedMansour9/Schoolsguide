@@ -38,25 +38,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <include
+        layout="@layout/load_retry_item"
+        android:id="@+id/loadRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:id="@+id/progressBar"
-        android:indeterminateTint="@color/colorApp3"
-        android:progressTint="@color/colorApp3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
+
+    <include
+        layout="@layout/no_item"
+        android:id="@+id/noItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/retry_button"
-        android:text="@string/retry"
-        android:fontFamily="@font/rpt_bold"
-        app:backgroundTint="@color/colorApp3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

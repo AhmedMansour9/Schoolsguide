@@ -132,6 +132,7 @@
     <string name="events_no_msg">There are no events for this school</string>
     <string name="news_no_msg">There are no news for this school</string>
     <string name="achievement_no_msg">There are no achievement for this school</string>
+    <string name="search_no_msg">No result found</string>
     <string name="awards_no_msg">There are no awards for this school</string>
     <string name="comment_no_msg">There are no parental comments for this school</string>
     <string name="supervisors_no_msg">There are no contact times at the moment</string>

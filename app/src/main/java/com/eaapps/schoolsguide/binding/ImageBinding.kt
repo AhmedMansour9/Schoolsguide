@@ -44,7 +44,6 @@ object ImageBinding {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.progress_animation).into(imageView)
         }
-
     }
 
     @BindingAdapter("android:background")

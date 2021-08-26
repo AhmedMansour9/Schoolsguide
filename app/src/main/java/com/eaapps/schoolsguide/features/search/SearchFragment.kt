@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val TAG = "SearchFragment"
 
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
@@ -118,6 +120,12 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                 // Show the retry state if initial load or refresh fails.
                 retryButton.visibleOrGone(it.source.refresh is LoadState.Error)
 
+                noItem.apply {
+                    groupNo.visibleOrGone(isListEmpty && (!viewModel.filterModel.search.isNullOrBlank() || viewModel.filterModel.isFilter()))
+                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_search)
+                    titleNo = getString(R.string.search_no_msg)
+                }
+
                 // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
                 val errorState = it.source.append as? LoadState.Error
                     ?: it.source.prepend as? LoadState.Error
@@ -130,8 +138,6 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
-
             }
         }
     }
@@ -208,12 +214,15 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
             dialogChoose.setPositiveButton("Done") { dialog, _ ->
                 pairTypes?.first?.apply {
-                    if (checkItem - 1 > 0) {
+                    if (checkItem > 0) {
                         viewModel.filterModel.type_id = this[checkItem - 1].id
                         typeName.text = this[checkItem - 1].name
-                        if (exploreField.text.toString().isNotBlank()) {
-                            updateListFromInput()
-                        }
+                    } else {
+                        viewModel.filterModel.type_id = null
+                        typeName.text = getString(R.string.school_type)
+                    }
+                    if (exploreField.text.toString().isNotBlank()) {
+                        updateListFromInput()
                     }
                 }
                 dialog.dismiss()
@@ -241,6 +250,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         collectFilterSchoolPagingData()
     }
 
+
     private fun FilterBottomSheetBinding.bindBottomSheet() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
         bottomSheetDialog.setContentView(this.root)
@@ -265,8 +275,14 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             educationLevel.listViewChoice.setOnItemClickListener { _, _, position, _ ->
                 educationLevel.itemSelect = this[position]
                 viewModel.filterModel.grade_id = pairGrades?.first!![position].id
-
+                viewModel.filterModel.filterPosition.grade_id = position
             }
+            viewModel.filterModel.filterPosition.grade_id?.let {
+                educationLevel.itemSelect = this[it]
+                educationLevel.listViewChoice.setSelection(it)
+                educationLevel.listViewChoice.setItemChecked(it, true)
+            }
+
         }
 
         pairProgram?.second?.apply {
@@ -276,6 +292,12 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             curriculumType.listViewChoice.setOnItemClickListener { _, _, position, _ ->
                 curriculumType.itemSelect = this[position]
                 viewModel.filterModel.program_id = pairProgram?.first!![position].id
+                viewModel.filterModel.filterPosition.program_id = position
+            }
+            viewModel.filterModel.filterPosition.program_id?.let {
+                curriculumType.itemSelect = this[it]
+                curriculumType.listViewChoice.setSelection(it)
+                curriculumType.listViewChoice.setItemChecked(it, true)
             }
         }
 
@@ -286,6 +308,13 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             cities.listViewChoice.setOnItemClickListener { _, _, position, _ ->
                 cities.itemSelect = this[position]
                 viewModel.filterModel.city_id = pairCities?.first!![position].id
+                viewModel.filterModel.filterPosition.city_id = position
+            }
+
+            viewModel.filterModel.filterPosition.city_id?.let {
+                cities.itemSelect = this[it]
+                cities.listViewChoice.setSelection(it)
+                cities.listViewChoice.setItemChecked(it, true)
             }
         }
 
@@ -296,15 +325,33 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             typeSchool.listViewChoice.setOnItemClickListener { _, _, position, _ ->
                 typeSchool.itemSelect = this[position]
                 viewModel.filterModel.school_type = this[position].toLowerCase(Locale.ENGLISH)
+                viewModel.filterModel.filterPosition.school_type = position
+
+            }
+
+            viewModel.filterModel.filterPosition.school_type?.let {
+                typeSchool.itemSelect = this[it]
+                typeSchool.listViewChoice.setSelection(it)
+                typeSchool.listViewChoice.setItemChecked(it, true)
             }
         }
+
     }
 
     private fun FilterBottomSheetBinding.bindEvaluationFees() {
+        viewModel.filterModel.apply {
+            schoolFees.sliderFees.setValues(
+                from_price?.toFloat() ?: 0.0f,
+                to_price?.toFloat() ?: 500000.0f
+            )
+            schoolFees.fromValue.setText("${schoolFees.sliderFees.values[0]}")
+            schoolFees.toValue.setText("${schoolFees.sliderFees.values[1]}")
+            evaluationValue.rating = this.review?.toFloat() ?: 0f
+        }
+
         evaluationValue.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             viewModel.filterModel.review = rating.toInt()
         }
-
 
         schoolFees.sliderFees.addOnChangeListener { rangeSlider, _, _ ->
             val valueFrom = rangeSlider.values[0].toInt()
@@ -313,7 +360,9 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             schoolFees.toValue.setText("$valueTo")
             viewModel.filterModel.from_price = valueFrom
             viewModel.filterModel.to_price = valueTo
+
         }
+
     }
 
     private fun FilterBottomSheetBinding.bindClicks(dialog: BottomSheetDialog) {
@@ -322,12 +371,24 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         }
 
         clearAllBtn.setOnClickListener {
-
+            viewModel.filterModel.clear()
+            binding.apply {
+                if (viewModel.filterModel.isFilter())
+                    filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
+                else
+                    filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
+            }
         }
 
         applyFilter.setOnClickListener {
             binding.filter()
             dialog.cancel()
+            binding.apply {
+                if (viewModel.filterModel.isFilter())
+                    filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
+                else
+                    filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
+            }
         }
     }
 

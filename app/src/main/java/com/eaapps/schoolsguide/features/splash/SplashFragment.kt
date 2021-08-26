@@ -36,6 +36,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 progressCircle.visibleOrGone(false)
                 setupCountDown(false)
             }, onSuccess = {
+                progressCircle.visibleOrGone(false)
                 if (it.email.isNotBlank())
                     setupCountDown(true)
                 else
@@ -57,6 +58,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             mainViewModel.logoutStateFlow.stateFlow.collect(FlowEvent(onError = {
                 setupCountDown(true)
             }, onSuccess = {
+                progressCircle.visibleOrGone(false)
                 setupCountDown(false)
             }, onLoading = {
                 progressCircle.visibleOrGone(true)

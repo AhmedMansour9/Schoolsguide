@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -11,10 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.R
+import com.eaapps.schoolsguide.binding.ImageBinding
 import com.eaapps.schoolsguide.databinding.FragmentDetailsDialogBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
+import com.eaapps.schoolsguide.features.details.subfeature.adapters.PhotosAdapter
 import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,8 +62,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             )
             false
         }
-        // (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        //   (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         collapsing.setContentScrimColor(ContextCompat.getColor(requireContext(), R.color.colorApp3))
         collapsing.setStatusBarScrimColor(
             ContextCompat.getColor(
@@ -218,10 +221,34 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             }, onSuccess = {
                 bindStopShimmer()
                 binding.dataSchool = it
+                binding.bindSchoolPhotosList()
             }, onLoading = {
                 bindStartShimmer()
             }))
         }
+    }
+
+    private fun FragmentDetailsDialogBinding.bindSchoolPhotosList() {
+        rcPhotos.adapter = PhotosAdapter(dataSchool!!.gallary) {
+            ImageBinding.imageByUrl(picSchool, it.image)
+        }
+        rcPhotos.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
+            }
+
+        })
     }
 
     private fun FragmentDetailsDialogBinding.bindStartShimmer() {

@@ -10,6 +10,10 @@
             type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.JobData" />
 
         <import type="android.view.View" />
+
+        <variable
+            name="detailsViewModel"
+            type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
     </data>
 
 
@@ -200,6 +204,43 @@
                         android:src="@drawable/files"
                         tools:ignore="ContentDescription" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:id="@+id/file"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@color/gray_2"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/rpt_bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14ssp"
+                            android:id="@+id/nameFile"
+                            tools:text="name file 1" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:src="@drawable/round_clear_24"
+                            app:tint="@color/white"
+                            android:id="@+id/clearFile"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/chooseFile"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -207,7 +248,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/rpt_bold"
@@ -230,6 +270,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_35sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
+                    android:onClick="@{()->detailsViewModel.uploadCv()}"
                     android:text="@string/apply_job"
                     android:textAllCaps="false"
                     app:backgroundTint="@color/colorApp3"

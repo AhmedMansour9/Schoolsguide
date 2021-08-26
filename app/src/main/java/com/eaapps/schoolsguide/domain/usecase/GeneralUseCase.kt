@@ -4,6 +4,7 @@ import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.BookSchoolModel
 import com.eaapps.schoolsguide.domain.model.InquiryModel
 import com.eaapps.schoolsguide.domain.model.JoinDiscountModel
+import com.eaapps.schoolsguide.domain.model.UploadCvModel
 import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -189,5 +190,14 @@ class BookSchoolUseCase @Inject constructor(private val generalRepository: Gener
         }
 
     }
+}
+
+class UploadCvUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(uploadCvModel: UploadCvModel): Resource<ResponseEntity> =
+        generalRepository.uploadCv(
+            uploadCvModel.job_id!!,
+            uploadCvModel.school_id!!,
+            uploadCvModel.attachment!!
+        )
 }
 

@@ -12,7 +12,8 @@ class FlowEvent<T : Any>(
     private inline val onError: ((String) -> Unit)? = null,
     private inline val onLoading: (() -> Unit)? = null,
     private inline val onSuccess: (T) -> Unit,
-    private inline val onNothing: (() -> Unit)? = null
+    private inline val onNothing: (() -> Unit)? = null,
+    private inline val onException: ((String) -> Unit)? = null
 
 ) : FlowCollector<Resource<T>> {
     override suspend fun emit(value: Resource<T>) {
@@ -34,6 +35,12 @@ class FlowEvent<T : Any>(
                     it()
                 }
             }
+             is Resource.Exception -> {
+                 onException?.let {
+                    it(value.error.message!!)
+                }
+            }
+
         }
     }
 }

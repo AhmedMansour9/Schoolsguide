@@ -33,12 +33,11 @@ class AchievementDialogFragment : DialogFragment(R.layout.fragment_dialog_achiev
     private fun FragmentDialogAchievementBinding.bindArgs() {
         AchievementDialogFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
             rcAchievement.adapter = AchievementAdapter(this.achievements)
-            if (rcAchievement.adapter?.itemCount == 0)
-                noItem.run {
-                    noItem.groupNo.visibleOrGone(true)
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_list)
-                    titleNo = getString(R.string.achievement_no_msg)
-                }
+            noItem.run {
+                noItem.groupNo.visibleOrGone(achievements.isEmpty())
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_list)
+                titleNo = getString(R.string.achievement_no_msg)
+            }
 
         }
     }

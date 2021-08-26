@@ -3,13 +3,16 @@ package com.eaapps.schoolsguide.features.profile.updateProfile
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
@@ -29,11 +32,7 @@ import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import www.sanju.motiontoast.MotionToast
-import java.io.File
 
 @AndroidEntryPoint
 @InternalCoroutinesApi
@@ -49,161 +48,102 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     private lateinit var dialogProcess: Dialog
 
-    private lateinit var permisson: ActivityResultLauncher<String>
+    private lateinit var permission: ActivityResultLauncher<String>
+    private lateinit var resultIntentPicActivity: ActivityResultLauncher<Intent>
+    private lateinit var resultIntentPermissionActivity: ActivityResultLauncher<Intent>
 
-    private lateinit var resultIntentActivity: ActivityResultLauncher<Intent>
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        createDialog(R.style.AppTheme, Color.WHITE, true)
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.updateProfileViewModel = viewModel
-
-        dialogProcess =
-            requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
-
-        setupPermissionStorage()
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         setupContentActivityResult()
 
-        setupGenderList()
-
-        setupClicks()
-
-        profileCollectCollectResult()
-
-        citiesCollectResult()
-
-        updateProfileCollectResult()
 
     }
 
-    private fun setupGenderList() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = createDialog(
+        R.style.AppTheme,
+        Color.WHITE,
+        true,
+        shouldInterceptBackPress = true
+    ) { dismiss() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.updateProfileViewModel = viewModel
+        dialogProcess =
+            requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
+        setupPermission()
+        binding.bindClicks()
+        binding.bindProfileCollectCollectResult()
+        binding.bindCitiesCollectResult()
+        binding.bindGenderList()
+        updateProfileCollectResult()
+    }
+
+    private fun FragmentDialogEditProfileBinding.bindGenderList() {
         val gender = resources.getStringArray(R.array.gender)
         val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, gender)
-        binding.genderEditProfile.setAdapter(adapter)
 
-        binding.genderEditProfile.setOnItemClickListener { _, _, position, _ ->
+        genderEditProfile.setAdapter(adapter)
+
+        genderEditProfile.setOnItemClickListener { _, _, position, _ ->
             viewModel.updateProfileModel.gender = gender[position]
         }
 
     }
 
-    private fun setupClicks() {
-        binding.edit.setOnClickListener {
-            if (requireContext().hasPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE))
-                chooseImageFromGalleries()
-            else
-                permisson.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+    private fun FragmentDialogEditProfileBinding.bindClicks() {
+        edit.setOnClickListener {
+            takePermissions()
+//            if (requireContext().hasPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//               // storageHelper.openFilePicker()
+//            }
+//            // chooseImageFromGalleries()
+//            else
+//                permisson.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
-        binding.backBtn.setOnClickListener {
+        backBtn.setOnClickListener {
             dismiss()
         }
 
-        binding.cityEditProfile.setOnItemClickListener { _, _, position, _ ->
+        cityEditProfile.setOnItemClickListener { _, _, position, _ ->
             viewModel.updateProfileModel.city_id = position + 1
         }
     }
 
-    private fun chooseImageFromGalleries() {
-
-        resultIntentActivity.launch(Intent(
-            Intent.ACTION_PICK,
-            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        ).apply {
-
-        })
-//        resultIntentActivity.launch("image/*")
-    }
-
-    private fun setupPermissionStorage() {
-        permisson = requestPermissionWithRationale(
-            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            Snackbar.make(
-                binding.root,
-                "Please allow read from storage",
-                Snackbar.LENGTH_SHORT
-            )
-        ) { chooseImageFromGalleries() }
-    }
-
     @SuppressLint("SetTextI18n", "Recycle")
     private fun setupContentActivityResult() {
-        resultIntentActivity =
+        resultIntentPicActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
                     val uri = it.data?.data
-                    val es = uri?.let {
-                        var result = ""
-                        var cursor: Cursor? = null
-                        try {
-                            val proj = arrayOf(MediaStore.Images.Media.DATA)
-                            cursor = requireContext().contentResolver.query(
-                                it,
-                                proj,
-                                null,
-                                null,
-                                null
-                            )!!
-                            val column_index =
-                                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                            cursor.moveToFirst()
-                            result = cursor.getString(column_index)
-                        } finally {
-                            cursor?.close()
-                        }
-                        result
+                    uri?.apply {
+                        val file = FileHelper.writeTempFileFromUri(requireContext(), this)
+                        binding.profileImg.loadImage(file.path)
+                        viewModel.updateProfileModel.image = FileHelper.multiPartFile(file, "image")
                     }
 
-                    val sa = uri?.let {
-                        val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        val cursor: Cursor?
-                        val columnIndexID: Int
-                        val listOfAllImages: MutableList<Uri> = mutableListOf()
-                        val projection = arrayOf(MediaStore.Images.Media._ID)
-                        var imageId: Long
-                        cursor = requireContext().contentResolver.query(
-                            uriExternal,
-                            projection,
-                            null,
-                            null,
-                            null
-                        )
-                        cursor?.apply {
-                            columnIndexID =
-                                cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                            while (cursor.moveToNext()) {
-                                imageId = cursor.getLong(columnIndexID)
-                                val uriImage = Uri.withAppendedPath(uriExternal, "" + imageId)
-                                listOfAllImages.add(uriImage)
-                            }
-                        }
-                        cursor?.close()
-                        listOfAllImages
-
-                    }
-
-
-                    binding.profileImg.loadImage(es!!)
-                    viewModel.updateProfileModel.image = getPartBody(es)
                 }
             }
-//        resultIntentActivity = registerForActivityResult(ActivityResultContracts.GetContent()) {
-//            if (it != null) {
-//
-//                 //viewModel.updateProfileModel.image =  it.
-//                binding.profileImg.loadImage(it)
-//            }
-//        }
+
+        resultIntentPermissionActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
+                        if (Environment.isExternalStorageManager())
+                            pickImageFromGallery()
+                    }
+                }
+            }
     }
 
-    private fun getPartBody(path: String): MultipartBody.Part = File(path).let {
-        val requestFile = it.asRequestBody("multipart/form-data; charset=utf-8".toMediaTypeOrNull())
-        MultipartBody.Part.createFormData("image", filename = it.name, requestFile)
+    private fun setupPermission() {
+        permission = requestPermissionWithRationale(
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            Snackbar.make(binding.root, "Please allow read from storage", Snackbar.LENGTH_SHORT)
+        ) {
+            pickImageFromGallery()
+        }
     }
 
     private fun updateProfileCollectResult() {
@@ -236,19 +176,19 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     }
 
-    private fun citiesCollectResult() {
+    private fun FragmentDialogEditProfileBinding.bindCitiesCollectResult() {
         lifecycleScope.launchWhenCreated {
             viewModel.citiesStateFlow.collect(
                 FlowEvent(onError = {},
                     onSuccess = {
                         val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, it)
-                        binding.cityEditProfile.setAdapter(adapter)
+                        cityEditProfile.setAdapter(adapter)
                     })
             )
         }
     }
 
-    private fun profileCollectCollectResult() {
+    private fun FragmentDialogEditProfileBinding.bindProfileCollectCollectResult() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
@@ -259,13 +199,11 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
                         it.phone ?: "",
                         it.city?.id ?: -1,
                         it.gender ?: "",
-                        getPartBody(it.image ?: "")
+                        null
                     )
-                binding.cityEditProfile.setText(it.city?.name)
-                binding.profileImg.loadImage(it.image ?: "")
-                val gender = resources.getStringArray(R.array.gender)
-                binding.genderEditProfile.setSelection(0)
-//                binding.genderEditProfile.setSelection(gender.indexOfFirst { per -> per == it.gender })
+                cityEditProfile.setText(it.city?.name, false)
+                profileImg.loadImage(it.image ?: "")
+                genderEditProfile.setText(it.gender, false)
             }))
         }
     }
@@ -278,4 +216,40 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         dialogProcess.dismiss()
         super.onDestroy()
     }
+
+    private fun takePermissions() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
+            try {
+                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION).apply {
+                    addCategory("android,intent.category,DEFAULT")
+                    data = Uri.parse(String.format("package%s", requireContext().packageName))
+                }
+                resultIntentPermissionActivity.launch(intent)
+            } catch (e: Exception) {
+                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION).apply {
+                    addCategory("android,intent.category,DEFAULT")
+                    data = Uri.parse(String.format("package%s", requireContext().packageName))
+                }
+                resultIntentPermissionActivity.launch(intent)
+            }
+        } else {
+            permission.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+//            type = "application/pdf"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        resultIntentPicActivity.launch(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        )
+
+    }
+
 }

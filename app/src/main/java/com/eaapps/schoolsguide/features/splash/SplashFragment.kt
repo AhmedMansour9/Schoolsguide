@@ -7,37 +7,59 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.eaapps.schoolsguide.R
+import com.eaapps.schoolsguide.databinding.FragmentSplashBinding
+import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.FlowEvent
 import com.eaapps.schoolsguide.utils.launchFragment
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
+@InternalCoroutinesApi
 @AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
+    private val binding: FragmentSplashBinding by viewBinding(FragmentSplashBinding::bind)
     private var countDownTimer: CountDownTimer? = null
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launchWhenCreated {
+
+        binding.bindProfileCollectResult()
+        binding.bindLogoutCollectResult()
+    }
+
+    private fun FragmentSplashBinding.bindProfileCollectResult() {
+        lifecycleScope.launchWhenStarted {
             mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
+                progressCircle.visibleOrGone(false)
                 setupCountDown(false)
             }, onSuccess = {
                 if (it.email.isNotBlank())
                     setupCountDown(true)
                 else
                     setupCountDown(false)
+            }, onException = {
+                progressCircle.visibleOrGone(false)
+                navigationToNoInternet()
+            }, onLoading = {
+                progressCircle.visibleOrGone(true)
+
             }
             ))
         }
 
-        lifecycleScope.launchWhenCreated {
+    }
+
+    private fun FragmentSplashBinding.bindLogoutCollectResult() {
+        lifecycleScope.launchWhenStarted {
             mainViewModel.logoutStateFlow.stateFlow.collect(FlowEvent(onError = {
                 setupCountDown(true)
             }, onSuccess = {
                 setupCountDown(false)
+            }, onLoading = {
+                progressCircle.visibleOrGone(true)
             }
             ))
         }
@@ -64,6 +86,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     private fun navigationToHome() =
         launchFragment(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
 
+    private fun navigationToNoInternet() =
+        launchFragment(SplashFragmentDirections.actionSplashFragmentToNoInternetFragment())
 
     override fun onStart() {
         super.onStart()

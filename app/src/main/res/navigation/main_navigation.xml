@@ -20,6 +20,9 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_noInternetFragment"
+            app:destination="@id/noInternetFragment" />
 
     </fragment>
     <fragment
@@ -171,8 +174,8 @@
         tools:layout="@layout/book_now_bottom_sheet"
         android:label="BookNowBottomFragment" >
         <argument
-            android:name="schoolId"
-            app:argType="integer" />
+            android:name="dataSchool"
+            app:argType="com.eaapps.schoolsguide.data.entity.SchoolResponse$SchoolData$DataSchool" />
     </dialog>
     <dialog
         android:id="@+id/joinDiscountBottomFragment"
@@ -325,4 +328,9 @@
             android:name="schoolId"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/noInternetFragment"
+        tools:layout="@layout/fragment_no_internet"
+        android:name="com.eaapps.schoolsguide.features.splash.NoInternetFragment"
+        android:label="NoInternetFragment" />
 </navigation>

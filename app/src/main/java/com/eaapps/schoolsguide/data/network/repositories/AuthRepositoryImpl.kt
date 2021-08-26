@@ -137,6 +137,7 @@ class AuthRepositoryImpl @Inject constructor(
             }, "Exception occurred!")
         }
 
+    // HTTP FAILED: java.net.UnknownHostException: Unable to resolve host "todatrade.com": No address associated with hostname
     override suspend fun getProfileFather(): Resource<AuthResponse.AuthData> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
@@ -145,12 +146,11 @@ class AuthRepositoryImpl @Inject constructor(
                     if (result.isSuccessful) {
                         Resource.Success(result.body()?.dataResponse)
                     } else {
-//                        val type = object : TypeToken<ResponseEntity>() {}.type
-//                        val responseFailure: ResponseEntity? =
-//                            Gson().fromJson(result.errorBody()!!.charStream(), type)
-                        Resource.Error(404, "Father Not Login")
 
-                        //   Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                        val type = object : TypeToken<ResponseEntity>() {}.type
+                        val responseFailure: ResponseEntity? =
+                            Gson().fromJson(result.errorBody()!!.charStream(), type)
+                        Resource.Error(result.code(), responseFailure?.message ?: result.message())
                     }
                 } else {
                     Resource.Error(404, "Father Not Login")

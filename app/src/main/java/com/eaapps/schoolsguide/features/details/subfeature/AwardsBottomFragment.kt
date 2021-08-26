@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eaapps.schoolsguide.R
@@ -12,6 +13,7 @@ import com.eaapps.schoolsguide.databinding.AdwardsBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.AwardsAdapter
 import com.eaapps.schoolsguide.utils.dialogShow
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +40,7 @@ class AwardsBottomFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheet = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        bottomSheet.dialogShow(resources, 0.75f, draggable = true)
+        bottomSheet.dialogShow(resources, 0.70f, draggable = true)
         return bottomSheet
     }
 
@@ -55,6 +57,11 @@ class AwardsBottomFragment : BottomSheetDialogFragment() {
         AwardsBottomFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
             rcAwards.layoutManager = GridLayoutManager(requireContext(), 2)
             rcAwards.adapter = AwardsAdapter(this.awards)
+            noItem.run {
+                noItem.groupNo.visibleOrGone(awards.isEmpty())
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_list)
+                titleNo = getString(R.string.awards_no_msg)
+            }
         }
     }
 

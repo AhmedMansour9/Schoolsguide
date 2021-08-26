@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.domain.repository
 
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.utils.Resource
+import java.io.File
 
 interface GeneralRepository {
 
@@ -18,5 +19,7 @@ interface GeneralRepository {
     suspend fun joinDiscount(discountRequestEntity: DiscountRequestEntity): Resource<ResponseEntity>
 
     suspend fun bookNow(body: HashMap<String, Any>): Resource<ResponseEntity>
+
+    suspend fun uploadCv(jobId:Int,schoolId: Int,file: File): Resource<ResponseEntity>
 
 }

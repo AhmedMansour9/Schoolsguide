@@ -1,5 +1,7 @@
 package com.eaapps.schoolsguide.domain.model
 
+import java.io.File
+
 
 data class InquiryModel(
     var message_type: String = "",
@@ -25,4 +27,10 @@ data class BookSchoolModel(
     var number_of_students: Int? = null,
     var school_id: Int? = null,
     var grades: Array<Int>? = null
+)
+
+data class UploadCvModel(
+    var school_id: Int? = null,
+    var job_id: Int? = null,
+    var attachment: File? = null
 )

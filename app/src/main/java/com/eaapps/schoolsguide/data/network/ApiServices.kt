@@ -43,10 +43,7 @@ interface ApiServices {
         @Part("phone") phone: RequestBody,
         @Part("city_id") city_id: RequestBody,
         @Part("gender") gender: RequestBody? = null,
-        @Part image: MultipartBody.Part,
-        //@Body params: RequestBody
-//           image: File?=File("/storage/emulated/0/Android/iPad – 1.png")
-        //@Body changeFatherProfileEntity: ChangeFatherProfileEntity
+        @Part image: MultipartBody.Part? = null,
     ): Deferred<Response<ResponseEntity>>
 
     @POST("/api/add_school_request")
@@ -91,8 +88,16 @@ interface ApiServices {
     @POST("/api/bookSchool")
     fun bookSchoolAsync(@Body body: HashMap<String, Any>): Deferred<Response<ResponseEntity>>
 
+    @Multipart
+    @POST("/api/upload_cv")
+    fun uploadCvAsync(
+        @Part("job_id") job_id: RequestBody,
+        @Part("school_id") school_id: RequestBody,
+        @Part attachment: MultipartBody.Part
+    ): Deferred<Response<ResponseEntity>>
+
     @POST("/api/joinDiscount")
-    fun joinDiscountAsync(@Body discountRequestEntity:DiscountRequestEntity): Deferred<Response<ResponseEntity>>
+    fun joinDiscountAsync(@Body discountRequestEntity: DiscountRequestEntity): Deferred<Response<ResponseEntity>>
 
     @GET("/api/schoolDetails/")
     fun schoolDetailsAsync(@Query("school_id") school_id: Int): Deferred<Response<SchoolDetailsResponse>>

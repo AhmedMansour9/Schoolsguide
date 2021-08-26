@@ -1,6 +1,8 @@
 package com.eaapps.schoolsguide.utils
 
 import java.io.IOException
+import java.net.ConnectException
+import java.net.UnknownHostException
 
 suspend fun <T : Any> safeCall(
     call: suspend () -> Resource<T>,
@@ -9,13 +11,19 @@ suspend fun <T : Any> safeCall(
     return try {
         call()
     } catch (e: Exception) {
-        Resource.Exception(IOException(errorMessage, e))
+        val msg = when (e) {
+            is UnknownHostException -> "No internet!"
+            is ConnectException -> "No internet!"
+            else -> e.message
+        }
+        e.printStackTrace()
+        Resource.Exception(IOException(msg, e))
     }
 }
 
 
-fun <T :Any> resourceError(code:Int):Resource.Error<T>{
-    val msg:String = when(code){
+fun <T : Any> resourceError(code: Int): Resource.Error<T> {
+    val msg: String = when (code) {
         400 -> "Server is under maintenance"
         401 -> "You are not authorized to perform this operation"
         403 -> "The client does not have access rights to the content"
@@ -24,5 +32,5 @@ fun <T :Any> resourceError(code:Int):Resource.Error<T>{
     }
 
 
-    return Resource.Error<T>(code,msg)
+    return Resource.Error<T>(code, msg)
 }

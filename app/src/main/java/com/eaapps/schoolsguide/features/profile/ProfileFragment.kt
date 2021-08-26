@@ -31,8 +31,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialogProcess =
-            requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
+        dialogProcess = requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
         binding.executePendingBindings()
         mainViewModel.loadProfile()
         binding.bindProfile()
@@ -51,11 +50,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
                 groupProfile.visibleOrGone(true)
                 authData = it
             }, onLoading = {
+                groupProfile.visibleOrGone(false)
                 profileShimmer.shimmerLayout.startShimmer()
                 profileShimmer.shimmerLayout.visibleOrGone(true)
             }))
         }
-
     }
 
     private fun FragmentProfileBinding.bindClicks() {
@@ -84,8 +83,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         }
     }
 
-    private fun navigationToSplash() =
-        launchFragment(ProfileFragmentDirections.actionProfileFragmentToSplashFragment())
+    private fun navigationToSplash() = launchFragment(ProfileFragmentDirections.actionProfileFragmentToSplashFragment())
 
     override fun onClick(v: View?) {
         when (v?.id) {

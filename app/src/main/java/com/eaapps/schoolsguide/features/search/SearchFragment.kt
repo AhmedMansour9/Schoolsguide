@@ -208,10 +208,12 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
             dialogChoose.setPositiveButton("Done") { dialog, _ ->
                 pairTypes?.first?.apply {
-                    viewModel.filterModel.type_id = this[checkItem - 1].id
-                    typeName.text = this[checkItem - 1].name
-                    if (exploreField.text.toString().isNotBlank()) {
-                        updateListFromInput()
+                    if (checkItem - 1 > 0) {
+                        viewModel.filterModel.type_id = this[checkItem - 1].id
+                        typeName.text = this[checkItem - 1].name
+                        if (exploreField.text.toString().isNotBlank()) {
+                            updateListFromInput()
+                        }
                     }
                 }
                 dialog.dismiss()

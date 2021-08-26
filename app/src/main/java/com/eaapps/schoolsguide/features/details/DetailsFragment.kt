@@ -5,9 +5,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -21,8 +19,6 @@ import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
-import www.sanju.motiontoast.MotionToast
-import www.sanju.motiontoast.MotionToast.Companion.LONG_DURATION
 import kotlin.math.abs
 
 typealias navigationItem = NavigationPropertiesModel
@@ -53,8 +49,17 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     private fun FragmentDetailsDialogBinding.bindActionBar() {
         toolbar.title = ""
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.inflateMenu(R.menu.details_menu)
+        toolbar.setOnMenuItemClickListener {
+            launchFragment(
+                DetailsFragmentDirections.actionDetailsFragmentToNotificationBottomFragment(
+                    dataSchool!!
+                )
+            )
+            false
+        }
+        // (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        //   (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         collapsing.setContentScrimColor(ContextCompat.getColor(requireContext(), R.color.colorApp3))
         collapsing.setStatusBarScrimColor(
             ContextCompat.getColor(
@@ -73,6 +78,8 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                     toolbar.title = ""
             }
         })
+
+
     }
 
     private fun FragmentDetailsDialogBinding.bindArgs() {
@@ -110,25 +117,11 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             )
         ) {
             when (it.id) {
-                1 -> {
-                    if (dataSchool?.tuition_fees?.size!! > 0)
-                        launchFragment(
-                            DetailsFragmentDirections.actionDetailsFragmentToTuiitionFeesBottomFragment(
-                                dataSchool!!
-                            )
-                        )
-                    else
-                        MotionToast.createColorToast(
-                            requireActivity(),
-                            getString(R.string.info),
-                            getString(R.string._info_fees),
-                            MotionToast.TOAST_INFO,
-                            MotionToast.GRAVITY_BOTTOM,
-                            LONG_DURATION,
-                            ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
-                        )
-
-                }
+                1 -> launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToTuiitionFeesBottomFragment(
+                        dataSchool!!
+                    )
+                )
 
                 2 -> launchFragment(
                     DetailsFragmentDirections.actionDetailsFragmentToSupervisorContactBottomFragment(
@@ -211,11 +204,10 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         bookNow.setOnClickListener {
             launchFragment(
                 DetailsFragmentDirections.actionDetailsFragmentToBookNowBottomFragment(
-                    dataSchool?.id!!
+                    dataSchool!!
                 )
             )
         }
-
     }
 
     private fun FragmentDetailsDialogBinding.bindSchoolDetailsResultData() {

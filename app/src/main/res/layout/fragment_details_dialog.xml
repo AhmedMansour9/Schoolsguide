@@ -214,7 +214,6 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_round_clear__24"
                     app:navigationIconTint="@color/white"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:titleTextColor="@color/white" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

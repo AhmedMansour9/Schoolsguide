@@ -3,13 +3,9 @@ package com.eaapps.schoolsguide.features.details
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eaapps.schoolsguide.data.entity.GradesResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
-import com.eaapps.schoolsguide.domain.model.BookSchoolModel
-import com.eaapps.schoolsguide.domain.model.InquiryModel
-import com.eaapps.schoolsguide.domain.model.JoinDiscountModel
-import com.eaapps.schoolsguide.domain.model.ReviewModel
+import com.eaapps.schoolsguide.domain.model.*
 import com.eaapps.schoolsguide.domain.usecase.*
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.StateFlows
@@ -25,13 +21,10 @@ class DetailsViewModel @Inject constructor(
     private val addInquiryUseCase: AddInquiryUseCase,
     private val schoolBookSchoolUseCase: BookSchoolUseCase,
     private val joinDiscountSchoolUseCase: JoinDiscountSchoolUseCase,
-    private val gradesSchoolUseCase: GradesSchoolUseCase,
-    private val putReviewUseCase: PutReviewUseCase
-) : ViewModel() {
+    private val putReviewUseCase: PutReviewUseCase,
+    private val uploadCvUseCase: UploadCvUseCase
 
-    init {
-        loadSchoolGrades()
-    }
+) : ViewModel() {
 
     internal val schoolDetailsFlow =
         StateFlows<SchoolResponse.SchoolData.DataSchool>(viewModelScope)
@@ -40,12 +33,13 @@ class DetailsViewModel @Inject constructor(
     internal val sendInquiryFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val bookSchoolFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val reviewSchoolFlow = StateFlows<ResponseEntity>(viewModelScope)
+    internal val uploadCvFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val joinDiscountFlow = StateFlows<ResponseEntity>(viewModelScope)
-    internal val schoolGradesFlow = StateFlows<List<GradesResponse.Grades>>(viewModelScope)
 
     val inquiryModel = InquiryModel()
     val bookSchoolModel = BookSchoolModel()
     val joinDiscountModel = JoinDiscountModel()
+    val uploadCvModel = UploadCvModel()
     var reviewModel = ReviewModel()
 
     val inputEditHelper = ObservableField<HashMap<String, String>>(HashMap())
@@ -148,19 +142,28 @@ class DetailsViewModel @Inject constructor(
                 }
             } else {
                 putReviewUseCase.validMessage(reviewModel).forEach {
-                    reviewSchoolFlow.setValue(Resource.Error(0,it.value))
+                    reviewSchoolFlow.setValue(Resource.Error(0, it.value))
                 }
-             }
+            }
         }
 
     }
 
-    private fun loadSchoolGrades() {
+    fun uploadCv() {
         viewModelScope.launch {
             try {
-                schoolGradesFlow.setValue(Resource.Loading())
-                val result = gradesSchoolUseCase.execute()
-                schoolGradesFlow.setValue(result)
+                if (uploadCvModel.attachment != null) {
+                    uploadCvFlow.setValue(Resource.Loading())
+                    val result = uploadCvUseCase.execute(uploadCvModel)
+                    uploadCvFlow.setValue(result)
+                } else {
+                    uploadCvFlow.setValue(
+                        Resource.Error(
+                            (0 until 10).random(),
+                            "Please Select file"
+                        )
+                    )
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -179,5 +182,4 @@ class DetailsViewModel @Inject constructor(
             }
         }
     }
-
 }

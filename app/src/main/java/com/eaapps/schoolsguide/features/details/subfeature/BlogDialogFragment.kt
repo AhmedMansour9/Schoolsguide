@@ -42,18 +42,16 @@ class BlogDialogFragment : DialogFragment(R.layout.fragment_dialog_blogs) {
                         )
                     )
                 }
-
-                if (rcBlogs.adapter?.itemCount == 0)
-                    noItem.run {
-                        noItem.groupNo.visibleOrGone(true)
-                        if (type == "news") {
-                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_news)
-                            titleNo = getString(R.string.events_no_msg)
-                        } else {
-                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_event)
-                            titleNo = getString(R.string.events_no_msg)
-                        }
+                noItem.run {
+                    noItem.groupNo.visibleOrGone(rcBlogs.adapter?.itemCount == 0)
+                    if (type == "news") {
+                        icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_news)
+                        titleNo = getString(R.string.events_no_msg)
+                    } else {
+                        icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_event)
+                        titleNo = getString(R.string.events_no_msg)
                     }
+                }
             }
         }
     }

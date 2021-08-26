@@ -11,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.data.entity.GradesResponse
+import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.BookNowBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.utils.*
@@ -30,7 +30,8 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
     private val viewModel: DetailsViewModel by lazy {
         ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
     }
-    private var pairGrades: Pair<List<GradesResponse.Grades>, ArrayList<String>>? = null
+    private var pairGrades: Pair<List<SchoolResponse.SchoolData.DataSchool.Grade>, ArrayList<String>>? =
+        null
     private lateinit var dialogProcess: Dialog
 
     override fun onCreateView(
@@ -44,7 +45,7 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheet = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        bottomSheet.dialogShow(resources, 0.95f,draggable = true)
+        bottomSheet.dialogShow(resources, 0.95f, draggable = true)
         return bottomSheet
     }
 
@@ -55,14 +56,20 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
             requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
         buildArgs()
         collectResultBookingNow()
-        collectResultGrades()
         binding.bindListsDown()
         binding.bindClicks()
     }
 
     private fun buildArgs() {
-        viewModel.bookSchoolModel.school_id =
-            BookNowBottomFragmentArgs.fromBundle(requireArguments()).schoolId
+        BookNowBottomFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
+            viewModel.bookSchoolModel.school_id = id
+            val list: ArrayList<String> = ArrayList()
+            grades.forEach { typeData ->
+                list.add(typeData.name)
+            }
+            pairGrades = Pair(grades, list)
+
+        }
     }
 
     private fun BookNowBottomSheetBinding.bindListsDown() {
@@ -170,19 +177,6 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
                 },
                 onNothing = { dialogProcess.dismiss() }
             ))
-        }
-    }
-
-    private fun collectResultGrades() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.schoolGradesFlow.stateFlow.collect(FlowEvent(onError = {
-            }, onSuccess = {
-                val list: ArrayList<String> = ArrayList()
-                it.forEach { typeData ->
-                    list.add(typeData.name!!)
-                }
-                pairGrades = Pair(it, list)
-            }))
         }
     }
 }

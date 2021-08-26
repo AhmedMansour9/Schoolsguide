@@ -2,16 +2,17 @@ package com.eaapps.schoolsguide.features.details.subfeature
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.ReviewParentsBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.ReviewParentsAdapter
 import com.eaapps.schoolsguide.utils.dialogShow
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,7 @@ class ReviewParentBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         binding.detailsViewModel = viewModel
+        binding.detailsViewModel = viewModel
         binding.buildArgs()
         binding.bindClicks()
 
@@ -54,6 +55,11 @@ class ReviewParentBottomFragment : BottomSheetDialogFragment() {
     private fun ReviewParentsBottomSheetBinding.buildArgs() {
         ReviewParentBottomFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
             rcComments.adapter = ReviewParentsAdapter(this.schoolReviews)
+            noItem.run {
+                noItem.groupNo.visibleOrGone(schoolReviews.isEmpty())
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_list)
+                titleNo = getString(R.string.comment_no_msg)
+            }
         }
     }
 

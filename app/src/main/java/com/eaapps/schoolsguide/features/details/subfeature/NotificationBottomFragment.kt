@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.NotificationsBottomSheetBinding
 import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.NotificationsAdapter
-import com.eaapps.schoolsguide.features.details.subfeature.adapters.ReviewParentsAdapter
 import com.eaapps.schoolsguide.utils.dialogShow
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,11 @@ class NotificationBottomFragment : BottomSheetDialogFragment() {
     private fun NotificationsBottomSheetBinding.buildArgs() {
         NotificationBottomFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {
             rcNotifications.adapter = NotificationsAdapter(this.notifications)
+            noItem.run {
+                noItem.groupNo.visibleOrGone(notifications.isEmpty())
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_notifications)
+                titleNo = getString(R.string.notification_no_msg)
+            }
         }
     }
 

@@ -61,6 +61,17 @@
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/_10sdp" />
 
+
+                <include
+                    layout="@layout/no_item"
+                    android:id="@+id/noItem"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                 />
+
+
             </FrameLayout>
 
 

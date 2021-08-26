@@ -9,6 +9,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServices) :
@@ -104,6 +109,30 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.bookSchoolAsync(body).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body())
+                } else {
+                    val type = object : TypeToken<ResponseEntity>() {}.type
+                    val responseFailure: ResponseEntity? =
+                        Gson().fromJson(result.errorBody()!!.charStream().readText(), type)
+                    Resource.Error(result.code(), responseFailure?.message ?: result.message())
+                }
+            }, "Exception occurred!")
+        }
+
+    override suspend fun uploadCv(jobId:Int,schoolId: Int,file: File): Resource<ResponseEntity> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.uploadCvAsync(
+                  jobId.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                    schoolId.toString()
+                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                    MultipartBody.Part.createFormData(
+                        "attachment",
+                        filename = file.name,
+                        file.asRequestBody("multipart/form-data; charset=utf-8".toMediaTypeOrNull())
+                    )
+                ).await()
                 if (result.isSuccessful) {
                     Resource.Success(result.body())
                 } else {

@@ -137,7 +137,7 @@ class BookSchoolUseCase @Inject constructor(private val generalRepository: Gener
                 put("full_name", bookSchoolModel.full_name)
                 put("phone", bookSchoolModel.phone)
                 put("email", bookSchoolModel.email)
-                put("number_of_students", bookSchoolModel.number_of_students!!)
+                put("number_of_students", bookSchoolModel.number_of_students)
                 put("school_id", bookSchoolModel.school_id!!)
                 put("grades", bookSchoolModel.grades!!)
             }
@@ -149,7 +149,7 @@ class BookSchoolUseCase @Inject constructor(private val generalRepository: Gener
                 && bookSchoolModel.email.isNotBlank()
                 && bookSchoolModel.phone.isNotBlank()
                 && bookSchoolModel.address.isNotBlank()
-                && bookSchoolModel.number_of_students!! > -1
+                && bookSchoolModel.number_of_students.isNotBlank()
                 && bookSchoolModel.grades?.size!! > 0
 
     fun validMessage(bookSchoolModel: BookSchoolModel): HashMap<String, String> {
@@ -165,6 +165,12 @@ class BookSchoolUseCase @Inject constructor(private val generalRepository: Gener
             bookSchoolModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
                     put("email", "Please Enter Email")
+                }
+            }
+
+            bookSchoolModel.number_of_students.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("student_number", "Please Select Student Number")
                 }
             }
 

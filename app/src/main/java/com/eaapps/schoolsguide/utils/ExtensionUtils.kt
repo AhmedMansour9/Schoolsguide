@@ -62,6 +62,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.maps.android.ktx.addCircle
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -318,7 +319,10 @@ fun Fragment.requestPermissionWithRationale(
 }
 
 fun ImageView.loadImage(uri: String) {
-    Glide.with(this).load(uri).placeholder(R.drawable.user__).into(this)
+    Picasso.get()
+        .load(uri)
+        .placeholder(R.drawable.user__)
+        .into(this)
 }
 
 fun View.enable() {

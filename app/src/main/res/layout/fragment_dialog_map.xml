@@ -89,13 +89,62 @@
             app:layout_constraintTop_toBottomOf="@id/bar"
             tools:ignore="ContentDescription" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_140sdp"
-            android:background="@drawable/bg_gradiant_white"
+            android:layout_height="wrap_content"
+            android:background="#E6FFFFFF"
             android:id="@+id/groupRc"
+            android:paddingBottom="@dimen/_10sdp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter"
+                android:text="@string/filters"
+                android:fontFamily="@font/rpt_bold"
+                android:textSize="@dimen/_15ssp"
+                android:textColor="@color/textColor1"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/filterNumbers"
+                android:text=""
+                android:fontFamily="@font/rpt_bold"
+                android:textSize="@dimen/_15ssp"
+                android:textColor="@color/textColor1"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                tools:text="120"
+                app:layout_constraintEnd_toStartOf="@id/school_filter"
+                android:layout_marginTop="@dimen/_15sdp"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/school_filter"
+                android:text="Schools Found"
+                android:fontFamily="@font/rpt_bold"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/gray_2"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcSchool"
@@ -103,8 +152,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/school_filter"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/black"
+            android:progressTint="@color/black"
+            app:indicatorColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
 

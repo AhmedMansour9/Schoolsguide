@@ -37,21 +37,36 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Education Level" />
 
+        <ImageButton
+            android:id="@+id/clearBtn"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@drawable/round_clear_black_24"
+            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/filterItemSelection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/filterItemSelection"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/filterItemSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/rpt_bold"
             android:text="@{itemSelect}"
-            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
             android:textColor="#989898"
             android:textSize="@dimen/_14ssp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/filterTitleLabel"
+            app:layout_constraintEnd_toStartOf="@id/clearBtn"
             app:layout_constraintTop_toTopOf="@id/filterTitleLabel"
-            tools:text="Item Selection"/>
+            tools:text="Item Selection" />
 
         <ListView
             android:id="@+id/listViewChoice"
@@ -62,8 +77,8 @@
             android:layout_marginEnd="@dimen/_20sdp"
             android:choiceMode="singleChoice"
             android:divider="@color/transparent"
-            android:orientation="vertical"
             android:nestedScrollingEnabled="true"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/filterTitleLabel" />
 
         <ImageView

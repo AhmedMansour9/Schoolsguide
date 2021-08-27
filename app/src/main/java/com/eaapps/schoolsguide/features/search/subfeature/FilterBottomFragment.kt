@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.CityResponse
 import com.eaapps.schoolsguide.data.entity.GradesResponse
 import com.eaapps.schoolsguide.data.entity.ProgramsResponse
+import com.eaapps.schoolsguide.data.entity.TypeResponse
 import com.eaapps.schoolsguide.databinding.FilterBottomSheetBinding
 import com.eaapps.schoolsguide.features.search.Filter
 import com.eaapps.schoolsguide.features.search.ShareViewModel
@@ -30,12 +31,18 @@ import java.util.*
 @InternalCoroutinesApi
 @AndroidEntryPoint
 class FilterBottomFragment : BottomSheetDialogFragment() {
+
     private lateinit var binding: FilterBottomSheetBinding
-    private val shareViewModel: ShareViewModel by activityViewModels()
+    private val shareViewModel: ShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(ShareViewModel::class.java)
+    }
     private val filterViewModel: FilterViewModel by viewModels()
     private var pairProgram: Pair<List<ProgramsResponse.Programs>, ArrayList<String>>? = null
     private var pairGrades: Pair<List<GradesResponse.Grades>, ArrayList<String>>? = null
     private var pairCities: Pair<List<CityResponse.City>, ArrayList<String>>? = null
+    private var pairTypes: Pair<List<TypeResponse.TypeData>, ArrayList<String>>? = null
+
+    private var typeSearch = 0
 
     override fun getTheme(): Int = R.style.CustomBottomSheetDialog
 
@@ -58,11 +65,19 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bindEvaluationFees()
+        binding.bindListCategoryCollectData()
         binding.bindListCitiesCollectData()
         binding.bindListGradesCollectData()
         binding.bindListProgramCollectData()
         binding.bindListSchoolType()
         binding.bindClicks()
+        setupArgs()
+    }
+
+    private fun setupArgs() {
+        FilterBottomFragmentArgs.fromBundle(requireArguments()).apply {
+            typeSearch = type
+        }
     }
 
     private fun FilterBottomSheetBinding.bindEvaluationFees() {
@@ -100,16 +115,59 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         clearAllBtn.setOnClickListener {
             shareViewModel.filterModel.clear()
             lifecycleScope.launch {
-                shareViewModel.filterFire.emit(Resource.Success(Filter.CLEAR_FILTER))
+                if (typeSearch == 0)
+                    shareViewModel.filterFire.value = Resource.Success(Filter.CLEAR_FILTER)
+                else
+                    shareViewModel.filterMapFire.value = Resource.Success(Filter.CLEAR_FILTER)
             }
             bindClear()
         }
 
         applyFilter.setOnClickListener {
-            lifecycleScope.launch {
-                shareViewModel.filterFire.emit(Resource.Success(Filter.APPLY_FILTER))
+            if (typeSearch == 0) {
+                shareViewModel.filterFire.value = Resource.Success(Filter.APPLY_FILTER)
+            } else {
+                shareViewModel.filterMapFire.value = Resource.Success(Filter.APPLY_FILTER)
             }
             dismiss()
+        }
+
+        schoolCategory.clearBtn.setOnClickListener {
+            schoolCategory.itemSelect = ""
+            shareViewModel.filterModel.type_id = null
+            shareViewModel.filterModel.filterPosition.type_id = null
+        }
+
+        cities.clearBtn.setOnClickListener {
+            cities.itemSelect = ""
+            shareViewModel.filterModel.city_id = null
+            shareViewModel.filterModel.filterPosition.city_id = null
+            cities.listViewChoice.clearChoices()
+            cities.listViewChoice.requestLayout()
+        }
+
+        educationLevel.clearBtn.setOnClickListener {
+            educationLevel.itemSelect = ""
+            shareViewModel.filterModel.grade_id = null
+            shareViewModel.filterModel.filterPosition.grade_id = null
+            educationLevel.listViewChoice.clearChoices()
+            educationLevel.listViewChoice.requestLayout()
+
+        }
+        curriculumType.clearBtn.setOnClickListener {
+            curriculumType.itemSelect = ""
+            shareViewModel.filterModel.program_id = null
+            shareViewModel.filterModel.filterPosition.program_id = null
+            curriculumType.listViewChoice.clearChoices()
+            curriculumType.listViewChoice.requestLayout()
+        }
+
+        typeSchool.clearBtn.setOnClickListener {
+            typeSchool.itemSelect = ""
+            shareViewModel.filterModel.school_type = null
+            shareViewModel.filterModel.filterPosition.school_type = null
+            typeSchool.listViewChoice.clearChoices()
+            typeSchool.listViewChoice.requestLayout()
         }
     }
 
@@ -214,6 +272,39 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun FilterBottomSheetBinding.bindListCategoryCollectData() {
+        lifecycleScope.launchWhenCreated {
+            filterViewModel.schoolTypeStateFlow.stateFlow.collect(FlowEvent(onLoading = {
+                bindShimmerStartLoading()
+            }, onError = {
+                bindShimmerStopLoading()
+            }, onSuccess = { it ->
+                bindShimmerStopLoading()
+                val list: ArrayList<String> = ArrayList()
+                it.forEach { typeData ->
+                    list.add(typeData.name)
+                }
+                pairTypes = Pair(it, list)
+                pairTypes?.second?.apply {
+                    schoolCategory.listViewChoice.adapter =
+                        ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
+
+                    schoolCategory.listViewChoice.setOnItemClickListener { _, _, position, _ ->
+                        schoolCategory.itemSelect = this[position]
+                        shareViewModel.filterModel.type_id = pairTypes?.first!![position].id
+                        shareViewModel.filterModel.filterPosition.type_id = position
+                    }
+
+                    shareViewModel.filterModel.filterPosition.type_id?.let {
+                        schoolCategory.itemSelect = this[it]
+                        schoolCategory.listViewChoice.setSelection(it)
+                        schoolCategory.listViewChoice.setItemChecked(it, true)
+                    }
+                }
+            }))
+        }
+    }
+
     private fun FilterBottomSheetBinding.bindListSchoolType() {
         requireContext().resources.getStringArray(R.array.schoolType).apply {
             typeSchool.listViewChoice.adapter =
@@ -237,6 +328,7 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
     private fun FilterBottomSheetBinding.bindClear() {
         typeSchool.itemSelect = ""
         educationLevel.itemSelect = ""
+        schoolCategory.itemSelect = ""
         cities.itemSelect = ""
         curriculumType.itemSelect = ""
         evaluationValue.rating = 0f
@@ -248,6 +340,9 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
 
         educationLevel.listViewChoice.clearChoices()
         educationLevel.listViewChoice.requestLayout()
+
+        schoolCategory.listViewChoice.clearChoices()
+        schoolCategory.listViewChoice.requestLayout()
 
         cities.listViewChoice.clearChoices()
         cities.listViewChoice.requestLayout()
@@ -267,5 +362,4 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         filterShimmerLoading.groupShimmerFilter.visibleOrGone(false)
         groupFilter.visibleOrGone(true)
     }
-
 }

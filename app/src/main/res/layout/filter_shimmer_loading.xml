@@ -7,9 +7,7 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_70sdp"
-        android:id="@+id/groupShimmerFilter"
-        android:layout_marginBottom="@dimen/_30sdp">
+        android:id="@+id/groupShimmerFilter">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

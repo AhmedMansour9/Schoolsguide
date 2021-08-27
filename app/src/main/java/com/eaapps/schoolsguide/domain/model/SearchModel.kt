@@ -46,7 +46,7 @@ data class FilterModel(
 ) {
     fun isFilter(): Boolean =
         !school_type.isNullOrBlank() || grade_id != null || from_price != null ||
-                to_price != null || program_id != null || city_id != null || review != null
+                to_price != null || program_id != null || city_id != null || review != null || type_id != null
 
     fun clear() {
         type_id = null
@@ -61,6 +61,7 @@ data class FilterModel(
     }
 
     data class FilterPositionModel(
+        var type_id: Int? = null,
         var school_type: Int? = null,
         var grade_id: Int? = null,
         var from_price: Int? = null,

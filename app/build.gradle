@@ -147,5 +147,6 @@ dependencies {
     // KTX for the Maps SDK for Android library
     implementation 'com.google.maps.android:maps-ktx:2.3.0'
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }

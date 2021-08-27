@@ -25,7 +25,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mainViewModel.loadProfile()
         binding.bindProfileCollectResult()
         binding.bindLogoutCollectResult()
     }
@@ -101,3 +101,5 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         super.onStop()
     }
 }
+
+private const val TAG = "SplashFragment"

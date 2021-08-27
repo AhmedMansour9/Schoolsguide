@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageSchool"
                 app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School"
-                app:srcCompat="@drawable/bg_gradiant"
+                app:srcCompat="@drawable/scrim"
                 tools:ignore="ContentDescription" />
 
             <TextView

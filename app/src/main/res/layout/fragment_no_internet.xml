@@ -8,13 +8,14 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/_180sdp"
-        android:layout_height="@dimen/_180sdp"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_160sdp"
         android:src="@drawable/dinosaur"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".40"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -29,6 +30,7 @@
         tools:ignore="ContentDescription" />
 
     <TextView
+        android:id="@+id/msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
@@ -39,6 +41,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icon" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:indeterminateTint="@color/red_dark"
+        android:progressTint="@color/red_dark"
+        app:indicatorColor="@color/red_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/msg" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/retry_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/rpt_bold"
+        android:text="@string/retry"
+        app:backgroundTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

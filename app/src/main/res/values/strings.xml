@@ -13,6 +13,7 @@
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="district">District</string>
     <string name="city">City</string>
+    <string name="school_cate">Category</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_an_account">Create an account</string>
     <string name="register">Register</string>
@@ -98,7 +99,9 @@
     <string name="select_grade">Select grade</string>
     <string name="_cancel">Cancel</string>
     <string name="booking_school">Book School</string>
+    <string name="adding_school">Adding School</string>
     <string name="success_booking">Successful Booking</string>
+    <string name="success_add_school">Successful adding school</string>
     <string name="apply_j">Apply Job</string>
     <string name="job_applying">Successful job apply</string>
     <string name="join_discountLabel">Join Discount</string>
@@ -187,6 +190,10 @@
     <string name="permission_title">Permission Location!</string>
     <string name="permission_msg">Please allow location</string>
     <string name="permission_take">Take Permission</string>
+    <string name="filters">Filters</string>
+    <string name="no_result">No Result</string>
+    <string name="result_school">School Found</string>
+    <string name="online">Internet back online</string>
 
 
 </resources>

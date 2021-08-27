@@ -63,24 +63,15 @@
                 android:background="@drawable/background_clear_circle"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_round_clear_24"
-
                 tools:ignore="ContentDescription" />
 
-            <include
-                layout="@layout/filter_shimmer_loading"
-                android:layout_width="match_parent"
-                android:id="@+id/filter_shimmer_loading"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_70sdp"
-                android:layout_marginBottom="@dimen/_30sdp" />
 
             <FrameLayout
-                android:id="@+id/groupFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_70sdp"
-                android:layout_marginBottom="@dimen/_30sdp"
-                android:visibility="gone">
+                 android:paddingBottom="@dimen/_20sdp"
+                android:visibility="visible">
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -91,113 +82,144 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <include
-                            android:id="@+id/cities"
-                            layout="@layout/filter_list_item"
-                            line="@{true}"
-                            title="@{@string/city}"
+                            android:id="@+id/filter_shimmer_loading"
+                            layout="@layout/filter_shimmer_loading"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <include
-                            android:id="@+id/education_level"
-                            layout="@layout/filter_list_item"
-                            line="@{true}"
-                            title="@{@string/educational_level}"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/cities" />
+                            android:visibility="gone"
+                            android:id="@+id/groupFilter"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <include
+                                android:id="@+id/school_category"
+                                layout="@layout/filter_list_item"
+                                line="@{true}"
+                                itemSelect="@{``}"
+                                title="@{@string/school_cate}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <include
+                                android:id="@+id/cities"
+                                layout="@layout/filter_list_item"
+                                line="@{true}"
+                                itemSelect="@{``}"
+                                title="@{@string/city}"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/school_category" />
+
+                            <include
+                                android:id="@+id/education_level"
+                                layout="@layout/filter_list_item"
+                                line="@{true}"
+                                itemSelect="@{``}"
+                                title="@{@string/educational_level}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                app:layout_constraintTop_toBottomOf="@id/cities" />
 
 
-                        <include
-                            android:id="@+id/curriculum_type"
-                            layout="@layout/filter_list_item"
-                            line="@{true}"
-                            title="@{@string/curriculum_type}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/education_level" />
+                            <include
+                                android:id="@+id/curriculum_type"
+                                layout="@layout/filter_list_item"
+                                line="@{true}"
+                                itemSelect="@{``}"
+                                title="@{@string/curriculum_type}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                app:layout_constraintTop_toBottomOf="@id/education_level" />
 
 
-                        <include
-                            android:id="@+id/type_school"
-                            layout="@layout/filter_list_item"
-                            line="@{true}"
-                            title="@{@string/type_school}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/curriculum_type" />
+                            <include
+                                android:id="@+id/type_school"
+                                layout="@layout/filter_list_item"
+                                line="@{true}"
+                                itemSelect="@{``}"
+                                title="@{@string/type_school}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                app:layout_constraintTop_toBottomOf="@id/curriculum_type" />
 
-                        <TextView
-                            android:id="@+id/school_evaluationLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/school_evaluation"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_18ssp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/type_school"
-                            tools:text="School evaluation" />
+                            <TextView
+                                android:id="@+id/school_evaluationLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:fontFamily="@font/rpt_bold"
+                                android:text="@string/school_evaluation"
+                                android:textColor="@color/textColor1"
+                                android:textSize="@dimen/_18ssp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/type_school"
+                                tools:text="School evaluation" />
 
-                        <androidx.appcompat.widget.AppCompatRatingBar
-                            android:id="@+id/evaluationValue"
-                            style="@style/RateBar.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:isIndicator="false"
-                            android:numStars="5"
-                            android:progressTint="@color/black"
-                            android:rating="0"
-                            android:soundEffectsEnabled="true"
-                            android:stepSize="1"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/school_evaluationLabel" />
+                            <androidx.appcompat.widget.AppCompatRatingBar
+                                android:id="@+id/evaluationValue"
+                                style="@style/RateBar.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:isIndicator="false"
+                                android:numStars="5"
+                                android:progressTint="@color/black"
+                                android:rating="0"
+                                android:soundEffectsEnabled="true"
+                                android:stepSize="1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/school_evaluationLabel" />
 
-                        <ImageView
-                            android:id="@+id/lineRate"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginStart="@dimen/_20sdp"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_marginEnd="@dimen/_20sdp"
-                            android:background="#DADADA"
-                            app:layout_constraintTop_toBottomOf="@id/evaluationValue"
-                            tools:ignore="ContentDescription" />
+                            <ImageView
+                                android:id="@+id/lineRate"
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginEnd="@dimen/_20sdp"
+                                android:background="#DADADA"
+                                app:layout_constraintTop_toBottomOf="@id/evaluationValue"
+                                tools:ignore="ContentDescription" />
 
-                        <include
-                            android:id="@+id/schoolFees"
-                            layout="@layout/school_fees_item"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/lineRate" />
+                            <include
+                                android:id="@+id/schoolFees"
+                                layout="@layout/school_fees_item"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/lineRate" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/applyFilter"
-                            android:layout_width="match_parent"
-                            android:layout_height="68dp"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_marginEnd="@dimen/_15sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@string/apply"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_20ssp"
-                            app:backgroundTint="@color/colorApp3"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/schoolFees" />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/applyFilter"
+                                android:layout_width="match_parent"
+                                android:layout_height="68dp"
+                                android:layout_marginStart="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:fontFamily="@font/rpt_bold"
+                                android:text="@string/apply"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_20ssp"
+                                app:backgroundTint="@color/colorApp3"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/schoolFees" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

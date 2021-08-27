@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.FragmentFavoriteBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.utils.FlowEvent
@@ -18,7 +16,6 @@ import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
@@ -28,11 +25,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private val viewModel: FavoriteViewModel by viewModels()
 
-    private var currentPosition: Int = -1
-    private var currentList: ArrayList<SchoolResponse.SchoolData.DataSchool>? = null
-    private val favoriteAdapter = FavoriteAdapter { id, position, list ->
-        currentPosition = position
-        currentList = ArrayList(list)
+    private val favoriteAdapter = FavoriteAdapter { id ->
         viewModel.toggleFavorite(id)
     }
 
@@ -71,7 +64,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                     titleNo = getString(R.string.favorite_no_msg)
                 }
 
-
                 // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
                 val errorState = it.source.append as? LoadState.Error
                     ?: it.source.prepend as? LoadState.Error
@@ -109,15 +101,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         lifecycleScope.launchWhenCreated {
             viewModel.toggleFavoriteFlow.stateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
-                if (currentPosition > -1 && favoriteAdapter.itemCount > 0) {
-                    lifecycleScope.launch {
-                        currentList?.let {
-                            it.removeAt(currentPosition)
-                            favoriteAdapter.submitData(PagingData.from(it))
-                            noItem.groupNo.visibleOrGone(it.size == 0)
-                            currentPosition = -1
-                        }
-                    }
+                if (favoriteAdapter.itemCount > 0) {
+                    favoriteAdapter.refresh()
+                    noItem.groupNo.visibleOrGone(favoriteAdapter.itemCount == 0)
                 }
 
             }))

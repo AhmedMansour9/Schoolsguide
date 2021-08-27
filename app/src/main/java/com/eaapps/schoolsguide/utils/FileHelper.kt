@@ -14,7 +14,7 @@ object FileHelper {
     fun writeTempFileFromUri(context: Context, uri: Uri, ext: String = ".png"): File {
         // val id = DocumentsContract.getDocumentId(uri)
         val input = context.contentResolver?.openInputStream(uri)
-        val file = File(context.cacheDir.absolutePath + "/" + "tempUpload" + ext)
+        val file = File(context.cacheDir.absolutePath + "/" + "tempUpload"+(0 until 1000).random() + ext)
         return file.apply {
             FileOutputStream(file).apply {
                 try {

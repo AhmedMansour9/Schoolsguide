@@ -48,5 +48,4 @@ class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSc
             inputEditHelper.notifyChange()
         }
     }
-
 }

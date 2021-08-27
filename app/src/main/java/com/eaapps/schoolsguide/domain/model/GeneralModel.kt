@@ -24,7 +24,7 @@ data class BookSchoolModel(
     var email: String = "",
     var phone: String = "",
     var address: String = "",
-    var number_of_students: Int? = null,
+    var number_of_students: String ="",
     var school_id: Int? = null,
     var grades: Array<Int>? = null
 )

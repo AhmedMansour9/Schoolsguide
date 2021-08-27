@@ -6,9 +6,13 @@ import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.domain.usecase.GetProfileFatherUseCase
 import com.eaapps.schoolsguide.domain.usecase.LogoutFatherUseCase
+import com.eaapps.schoolsguide.utils.FlowEvent
+import com.eaapps.schoolsguide.utils.NetworkChecker
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.StateFlows
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,10 +24,6 @@ class MainViewModel @Inject constructor(
 
     internal val profileStateFlow = StateFlows<AuthResponse.AuthData>(viewModelScope)
     internal val logoutStateFlow = StateFlows<ResponseEntity>(viewModelScope)
-
-    init {
-        loadProfile()
-    }
 
     fun loadProfile() {
         viewModelScope.launch {
@@ -49,5 +49,6 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
 
 }

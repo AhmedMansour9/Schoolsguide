@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
@@ -55,8 +56,6 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setupContentActivityResult()
-
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = createDialog(
@@ -119,8 +118,10 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
                     val uri = it.data?.data
                     uri?.apply {
                         val file = FileHelper.writeTempFileFromUri(requireContext(), this)
-                        binding.profileImg.loadImage(file.path)
-                        viewModel.updateProfileModel.image = FileHelper.multiPartFile(file, "image")
+                        file.apply {
+                            binding.profileImg.setImageURI(Uri.parse(path))
+                            viewModel.updateProfileModel.image = FileHelper.multiPartFile(file, "image")
+                        }
                     }
 
                 }
@@ -238,11 +239,6 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
-//            type = "application/pdf"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
         resultIntentPicActivity.launch(
             Intent(
                 Intent.ACTION_PICK,
@@ -251,6 +247,4 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         )
 
     }
-
-
 }

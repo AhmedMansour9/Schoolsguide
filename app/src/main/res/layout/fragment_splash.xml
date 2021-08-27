@@ -6,13 +6,14 @@
     android:background="@drawable/splash_background">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_20sdp"
         android:indeterminate="true"
-        android:id="@+id/progressCircle"
         android:indeterminateTint="@color/black"
         android:progressTint="@color/black"
+        app:indicatorColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

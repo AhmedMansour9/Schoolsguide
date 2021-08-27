@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -39,15 +39,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 
-private const val TAG = "SearchMapDialogFragment"
-
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
 
     private val binding: FragmentDialogMapBinding by viewBinding(FragmentDialogMapBinding::bind)
-    private val shareViewModel: ShareViewModel by activityViewModels()
+
+    private val shareViewModel: ShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(ShareViewModel::class.java)
+    }
 
     private lateinit var mapFragment: SupportMapFragment
     private var googleMap: GoogleMap? = null
@@ -100,14 +101,15 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
             googleMap?.apply {
                 mapType = GoogleMap.MAP_TYPE_NORMAL
                 setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-                isMyLocationEnabled = true
+                isMyLocationEnabled = false
                 uiSettings.isZoomControlsEnabled = false
                 uiSettings.isCompassEnabled = false
+                uiSettings.isMapToolbarEnabled = false
                 uiSettings.isZoomGesturesEnabled = true
                 uiSettings.isIndoorLevelPickerEnabled = true
                 uiSettings.isScrollGesturesEnabled = true
                 setMaxZoomPreference(30F)
-                setMinZoomPreference(9F)
+                setMinZoomPreference(5F)
                 takePermission()
             }
         }
@@ -132,17 +134,22 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         }
 
         filterBtn.setOnClickListener {
-            launchFragment(SearchMapDialogFragmentDirections.actionSearchMapDialogFragmentToFilterBottomFragment())
+            launchFragment(
+                SearchMapDialogFragmentDirections.actionSearchMapDialogFragmentToFilterBottomFragment(
+                    1
+                )
+            )
         }
+
     }
 
     private fun FragmentDialogMapBinding.bindCollectFilterFire() {
         lifecycleScope.launchWhenCreated {
-            shareViewModel.filterFire.collect(FlowEvent(onSuccess = {
+            shareViewModel.filterMapFire.observe(viewLifecycleOwner, ObserveEvent(onSuccess = {
                 when (it) {
                     Filter.APPLY_FILTER -> {
-                        shareViewModel.loadSchoolMap()
                         if (shareViewModel.filterModel.isFilter()) {
+                            shareViewModel.loadSchoolMap()
                             filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
                         } else {
                             filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
@@ -189,52 +196,67 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        lifecycleScope.launchWhenStarted {
-            shareViewModel.filterFire.emit(Resource.Nothing())
-        }
+        shareViewModel.filterMapFire.value = Resource.Nothing()
         findNavController().navigateUp()
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     private fun FragmentDialogMapBinding.collectMarkSchoolMap() {
         lifecycleScope.launchWhenCreated {
-            shareViewModel.mapStateFlow.stateFlow.collect(FlowEvent(onError = {
+            shareViewModel.mapStateFlow.stateFlow.collect(FlowEvent(onLoading = {
+                groupRc.visibleOrGone(false)
+                progressBar.visibleOrGone(true)
+            }, onError = {
+                groupRc.visibleOrGone(false)
+                progressBar.visibleOrGone(false)
+
             }, onSuccess = {
-                val list: ArrayList<LatLng> = ArrayList()
-                val latLngBounds = LatLngBounds.Builder()
-                it.forEach { schoolData ->
-                    list.add(LatLng(schoolData.lat, schoolData.lng))
-                    latLngBounds.include(LatLng(schoolData.lat, schoolData.lng))
-                    googleMap?.apply {
-                        addMarker {
-                            position(LatLng(schoolData.lat, schoolData.lng))
-                            anchor(0.5f, 0.5f)
-                            icon(BitmapDescriptorFactory.fromBitmap(bitmapIconRide))
-                        }.tag = schoolData
+                if (it.isNotEmpty()) {
+                    googleMap?.clear()
+                    val list: ArrayList<LatLng> = ArrayList()
+                    val latLngBounds = LatLngBounds.Builder()
+                    it.forEach { schoolData ->
+                        list.add(LatLng(schoolData.lat, schoolData.lng))
+                        latLngBounds.include(LatLng(schoolData.lat, schoolData.lng))
+                        googleMap?.apply {
+                            addMarker {
+                                position(LatLng(schoolData.lat, schoolData.lng))
+                                anchor(0.5f, 0.5f)
+                                icon(BitmapDescriptorFactory.fromBitmap(bitmapIconRide))
+                            }.tag = schoolData
+                        }
                     }
-                }
+                    val bounds = latLngBounds.build()
+                    val width = resources.displayMetrics.widthPixels
+                    val height = resources.displayMetrics.heightPixels
 
-
-                val bounds = latLngBounds.build()
-                val width = resources.displayMetrics.widthPixels
-                val height = resources.displayMetrics.heightPixels
-                googleMap?.apply {
-                    animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(
-                            bounds,
-                            width,
-                            height,
-                            (width * 0.20).toInt()
+                    googleMap?.apply {
+                        animateCamera(
+                            CameraUpdateFactory.newLatLngBounds(
+                                bounds,
+                                width,
+                                height,
+                                (width * 0.20).toInt()
+                            )
                         )
-                    )
-                }
-                googleMap?.setOnMarkerClickListener { marker ->
-                    groupRc.visibleOrGone(true)
-                    val dataSchool = marker.tag as SchoolResponse.SchoolData.DataSchool
-                    rcSchool.smoothScrollToPosition(it.indexOf(dataSchool))
-                    false
-                }
-                rcSchool.adapter = MapSchoolAdapter(it)
+                    }
+                    googleMap?.setOnMarkerClickListener { marker ->
+                        groupRc.visibleOrGone(true)
+                        val dataSchool = marker.tag as SchoolResponse.SchoolData.DataSchool
+                        rcSchool.smoothScrollToPosition(it.indexOf(dataSchool))
+                        googleMap?.setPadding(
+                            0,
+                            0,
+                            0,
+                            resources.getDimensionPixelOffset(R.dimen._190sdp)
+                        )
+                        false
+                    }
+                    rcSchool.adapter = MapSchoolAdapter(it)
+                    filterNumbers.text = "${it.size}"
+                } else
+                    snackbar(getString(R.string.no_result))
+                progressBar.visibleOrGone(false)
 
             }))
         }

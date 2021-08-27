@@ -22,6 +22,8 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_splashFragment_to_noInternetFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/noInternetFragment" />
 
     </fragment>
@@ -337,16 +339,23 @@
             android:name="schoolId"
             app:argType="integer" />
     </dialog>
-    <fragment
+    <dialog
         android:id="@+id/noInternetFragment"
         tools:layout="@layout/fragment_no_internet"
         android:name="com.eaapps.schoolsguide.features.splash.NoInternetFragment"
-        android:label="NoInternetFragment" />
+        android:label="NoInternetFragment" >
+        <action
+            android:id="@+id/action_noInternetFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+    </dialog>
     <dialog
         android:id="@+id/filterBottomFragment"
         tools:layout="@layout/filter_bottom_sheet"
         android:name="com.eaapps.schoolsguide.features.search.subfeature.FilterBottomFragment"
-        android:label="FilterBottomFragment" />
+        android:label="FilterBottomFragment" >
+        <argument android:name="type"
+            app:argType="integer" />
+    </dialog>
     <dialog
         android:id="@+id/searchMapDialogFragment"
         tools:layout="@layout/fragment_dialog_map"

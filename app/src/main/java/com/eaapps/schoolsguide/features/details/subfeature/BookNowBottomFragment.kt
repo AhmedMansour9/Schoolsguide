@@ -81,7 +81,7 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
         )
         (studentNumberEdit as? AutoCompleteTextView)?.setAdapter(adapterNumber)
         (studentNumberEdit as? AutoCompleteTextView)?.setOnItemClickListener { _, _, position, _ ->
-            viewModel.bookSchoolModel.number_of_students = arrayItem[position]
+            viewModel.bookSchoolModel.number_of_students = "${arrayItem[position]}"
         }
     }
 

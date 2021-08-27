@@ -222,7 +222,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/rpt_bold"
                             android:inputType="none"
-                            android:text="@={detailsViewModel.inquiryModel.reply_type}"
+                            android:text="@={detailsViewModel.bookSchoolModel.number_of_students}"
                             android:textColor="@color/textColor1"
                             tools:ignore="LabelFor" />
 

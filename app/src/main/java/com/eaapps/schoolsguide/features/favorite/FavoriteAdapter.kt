@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemVerticalBinding
 
-class FavoriteAdapter(private val toggleFavorite: (Int, Int, List<SchoolResponse.SchoolData.DataSchool>) -> Unit) :
+class FavoriteAdapter(private val onToggleFavorite: (Int) -> Unit) :
     PagingDataAdapter<SchoolResponse.SchoolData.DataSchool, FavoriteAdapter.FavoriteViewHolder>(
         object :
             DiffUtil.ItemCallback<SchoolResponse.SchoolData.DataSchool>() {
@@ -24,10 +24,6 @@ class FavoriteAdapter(private val toggleFavorite: (Int, Int, List<SchoolResponse
 
         }) {
 
-    fun removeItem(position: Int) {
-        val schoolData = getItem(position)
-        toggleFavorite(schoolData?.id!!, position, snapshot().items)
-    }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) = holder.bind(position)
 
@@ -48,13 +44,10 @@ class FavoriteAdapter(private val toggleFavorite: (Int, Int, List<SchoolResponse
             val schoolData = getItem(position)
             schoolItemVerticalBinding.dataSchool = schoolData
             schoolItemVerticalBinding.executePendingBindings()
-            itemView.setOnClickListener {
-                notifyDataSetChanged()
 
-            }
             schoolItemVerticalBinding.favBox.setOnCheckedChangeListener { buttonView, _ ->
                 if (buttonView.isPressed) {
-                    removeItem(position)
+                    onToggleFavorite(schoolData?.id!!)
                 }
             }
         }

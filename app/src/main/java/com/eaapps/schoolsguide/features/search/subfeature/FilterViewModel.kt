@@ -2,15 +2,9 @@ package com.eaapps.schoolsguide.features.search.subfeature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eaapps.schoolsguide.data.entity.CityResponse
-import com.eaapps.schoolsguide.data.entity.GradesResponse
-import com.eaapps.schoolsguide.data.entity.ProgramsResponse
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.FilterModel
-import com.eaapps.schoolsguide.domain.usecase.CitiesUseCase
-import com.eaapps.schoolsguide.domain.usecase.FilterMapUseCase
-import com.eaapps.schoolsguide.domain.usecase.GradesSchoolUseCase
-import com.eaapps.schoolsguide.domain.usecase.ProgramSchoolUseCase
+import com.eaapps.schoolsguide.domain.usecase.*
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.StateFlows
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,13 +15,17 @@ import javax.inject.Inject
 class FilterViewModel @Inject constructor(
     private val programSchoolUseCase: ProgramSchoolUseCase,
     private val gradesSchoolUseCase: GradesSchoolUseCase,
-    private val citiesUseCase: CitiesUseCase
- ) : ViewModel() {
+    private val citiesUseCase: CitiesUseCase,
+    private val loadSchoolTypeUseCase: LoadSchoolTypeUseCase,
+
+    ) : ViewModel() {
 
     init {
         loadCities()
+        loadSchoolType()
         loadSchoolGrades()
         loadSchoolProgram()
+
     }
 
     internal val schoolProgramStateFlow = StateFlows<List<ProgramsResponse.Programs>>(viewModelScope)
@@ -35,6 +33,8 @@ class FilterViewModel @Inject constructor(
     internal val schoolGradesStateFlow = StateFlows<List<GradesResponse.Grades>>(viewModelScope)
 
     internal val citiesStateFlow = StateFlows<List<CityResponse.City>>(viewModelScope)
+
+    internal val schoolTypeStateFlow = StateFlows<List<TypeResponse.TypeData>>(viewModelScope)
 
     private fun loadSchoolProgram() {
         viewModelScope.launch {
@@ -71,6 +71,19 @@ class FilterViewModel @Inject constructor(
             }
 
         }
+    }
+
+    private fun loadSchoolType() {
+        viewModelScope.launch {
+            try {
+                schoolTypeStateFlow.setValue(Resource.Loading())
+                val result = loadSchoolTypeUseCase.execute()
+                schoolTypeStateFlow.setValue(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
     }
 
 

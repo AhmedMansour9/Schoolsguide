@@ -42,7 +42,7 @@ data class FilterModel(
     var program_id: Int? = null,
     var city_id: Int? = null,
     var review: Int? = null,
-    var filterPosition: FilterPositionModel = FilterPositionModel()
+    var filterPosition: FilterPositionModel = FilterPositionModel(),
 ) {
     fun isFilter(): Boolean =
         !school_type.isNullOrBlank() || grade_id != null || from_price != null ||

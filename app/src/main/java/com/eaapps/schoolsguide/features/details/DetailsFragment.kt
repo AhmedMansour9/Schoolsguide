@@ -38,7 +38,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        createDialog(R.style.AppTheme, Color.TRANSPARENT, false)
+        createDialog(R.style.AppTheme, Color.TRANSPARENT, false,shouldInterceptBackPress = true){dismiss()}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

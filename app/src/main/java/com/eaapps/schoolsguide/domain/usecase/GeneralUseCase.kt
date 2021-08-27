@@ -1,10 +1,7 @@
 package com.eaapps.schoolsguide.domain.usecase
 
 import com.eaapps.schoolsguide.data.entity.*
-import com.eaapps.schoolsguide.domain.model.BookSchoolModel
-import com.eaapps.schoolsguide.domain.model.InquiryModel
-import com.eaapps.schoolsguide.domain.model.JoinDiscountModel
-import com.eaapps.schoolsguide.domain.model.UploadCvModel
+import com.eaapps.schoolsguide.domain.model.*
 import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -198,6 +195,23 @@ class UploadCvUseCase @Inject constructor(private val generalRepository: General
             uploadCvModel.job_id!!,
             uploadCvModel.school_id!!,
             uploadCvModel.attachment!!
+        )
+}
+
+class FilterMapUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(filterModel: FilterModel): Resource<List<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.filterSchools(
+            FilterRequestEntity(
+                filterModel.search,
+                filterModel.school_type,
+                filterModel.type_id,
+                filterModel.grade_id,
+                filterModel.from_price,
+                filterModel.to_price,
+                filterModel.program_id,
+                filterModel.city_id,
+                filterModel.review
+            )
         )
 }
 

@@ -20,6 +20,9 @@ interface GeneralRepository {
 
     suspend fun bookNow(body: HashMap<String, Any>): Resource<ResponseEntity>
 
-    suspend fun uploadCv(jobId:Int,schoolId: Int,file: File): Resource<ResponseEntity>
+    suspend fun uploadCv(jobId: Int, schoolId: Int, file: File): Resource<ResponseEntity>
+
+    suspend fun filterSchools(filterRequestEntity: FilterRequestEntity): Resource<List<SchoolResponse.SchoolData.DataSchool>>
+
 
 }

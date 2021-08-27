@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/schoolFeesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/round_shimmer_shape"
+        android:fontFamily="@font/rpt_bold"
+        android:text="@string/school_fees"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="School Fees" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/sliderFees"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:stepSize="5.0"
+        android:valueFrom="0.0"
+        android:valueTo="500000.0"
+        app:haloColor="@color/white"
+        app:labelBehavior="gone"
+        app:layout_constraintTop_toBottomOf="@id/schoolFeesLabel"
+        app:thumbColor="@color/shimmer_color"
+        app:tickColorActive="@color/shimmer_color"
+        app:tickVisible="true"
+        app:trackColor="@color/shimmer_color"
+        app:trackColorActive="@color/colorApp3"
+        app:trackHeight="8dp"
+        app:values="@array/initial_slider_values" />
+
+    <ImageView
+        android:id="@+id/fromValue"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/round_shimmer_shape"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/sliderFees"
+        app:layout_constraintTop_toBottomOf="@id/sliderFees"
+        tools:ignore="ContentDescription,LabelFor" />
+
+    <ImageView
+        android:id="@+id/toValue"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/round_shimmer_shape"
+        app:layout_constraintEnd_toEndOf="@id/sliderFees"
+        app:layout_constraintTop_toBottomOf="@id/sliderFees"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:background="@color/shimmer_color"
+        app:layout_constraintTop_toBottomOf="@id/toValue"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

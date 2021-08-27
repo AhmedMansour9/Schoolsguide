@@ -1,48 +1,37 @@
 package com.eaapps.schoolsguide.features.search
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.data.entity.CityResponse
-import com.eaapps.schoolsguide.data.entity.GradesResponse
-import com.eaapps.schoolsguide.data.entity.ProgramsResponse
 import com.eaapps.schoolsguide.data.entity.TypeResponse
-import com.eaapps.schoolsguide.databinding.FilterBottomSheetBinding
 import com.eaapps.schoolsguide.databinding.FragmentSearchBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.features.favorite.PagingStateLoading
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.createDialog
-import com.eaapps.schoolsguide.utils.hiddenKeyboard
-import com.eaapps.schoolsguide.utils.visibleOrGone
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 private const val TAG = "SearchFragment"
 
@@ -53,33 +42,39 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
     private val binding: FragmentSearchBinding by viewBinding(FragmentSearchBinding::bind)
     private val viewModel: SearchViewModel by viewModels()
+    private val shareViewModel: ShareViewModel by activityViewModels()
     private var searchType: SearchType? = null
     private var listMode = true
     private var checkItem = 0
+    private var positionFavorite = -1
     private var pairTypes: Pair<List<TypeResponse.TypeData>, ArrayList<String>>? = null
-    private var pairProgram: Pair<List<ProgramsResponse.Programs>, ArrayList<String>>? = null
-    private var pairGrades: Pair<List<GradesResponse.Grades>, ArrayList<String>>? = null
-    private var pairCities: Pair<List<CityResponse.City>, ArrayList<String>>? = null
 
-    private val schoolPagingAdapter = SchoolPagingAdapter {
-        viewModel.filterModel.city_id = 1
+    private val schoolPagingAdapter = SchoolPagingAdapter(onToggleFavorite = { position, id ->
+        positionFavorite = position
+        viewModel.toggleFavorite(id)
+    }) {
+        launchFragment(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it))
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        createDialog(R.style.AppTheme, Color.WHITE, true)
+        createDialog(
+            R.style.AppTheme,
+            Color.WHITE,
+            true,
+            shouldInterceptBackPress = true
+        ) { dismiss() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupArg()
-        collectCitiesData()
         collectSchoolTypeData()
-        collectSchoolGradesData()
-        collectSchoolProgramData()
+        toggleFavoriteResultData()
         binding.bindListChangeMode(listMode)
         binding.bindState(schoolPagingAdapter)
         binding.bindList(schoolPagingAdapter)
         binding.bindSearch()
         binding.bindClicks()
+        binding.bindCollectFilterFire()
         loadListData()
     }
 
@@ -121,7 +116,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                 retryButton.visibleOrGone(it.source.refresh is LoadState.Error)
 
                 noItem.apply {
-                    groupNo.visibleOrGone(isListEmpty && (!viewModel.filterModel.search.isNullOrBlank() || viewModel.filterModel.isFilter()))
+                    groupNo.visibleOrGone(isListEmpty && (!shareViewModel.filterModel.search.isNullOrBlank() || viewModel.filterModel.isFilter()))
                     icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_search)
                     titleNo = getString(R.string.search_no_msg)
                 }
@@ -186,12 +181,19 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         }
 
         typeSchoolChoose.setOnClickListener {
-            binding.bindDialogTypeSchool()
+            bindDialogTypeSchool()
         }
 
         filterBtn.setOnClickListener {
-            val binding = FilterBottomSheetBinding.inflate(LayoutInflater.from(requireContext()))
-            binding.bindBottomSheet()
+            launchFragment(SearchFragmentDirections.actionSearchFragmentToFilterBottomFragment())
+        }
+
+        backBtn.setOnClickListener {
+            dismiss()
+        }
+
+        mapSearchBtn.setOnClickListener {
+            launchFragment(SearchFragmentDirections.actionSearchFragmentToSearchMapDialogFragment())
         }
     }
 
@@ -215,10 +217,10 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
             dialogChoose.setPositiveButton("Done") { dialog, _ ->
                 pairTypes?.first?.apply {
                     if (checkItem > 0) {
-                        viewModel.filterModel.type_id = this[checkItem - 1].id
+                        shareViewModel.filterModel.type_id = this[checkItem - 1].id
                         typeName.text = this[checkItem - 1].name
                     } else {
-                        viewModel.filterModel.type_id = null
+                        shareViewModel.filterModel.type_id = null
                         typeName.text = getString(R.string.school_type)
                     }
                     if (exploreField.text.toString().isNotBlank()) {
@@ -235,160 +237,48 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     private fun FragmentSearchBinding.updateListFromInput() {
         exploreField.text.trim().let {
             if (it.isNotEmpty()) {
-                viewModel.filterModel.search = it.toString()
+                shareViewModel.filterModel.search = it.toString()
                 filter()
             }
         }
     }
 
-    private fun FragmentSearchBinding.filter() {
+    private fun FragmentSearchBinding.emptyList() {
         schoolsList.scrollToPosition(0)
         lifecycleScope.launch {
             schoolPagingAdapter.submitData(PagingData.empty())
         }
+    }
+
+    private fun FragmentSearchBinding.filter() {
+        emptyList()
         requireContext().hiddenKeyboard(exploreField)
         collectFilterSchoolPagingData()
     }
 
-
-    private fun FilterBottomSheetBinding.bindBottomSheet() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
-        bottomSheetDialog.setContentView(this.root)
-        val view = bottomSheetDialog.findViewById<FrameLayout>(R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from<View>(view!!)
-        val displayMetrics = DisplayMetrics()
-        bottomSheetDialog.setCancelable(false)
-        requireActivity().windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        val size = displayMetrics.heightPixels * 90 / 100
-        behavior.setPeekHeight(size, true)
-        behavior.isDraggable = false
-        bottomSheetDialog.show()
-        bindFillLists()
-        bindClicks(dialog = bottomSheetDialog)
-        bindEvaluationFees()
-    }
-
-    private fun FilterBottomSheetBinding.bindFillLists() {
-        pairGrades?.second?.apply {
-            educationLevel.listViewChoice.adapter =
-                ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
-            educationLevel.listViewChoice.setOnItemClickListener { _, _, position, _ ->
-                educationLevel.itemSelect = this[position]
-                viewModel.filterModel.grade_id = pairGrades?.first!![position].id
-                viewModel.filterModel.filterPosition.grade_id = position
-            }
-            viewModel.filterModel.filterPosition.grade_id?.let {
-                educationLevel.itemSelect = this[it]
-                educationLevel.listViewChoice.setSelection(it)
-                educationLevel.listViewChoice.setItemChecked(it, true)
-            }
-
-        }
-
-        pairProgram?.second?.apply {
-            curriculumType.listViewChoice.adapter =
-                ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
-
-            curriculumType.listViewChoice.setOnItemClickListener { _, _, position, _ ->
-                curriculumType.itemSelect = this[position]
-                viewModel.filterModel.program_id = pairProgram?.first!![position].id
-                viewModel.filterModel.filterPosition.program_id = position
-            }
-            viewModel.filterModel.filterPosition.program_id?.let {
-                curriculumType.itemSelect = this[it]
-                curriculumType.listViewChoice.setSelection(it)
-                curriculumType.listViewChoice.setItemChecked(it, true)
-            }
-        }
-
-        pairCities?.second?.apply {
-            cities.listViewChoice.adapter =
-                ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
-
-            cities.listViewChoice.setOnItemClickListener { _, _, position, _ ->
-                cities.itemSelect = this[position]
-                viewModel.filterModel.city_id = pairCities?.first!![position].id
-                viewModel.filterModel.filterPosition.city_id = position
-            }
-
-            viewModel.filterModel.filterPosition.city_id?.let {
-                cities.itemSelect = this[it]
-                cities.listViewChoice.setSelection(it)
-                cities.listViewChoice.setItemChecked(it, true)
-            }
-        }
-
-        requireContext().resources.getStringArray(R.array.schoolType).apply {
-            typeSchool.listViewChoice.adapter =
-                ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
-
-            typeSchool.listViewChoice.setOnItemClickListener { _, _, position, _ ->
-                typeSchool.itemSelect = this[position]
-                viewModel.filterModel.school_type = this[position].toLowerCase(Locale.ENGLISH)
-                viewModel.filterModel.filterPosition.school_type = position
-
-            }
-
-            viewModel.filterModel.filterPosition.school_type?.let {
-                typeSchool.itemSelect = this[it]
-                typeSchool.listViewChoice.setSelection(it)
-                typeSchool.listViewChoice.setItemChecked(it, true)
-            }
-        }
-
-    }
-
-    private fun FilterBottomSheetBinding.bindEvaluationFees() {
-        viewModel.filterModel.apply {
-            schoolFees.sliderFees.setValues(
-                from_price?.toFloat() ?: 0.0f,
-                to_price?.toFloat() ?: 500000.0f
-            )
-            schoolFees.fromValue.setText("${schoolFees.sliderFees.values[0]}")
-            schoolFees.toValue.setText("${schoolFees.sliderFees.values[1]}")
-            evaluationValue.rating = this.review?.toFloat() ?: 0f
-        }
-
-        evaluationValue.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            viewModel.filterModel.review = rating.toInt()
-        }
-
-        schoolFees.sliderFees.addOnChangeListener { rangeSlider, _, _ ->
-            val valueFrom = rangeSlider.values[0].toInt()
-            val valueTo = rangeSlider.values[1].toInt()
-            schoolFees.fromValue.setText("$valueFrom")
-            schoolFees.toValue.setText("$valueTo")
-            viewModel.filterModel.from_price = valueFrom
-            viewModel.filterModel.to_price = valueTo
-
-        }
-
-    }
-
-    private fun FilterBottomSheetBinding.bindClicks(dialog: BottomSheetDialog) {
-        cancelBtn.setOnClickListener {
-            dialog.cancel()
-        }
-
-        clearAllBtn.setOnClickListener {
-            viewModel.filterModel.clear()
-            binding.apply {
-                if (viewModel.filterModel.isFilter())
-                    filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
-                else
-                    filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
-            }
-        }
-
-        applyFilter.setOnClickListener {
-            binding.filter()
-            dialog.cancel()
-            binding.apply {
-                if (viewModel.filterModel.isFilter())
-                    filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
-                else
-                    filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
-            }
+    private fun FragmentSearchBinding.bindCollectFilterFire() {
+        lifecycleScope.launchWhenCreated {
+            shareViewModel.filterFire.collect(FlowEvent(onSuccess = {
+                when (it) {
+                    Filter.APPLY_FILTER -> {
+                        filter()
+                        if (shareViewModel.filterModel.isFilter()) {
+                            filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
+                        } else {
+                            filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
+                        }
+                    }
+                    Filter.CLEAR_FILTER -> {
+                        if (shareViewModel.filterModel.isFilter()) {
+                            filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
+                        } else {
+                            filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
+                        }
+                    }
+                }
+            }, onNothing = {
+                emptyList()
+            }))
         }
     }
 
@@ -418,7 +308,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
     private fun collectFilterSchoolPagingData() {
         lifecycleScope.launchWhenCreated {
-            viewModel.loadSchoolFilters().collect {
+            shareViewModel.loadSchoolFilters().collect {
                 schoolPagingAdapter.submitData(it)
             }
         }
@@ -426,7 +316,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
     private fun collectSchoolTypeData() {
         lifecycleScope.launchWhenCreated {
-            viewModel.schoolTypeStateFlow.collect(FlowEvent(onError = {
+            viewModel.schoolTypeStateFlow.stateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
                 val list: ArrayList<String> = ArrayList()
                 it.forEach { typeData ->
@@ -437,48 +327,29 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         }
     }
 
-    private fun collectSchoolProgramData() {
+    private fun toggleFavoriteResultData() {
         lifecycleScope.launchWhenCreated {
-            viewModel.schoolProgramStateFlow.collect(FlowEvent(onError = {
+            viewModel.toggleFavoriteStateFlow.stateFlow.collect(FlowEvent(onError = {
             }, onSuccess = {
-                val list: ArrayList<String> = ArrayList()
-                it.forEach { typeData ->
-                    list.add(typeData.name)
+                lifecycleScope.launch {
+                    if (positionFavorite >= 0) {
+                        schoolPagingAdapter.updateItem(positionFavorite)
+                        positionFavorite = -1
+                    }
                 }
-                pairProgram = Pair(it, list)
-
             }))
         }
     }
 
-    private fun collectSchoolGradesData() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.schoolGradesStateFlow.collect(FlowEvent(onError = {
-            }, onSuccess = {
-                val list: ArrayList<String> = ArrayList()
-                it.forEach { typeData ->
-                    list.add(typeData.name!!)
-                }
-                pairGrades = Pair(it, list)
-
-            }))
+    override fun onDismiss(dialog: DialogInterface) {
+        lifecycleScope.launchWhenStarted {
+            shareViewModel.filterFire.emit(Resource.Nothing())
         }
+        findNavController().navigateUp()
     }
 
-    private fun collectCitiesData() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.citiesStateFlow.collect(
-                FlowEvent(onError = {},
-                    onSuccess = {
-                        val list: ArrayList<String> = ArrayList()
-                        it.forEach { city ->
-                            list.add(city.name)
-                        }
-                        pairCities = Pair(it, list)
-
-                    })
-            )
-        }
+    override fun onStart() {
+        super.onStart()
+        shareViewModel.mapSearch = false
     }
-
 }

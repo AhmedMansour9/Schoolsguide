@@ -183,4 +183,10 @@
         <item>Evening time</item>
     </array>
 
+    <string name="api_key">AIzaSyBwdy8t1oR8OlYZSPMOUUAy2AmQZ6MLE-4</string>
+    <string name="permission_title">Permission Location!</string>
+    <string name="permission_msg">Please allow location</string>
+    <string name="permission_take">Take Permission</string>
+
+
 </resources>

@@ -42,6 +42,8 @@ object ImageBinding {
             if (this.isNotBlank())
                 Glide.with(imageView).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .fallback(R.drawable.fall)
+                    .error(R.drawable.fall)
                     .placeholder(R.drawable.progress_animation).into(imageView)
         }
     }
@@ -54,6 +56,8 @@ object ImageBinding {
                 Glide.with(imageView).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.progress_animation)
+                    .fallback(R.drawable.fall)
+                    .error(R.drawable.fall)
                     .into(object : CustomTarget<Drawable>() {
                         override fun onResourceReady(
                             resource: Drawable,

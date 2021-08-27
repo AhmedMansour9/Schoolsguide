@@ -90,7 +90,7 @@
 
             <TextView
                 android:id="@+id/titleSchool"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_6sdp"
@@ -99,6 +99,7 @@
                 android:text="@{dataSchool.name}"
                 android:textColor="@color/textColor1"
                 android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageSchool"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="International" />
@@ -113,6 +114,7 @@
                 android:text="@{dataSchool.short_description.toString()}"
                 android:textColor="#858585"
                 android:ellipsize="end"
+                android:maxHeight="@dimen/_40sdp"
                 android:textSize="@dimen/_9ssp"
                 app:layout_constraintBottom_toTopOf="@id/line"
                 android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"

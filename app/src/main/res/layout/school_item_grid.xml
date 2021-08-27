@@ -107,7 +107,7 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_marginEnd="@dimen/_5sdp"

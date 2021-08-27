@@ -252,4 +252,5 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
 
     }
 
+
 }

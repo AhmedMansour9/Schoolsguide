@@ -12,6 +12,9 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="shimmer_color">#dddddd</color>
 
+    <color name="circleProgress">#5900B6B7</color>
+
+
     <color name="textColor1">#181818</color>
     <color name="colorApp1">#00B6B7</color>
     <color name="colorApp1Dark">#028F8F</color>

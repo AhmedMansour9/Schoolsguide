@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#C8FFFFFF"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/background_clear_circle"
+                android:scaleType="centerInside"
+                android:src="@drawable/round_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="@id/jobLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/jobLabel"
+                app:tint="@color/black"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_n"
+                app:layout_constraintBottom_toBottomOf="@id/jobLabel"
+                app:layout_constraintEnd_toStartOf="@id/jobLabel"
+                app:layout_constraintTop_toTopOf="@id/jobLabel"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/jobLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/product_sans_bold"
+                android:text="@string/search_map"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_20ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/filterBtn"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/outline_filter_alt_black_36"
+                app:layout_constraintBottom_toBottomOf="@id/jobLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/jobLabel"
+                app:tint="@color/black"
+                tools:ignore="ContentDescription" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/lineJob"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray_0"
+            app:layout_constraintTop_toBottomOf="@id/bar"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_140sdp"
+            android:background="@drawable/bg_gradiant_white"
+            android:id="@+id/groupRc"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcSchool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -144,4 +144,16 @@ interface ApiServices {
     ): Response<SchoolResponse>
 
 
+    @GET("/api/schools")
+    fun filterMapSchoolAsync(
+        @Query("search") search: String? = null,
+        @Query("type_id") type_id: Int? = null,
+        @Query("school_type") school_type: String? = null,
+        @Query("grade_id") grade_id: Int? = null,
+        @Query("from_price") from_price: Int? = null,
+        @Query("to_price") to_price: Int? = null,
+        @Query("program_id") program_id: Int? = null,
+        @Query("city_id") city_id: Int? = null
+    ): Deferred<Response<SchoolResponse>>
+
 }

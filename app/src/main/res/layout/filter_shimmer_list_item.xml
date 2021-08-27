@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="line"
+            type="Boolean" />
+
+        <variable
+            name="itemSelect"
+            type="String" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/shimmer_filterTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{title}"
+            android:background="@drawable/round_shimmer_shape"
+            android:textColor="@color/shimmer_color"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Education Level" />
+
+        <TextView
+            android:id="@+id/filterItemSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{itemSelect}"
+            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
+            android:textColor="#989898"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/shimmer_filterTitleLabel"
+            app:layout_constraintTop_toTopOf="@id/shimmer_filterTitleLabel"
+            tools:text="Item Selection"/>
+
+        <ImageView
+            android:id="@+id/simmer_listViewChoice"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical"
+            android:background="@color/shimmer_color"
+            app:layout_constraintTop_toBottomOf="@id/shimmer_filterTitleLabel"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@color/shimmer_color"
+            android:visibility="@{line?View.VISIBLE:View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/simmer_listViewChoice"
+            tools:ignore="ContentDescription" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

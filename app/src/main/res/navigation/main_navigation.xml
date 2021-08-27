@@ -110,6 +110,15 @@
         <argument
             android:name="searchType"
             app:argType="com.eaapps.schoolsguide.domain.model.SearchType" />
+        <action
+            android:id="@+id/action_searchFragment_to_filterBottomFragment"
+            app:destination="@id/filterBottomFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchMapDialogFragment"
+            app:destination="@id/searchMapDialogFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </dialog>
     <dialog
         android:id="@+id/detailsFragment"
@@ -333,4 +342,18 @@
         tools:layout="@layout/fragment_no_internet"
         android:name="com.eaapps.schoolsguide.features.splash.NoInternetFragment"
         android:label="NoInternetFragment" />
+    <dialog
+        android:id="@+id/filterBottomFragment"
+        tools:layout="@layout/filter_bottom_sheet"
+        android:name="com.eaapps.schoolsguide.features.search.subfeature.FilterBottomFragment"
+        android:label="FilterBottomFragment" />
+    <dialog
+        android:id="@+id/searchMapDialogFragment"
+        tools:layout="@layout/fragment_dialog_map"
+        android:name="com.eaapps.schoolsguide.features.search.subfeature.SearchMapDialogFragment"
+        android:label="SearchMapDialogFragment" >
+        <action
+            android:id="@+id/action_searchMapDialogFragment_to_filterBottomFragment"
+            app:destination="@id/filterBottomFragment" />
+    </dialog>
 </navigation>

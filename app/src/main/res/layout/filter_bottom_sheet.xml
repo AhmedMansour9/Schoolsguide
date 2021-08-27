@@ -66,15 +66,28 @@
 
                 tools:ignore="ContentDescription" />
 
+            <include
+                layout="@layout/filter_shimmer_loading"
+                android:layout_width="match_parent"
+                android:id="@+id/filter_shimmer_loading"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp" />
+
             <FrameLayout
+                android:id="@+id/groupFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_70sdp"
-                android:layout_marginBottom="@dimen/_30sdp">
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:visibility="gone">
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbarFadeDuration="10000"
+                    android:scrollbarThumbVertical="@color/colorApp3"
+                    android:scrollbars="vertical">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -170,6 +183,7 @@
                             app:layout_constraintTop_toBottomOf="@id/lineRate" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/applyFilter"
                             android:layout_width="match_parent"
                             android:layout_height="68dp"
                             android:layout_marginStart="@dimen/_15sdp"
@@ -178,7 +192,6 @@
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:fontFamily="@font/rpt_bold"
                             android:text="@string/apply"
-                            android:id="@+id/applyFilter"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_20ssp"

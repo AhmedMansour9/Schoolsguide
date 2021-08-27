@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="dataSchool"
+            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageSchool"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:scaleType="centerCrop"
+            android:src="@{dataSchool.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School.Map" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_school_item"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="0dp"
+            android:alpha=".6"
+            app:layout_constraintBottom_toBottomOf="@+id/imageSchool"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageSchool"
+            app:layout_constraintVertical_bias="0.0"
+            app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.School.Map"
+            app:srcCompat="@drawable/bg_gradiant"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/fav_box"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:button="@drawable/fav_selector"
+            android:checked="@{dataSchool.favoired}"
+            app:buttonTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rate"
+            style="@style/RateBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:numStars="5"
+            android:progressTint="@color/rate_active"
+             android:secondaryProgressTint="@color/rate_un_active"
+            app:layout_constraintBottom_toBottomOf="@id/imageSchool"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/titleSchool"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/rpt_bold"
+            android:text="@{dataSchool.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@id/imageSchool"
+            app:layout_constraintEnd_toStartOf="@id/rate"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="International" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

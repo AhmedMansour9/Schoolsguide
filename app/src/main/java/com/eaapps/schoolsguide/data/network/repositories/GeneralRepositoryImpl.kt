@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.data.network.repositories
 
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.data.network.dataSources.FilterSchoolPagingSource
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall
@@ -120,11 +121,12 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
             }, "Exception occurred!")
         }
 
-    override suspend fun uploadCv(jobId:Int,schoolId: Int,file: File): Resource<ResponseEntity> =
+    override suspend fun uploadCv(jobId: Int, schoolId: Int, file: File): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {
             safeCall(call = {
                 val result = apiServices.uploadCvAsync(
-                  jobId.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
+                    jobId.toString()
+                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
                     schoolId.toString()
                         .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()),
                     MultipartBody.Part.createFormData(
@@ -144,4 +146,23 @@ class GeneralRepositoryImpl @Inject constructor(private val apiServices: ApiServ
             }, "Exception occurred!")
         }
 
+    override suspend fun filterSchools(filterRequestEntity: FilterRequestEntity): Resource<List<SchoolResponse.SchoolData.DataSchool>> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = apiServices.filterMapSchoolAsync(
+                    search = filterRequestEntity.search,
+                    city_id = filterRequestEntity.city_id,
+                    program_id = filterRequestEntity.program_id,
+                    school_type = filterRequestEntity.school_type,
+                    from_price = filterRequestEntity.from_price,
+                    to_price = filterRequestEntity.to_price,
+                    type_id = filterRequestEntity.type_id
+                ).await()
+                if (result.isSuccessful) {
+                    Resource.Success(result.body()?.data?.data)
+                } else {
+                    Resource.Error(result.code(), result.message())
+                }
+            }, "")
+        }
 }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:id="@+id/groupShimmerFilter"
+        android:layout_marginBottom="@dimen/_30sdp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:scrollbarFadeDuration="10000"
+            android:scrollbarThumbVertical="@color/colorApp3"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <include
+                    layout="@layout/filter_shimmer_list_item"
+                    line="@{true}"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   />
+
+                <include
+                    layout="@layout/filter_shimmer_list_item"
+                    line="@{true}"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+
+                <include
+                    layout="@layout/filter_shimmer_list_item"
+                    line="@{true}"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+
+                <include
+                    layout="@layout/filter_shimmer_list_item"
+                    line="@{true}"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:id="@+id/school_evaluationLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:background="@drawable/round_shimmer_shape"
+                    android:text="@string/school_evaluation"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/_18ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/type_school"
+                    tools:text="School evaluation" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/evaluationValue"
+                    style="@style/RateBar.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:layout_gravity="center"
+                    android:progressTint="@color/shimmer_color"
+                    android:rating="0"
+                    android:soundEffectsEnabled="true"
+                    android:stepSize="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/school_evaluationLabel" />
+
+                <ImageView
+                    android:id="@+id/lineRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintTop_toBottomOf="@id/evaluationValue"
+                    tools:ignore="ContentDescription" />
+
+                <include
+                    android:id="@+id/schoolFees"
+                    layout="@layout/school_shimmer_fees_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/lineRate" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/applyFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@string/apply"
+                    android:textAllCaps="false"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/_20ssp"
+                    app:backgroundTint="@color/shimmer_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/schoolFees" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</layout>

@@ -61,6 +61,13 @@
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.Card.School.Map" parent="">
+        <item name="cornerSizeTopLeft">15dp</item>
+        <item name="cornerSizeTopRight">15dp</item>
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+    </style>
+
 
     <style name="ShapeAppearanceOverlay.App.Card.Slider" parent="">
         <item name="cornerSizeTopLeft">0dp</item>

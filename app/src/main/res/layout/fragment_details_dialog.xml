@@ -52,14 +52,6 @@
                         android:scaleType="centerCrop"
                         tools:ignore="ContentDescription">
 
-                        <ImageView
-                            android:id="@+id/picShimmer"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/shimmer_color"
-                            android:scaleType="centerCrop"
-                            tools:ignore="ContentDescription" />
-
                     </com.facebook.shimmer.ShimmerFrameLayout>
 
                     <ImageView
@@ -560,6 +552,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/picShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/shimmer_color"
+            android:scaleType="centerCrop"
+            app:layout_anchor="@+id/appbar"
+            app:layout_anchorGravity="center"
+            tools:ignore="ContentDescription" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

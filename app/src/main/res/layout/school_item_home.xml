@@ -13,7 +13,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="230dp"
+        android:layout_width="@dimen/_190sdp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardBackgroundColor="@color/white"
@@ -87,15 +87,16 @@
 
             <TextView
                 android:id="@+id/titleSchool"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 android:fontFamily="@font/rpt_bold"
                 android:text="@{dataSchool.name}"
                 android:textColor="@color/textColor1"
-                android:textSize="@dimen/_13ssp"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageSchool"
                 tools:text="International" />
@@ -103,13 +104,13 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/rpt_bold"
-                android:text="@{dataSchool.short_description.toString()}"
+                shortString="@{dataSchool.short_description.toString()}"
                 android:textColor="#858585"
                 android:textSize="@dimen/_9ssp"
                 android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"

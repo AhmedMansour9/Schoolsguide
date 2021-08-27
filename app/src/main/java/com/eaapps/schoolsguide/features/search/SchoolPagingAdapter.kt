@@ -2,17 +2,18 @@ package com.eaapps.schoolsguide.features.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemGridBinding
-import com.eaapps.schoolsguide.databinding.SchoolItemHomeBinding
 import com.eaapps.schoolsguide.databinding.SchoolItemVerticalBinding
 
 class SchoolPagingAdapter(
     private var listMode: Boolean = true,
-    private val toggleFavorite: (Int) -> Unit
+    private val onToggleFavorite: (Int, Int) -> Unit,
+    private val onItemSelected: (SchoolResponse.SchoolData.DataSchool) -> Unit
 ) :
     PagingDataAdapter<SchoolResponse.SchoolData.DataSchool, RecyclerView.ViewHolder>(
         object :
@@ -33,8 +34,17 @@ class SchoolPagingAdapter(
         return if (listMode) 1 else 0
     }
 
-    fun changeMode(listMode: Boolean){
+    fun changeMode(listMode: Boolean) {
         this.listMode = listMode
+    }
+
+    suspend fun updateItem(position: Int) {
+        val currentList: ArrayList<SchoolResponse.SchoolData.DataSchool> =
+            ArrayList(snapshot().items)
+        val schoolData: SchoolResponse.SchoolData.DataSchool = currentList[position]
+        schoolData.isFavoired = !schoolData.isFavoired
+        currentList[position] = schoolData
+        this.submitData(PagingData.from(currentList))
     }
 
     inner class SchoolVerticalViewHolder(private val schoolItemVerticalBinding: SchoolItemVerticalBinding) :
@@ -44,8 +54,12 @@ class SchoolPagingAdapter(
             schoolItemVerticalBinding.dataSchool = schoolData
             schoolItemVerticalBinding.executePendingBindings()
             schoolItemVerticalBinding.favBox.setOnCheckedChangeListener { buttonView, isChecked ->
-//                if (buttonView.isPressed) {
-//                }
+                if (buttonView.isPressed) {
+                    onToggleFavorite(position, schoolData?.id!!)
+                }
+            }
+            itemView.setOnClickListener {
+                onItemSelected(schoolData!!)
             }
         }
     }
@@ -58,8 +72,12 @@ class SchoolPagingAdapter(
             schoolItemGridBinding.dataSchool = schoolData
             schoolItemGridBinding.executePendingBindings()
             schoolItemGridBinding.favBox.setOnCheckedChangeListener { buttonView, isChecked ->
-//                if (buttonView.isPressed) {
-//                }
+                if (buttonView.isPressed) {
+                    onToggleFavorite(position, schoolData?.id!!)
+                }
+                itemView.setOnClickListener {
+                    onItemSelected(schoolData!!)
+                }
             }
         }
     }

@@ -8,6 +8,8 @@
         <variable
             name="dataSchool"
             type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -474,6 +476,7 @@
                             android:id="@+id/faceBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:visibility="@{!dataSchool.facebook_link.empty?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/facebook_"
@@ -481,37 +484,21 @@
 
 
                         <ImageButton
-                            android:id="@+id/googleBtn"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="?android:selectableItemBackgroundBorderless"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/google_plus_"
-                            tools:ignore="ContentDescription" />
-
-
-                        <ImageButton
                             android:id="@+id/twitterBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:visibility="@{!dataSchool.twitter_link.empty?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/twitter_"
                             tools:ignore="ContentDescription" />
 
-                        <ImageButton
-                            android:id="@+id/linkedInBtn"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="?android:selectableItemBackgroundBorderless"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/linkedin_"
-                            tools:ignore="ContentDescription" />
 
                         <ImageButton
                             android:id="@+id/youtubeBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:visibility="@{!dataSchool.youtube_link.empty?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/youtube_"
@@ -521,6 +508,7 @@
                             android:id="@+id/instaBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:visibility="@{!dataSchool.instgram_link.empty?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/insta_"

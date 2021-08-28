@@ -194,6 +194,8 @@
     <string name="no_result">No Result</string>
     <string name="result_school">School Found</string>
     <string name="online">Internet back online</string>
+    <string name="schools_found">Schools Found</string>
+    <string name="item_selection">Item Selection</string>
 
 
 </resources>

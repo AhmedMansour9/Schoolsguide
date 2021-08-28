@@ -103,6 +103,7 @@
 
             <TextView
                 android:id="@+id/description"
+                shortString="@{dataSchool.short_description.toString()}"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_6sdp"
@@ -110,7 +111,6 @@
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/rpt_bold"
-                shortString="@{dataSchool.short_description.toString()}"
                 android:textColor="#858585"
                 android:textSize="@dimen/_9ssp"
                 android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
@@ -132,14 +132,16 @@
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                style="@style/RateBar"
+                style="@style/RateBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:numStars="5"
                 android:progressTint="@color/rate_active"
-                android:rating="3.5"
                 android:secondaryProgressTint="@color/rate_un_active"
+                android:stepSize="1"
+                android:rating="@{dataSchool.total_review}"
+                android:isIndicator="true"
                 app:layout_constraintBottom_toBottomOf="@id/fav_box"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/fav_box" />

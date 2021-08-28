@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -24,16 +23,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentSearchBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
-import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.features.favorite.PagingStateLoading
+import com.eaapps.schoolsguide.features.search.adapter.SchoolPagingAdapter
+import com.eaapps.schoolsguide.features.search.viewmodels.Filter
+import com.eaapps.schoolsguide.features.search.viewmodels.FilterViewModel
+import com.eaapps.schoolsguide.features.search.viewmodels.SearchViewModel
+import com.eaapps.schoolsguide.features.search.viewmodels.ShareViewModel
 import com.eaapps.schoolsguide.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
-private const val TAG = "SearchFragment"
 
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
@@ -44,7 +45,9 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     private val shareViewModel: ShareViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ShareViewModel::class.java)
     }
-    private var searchType: SearchType? = null
+    private val filterViewModel: FilterViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(FilterViewModel::class.java)
+    }
     private var positionFavorite = -1
 
     private val schoolPagingAdapter = SchoolPagingAdapter(onToggleFavorite = { position, id ->
@@ -65,18 +68,19 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupArg()
-        toggleFavoriteResultData()
         binding.bindListChangeMode(true)
-        binding.bindState(schoolPagingAdapter)
-        binding.bindList(schoolPagingAdapter)
+        binding.bindState()
+        binding.bindList()
         binding.bindSearch()
         binding.bindClicks()
         binding.bindCollectFilterFire()
-        loadListData()
+        filterViewModel.load()
+        toggleFavoriteResultData()
+
     }
 
-    private fun loadListData() {
-        searchType?.apply {
+    private fun setupArg() {
+        SearchFragmentArgs.fromBundle(requireArguments()).searchType.apply {
             when {
                 this.type > -1 -> {
                     viewModel.filterModel.type_id = type
@@ -88,19 +92,16 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                 this.featured -> {
                     collectAllFeaturedPagingData()
                 }
-                else -> {
-
+                this.search -> {
+                    binding.filter()
                 }
             }
         }
-    }
 
-    private fun setupArg() {
-        searchType = SearchFragmentArgs.fromBundle(requireArguments()).searchType
     }
 
     @SuppressLint("SetTextI18n")
-    private fun FragmentSearchBinding.bindList(schoolPagingAdapter: SchoolPagingAdapter) {
+    private fun FragmentSearchBinding.bindList() {
         lifecycleScope.launchWhenCreated {
             schoolPagingAdapter.loadStateFlow.collect { it ->
                 val isListEmpty =
@@ -119,6 +120,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                     icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_search)
                     titleNo = getString(R.string.search_no_msg)
                 }
+
                 if (isListEmpty)
                     schoolResult.text = getString(R.string.no_result)
                 else
@@ -154,7 +156,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         }
     }
 
-    private fun FragmentSearchBinding.bindState(schoolPagingAdapter: SchoolPagingAdapter) {
+    private fun FragmentSearchBinding.bindState() {
         schoolsList.adapter = schoolPagingAdapter.withLoadStateHeaderAndFooter(
             header = PagingStateLoading { schoolPagingAdapter.retry() },
             footer = PagingStateLoading { schoolPagingAdapter.retry() }
@@ -225,7 +227,6 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     private fun FragmentSearchBinding.updateListFromInput() {
-        Log.d(TAG, "updateListFromInput: ")
         exploreFieldEdit.text.toString().trim().let {
             if (it.isNotEmpty()) {
                 shareViewModel.filterModel.search = it
@@ -273,7 +274,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     private fun collectAllRecommendedPagingData() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
             viewModel.loadAllRecommended().collect {
                 schoolPagingAdapter.submitData(it)
             }
@@ -281,7 +282,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     private fun collectAllFeaturedPagingData() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
             viewModel.loadAllFeatured().collect {
                 schoolPagingAdapter.submitData(it)
             }
@@ -289,7 +290,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     private fun collectTypedSchoolPagingData(typeId: Int) {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
             viewModel.loadTypedSchoolById(typeId).collect {
                 schoolPagingAdapter.submitData(it)
             }
@@ -297,7 +298,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     private fun collectFilterSchoolPagingData() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
             shareViewModel.loadSchoolFilters().collect {
                 schoolPagingAdapter.submitData(it)
             }
@@ -307,6 +308,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     private fun toggleFavoriteResultData() {
         lifecycleScope.launchWhenCreated {
             viewModel.toggleFavoriteStateFlow.stateFlow.collect(FlowEvent(onError = {
+                requireActivity().toastingError(it)
             }, onSuccess = {
                 lifecycleScope.launch {
                     if (positionFavorite >= 0) {
@@ -319,12 +321,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        shareViewModel.filterFire.value = Resource.Nothing()
+        shareViewModel.filterSearchDefault()
         findNavController().navigateUp()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        shareViewModel.mapSearch = false
     }
 }

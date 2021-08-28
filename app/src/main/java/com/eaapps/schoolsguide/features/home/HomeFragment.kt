@@ -42,7 +42,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 SearchType(
                     it.id,
                     recommended = false,
-                    featured = false
+                    featured = false,
+                    search = false
                 )
             )
         )
@@ -93,7 +94,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     SearchType(
                         -1,
                         recommended = false,
-                        featured = false
+                        featured = false,
+                        search = true
                     )
                 )
             )
@@ -105,7 +107,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     SearchType(
                         -1,
                         recommended = false,
-                        featured = true
+                        featured = true,
+                        search = false
                     )
                 )
             )
@@ -118,7 +121,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     SearchType(
                         -1,
                         recommended = true,
-                        featured = false
+                        featured = false,
+                        search = false
                     )
                 )
             )

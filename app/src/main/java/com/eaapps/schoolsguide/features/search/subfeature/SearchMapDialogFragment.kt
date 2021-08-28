@@ -15,29 +15,25 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.FragmentDialogMapBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
-import com.eaapps.schoolsguide.features.search.Filter
-import com.eaapps.schoolsguide.features.search.MapSchoolAdapter
-import com.eaapps.schoolsguide.features.search.ShareViewModel
+ import com.eaapps.schoolsguide.features.search.adapter.MapSchoolAdapter
+import com.eaapps.schoolsguide.features.search.viewmodels.Filter
+import com.eaapps.schoolsguide.features.search.viewmodels.ShareViewModel
 import com.eaapps.schoolsguide.utils.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.maps.android.ktx.*
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.ktx.addMarker
+import com.google.maps.android.ktx.awaitMap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -50,39 +46,39 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         ViewModelProvider(requireActivity()).get(ShareViewModel::class.java)
     }
 
-    private lateinit var mapFragment: SupportMapFragment
-    private var googleMap: GoogleMap? = null
+    private val mapSchoolAdapter = MapSchoolAdapter()
+
     private lateinit var permission: ActivityResultLauncher<String>
     private lateinit var bitmapIconRide: Bitmap
+    private lateinit var mapFragment: SupportMapFragment
+    private var googleMap: GoogleMap? = null
+    private val latLngBounds = LatLngBounds.Builder()
+    private val markers = ArrayList<Marker>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setupPermission()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = createDialog(
-        R.style.AppTheme,
-        Color.WHITE,
-        true,
-        shouldInterceptBackPress = true
-    ) { dismiss() }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        createDialog(R.style.AppTheme, Color.WHITE, lightBar = true, true)
+        { dismiss() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.executePendingBindings()
         bitmapIconRide = AppCompatResources.getDrawable(requireContext(), R.drawable.rider_icon)
             ?.toBitmap() as Bitmap
         binding.clicks()
         binding.bindMap()
+        binding.bindList()
         binding.bindCollectFilterFire()
         binding.collectMarkSchoolMap()
     }
 
     private fun setupPermission() {
         permission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it)
-                location()
-            else
-                snackbar("Please Allow Permission Location")
+            if (it) location() else snackbar("Please Allow Permission Location")
         }
     }
 
@@ -113,19 +109,6 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
                 takePermission()
             }
         }
-
-
-        lifecycle.coroutineScope.launchWhenStarted {
-            googleMap?.cameraEvents()?.collect {
-                when (it) {
-                    CameraIdleEvent -> Unit
-                    CameraMoveCanceledEvent -> Unit
-                    CameraMoveEvent -> Unit
-                    is CameraMoveStartedEvent -> {
-                    }
-                }
-            }
-        }
     }
 
     private fun FragmentDialogMapBinding.clicks() {
@@ -140,7 +123,17 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
                 )
             )
         }
+    }
 
+    private fun FragmentDialogMapBinding.bindStartLoading() {
+        noResult.visibleOrGone(false)
+        groupRc.visibleOrGone(false)
+        progressBar.visibleOrGone(true)
+    }
+
+    private fun FragmentDialogMapBinding.bindStopLoading() {
+        groupRc.visibleOrGone(false)
+        progressBar.visibleOrGone(true)
     }
 
     private fun FragmentDialogMapBinding.bindCollectFilterFire() {
@@ -149,7 +142,7 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
                 when (it) {
                     Filter.APPLY_FILTER -> {
                         if (shareViewModel.filterModel.isFilter()) {
-                            shareViewModel.loadSchoolMap()
+                            shareViewModel.filterSchoolByMap()
                             filterBtn.setImageResource(R.drawable.baseline_filter_alt_black_48)
                         } else {
                             filterBtn.setImageResource(R.drawable.outline_filter_alt_black_48)
@@ -169,6 +162,84 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         }
     }
 
+    private fun FragmentDialogMapBinding.bindList() {
+        rcSchool.adapter = mapSchoolAdapter
+    }
+
+    @SuppressLint("PotentialBehaviorOverride")
+    private fun FragmentDialogMapBinding.bindSchoolMarkers() {
+        markers.forEach {
+            latLngBounds.include(it.position)
+        }
+        val bounds = latLngBounds.build()
+        googleMap?.apply {
+            val width = resources.displayMetrics.widthPixels
+            val height = resources.displayMetrics.heightPixels
+            animateCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    bounds,
+                    width,
+                    height,
+                    (width * 0.20).toInt()
+                )
+            )
+        }
+        googleMap?.setOnMarkerClickListener { marker ->
+            groupRc.visibleOrGone(true)
+            val dataSchool = marker.tag as SchoolResponse.SchoolData.DataSchool
+            val index = mapSchoolAdapter.indexSchool(dataSchool)
+            if (index > -1)
+                rcSchool.smoothScrollToPosition(index)
+            googleMap?.setPadding(0, 0, 0, resources.getDimensionPixelOffset(R.dimen._190sdp))
+            false
+        }
+    }
+
+    @SuppressLint("PotentialBehaviorOverride", "SetTextI18n")
+    private fun FragmentDialogMapBinding.collectMarkSchoolMap() {
+        lifecycleScope.launchWhenCreated {
+            shareViewModel.mapStateFlow.stateFlow.collect(
+                FlowEvent(
+                    onLoading = {
+                        mapSchoolAdapter.setData(ArrayList())
+                        googleMap?.clear()
+                        bindStartLoading()
+                    },
+                    onError = {
+                        bindStopLoading()
+                        requireActivity().toastingError(it)
+                    },
+                    onSuccess = {
+                        if (it.isNotEmpty()) {
+                            mapSchoolAdapter.setData(it)
+                            filterNumbers.text = "${it.size}"
+                            schoolFilter.text = getString(R.string.schools_found)
+                            val listSchoolLocations: ArrayList<LatLng> = ArrayList()
+                            it.forEach { schoolData ->
+                                listSchoolLocations.add(LatLng(schoolData.lat, schoolData.lng))
+                                googleMap?.apply {
+                                    val marker = addMarker {
+                                        position(LatLng(schoolData.lat, schoolData.lng))
+                                        anchor(0.5f, 0.5f)
+                                        icon(BitmapDescriptorFactory.fromBitmap(bitmapIconRide))
+                                    }
+                                    marker.tag = schoolData
+                                    markers.add(marker)
+                                }
+                            }
+                            bindSchoolMarkers()
+                        } else {
+                            filterNumbers.text = ""
+                            schoolFilter.text = getString(R.string.no_result)
+                            groupRc.visibleOrGone(true)
+                            noResult.visibleOrGone(true)
+                        }
+                        progressBar.visibleOrGone(false)
+                    })
+            )
+        }
+    }
+
     private fun location() {
         requireContext().currentLocation({
             googleMap?.apply {
@@ -179,15 +250,14 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         }
     }
 
-    override fun onResume() {
-        mapFragment.onResume()
-        shareViewModel.mapSearch = true
-        super.onResume()
+    override fun onDismiss(dialog: DialogInterface) {
+        shareViewModel.filterDefault()
+        findNavController().navigateUp()
     }
 
-    override fun onDestroy() {
-        mapFragment.onDestroy()
-        super.onDestroy()
+    override fun onResume() {
+        mapFragment.onResume()
+        super.onResume()
     }
 
     override fun onStop() {
@@ -195,71 +265,9 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         super.onStop()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        shareViewModel.filterMapFire.value = Resource.Nothing()
-        findNavController().navigateUp()
-    }
-
-    @SuppressLint("PotentialBehaviorOverride")
-    private fun FragmentDialogMapBinding.collectMarkSchoolMap() {
-        lifecycleScope.launchWhenCreated {
-            shareViewModel.mapStateFlow.stateFlow.collect(FlowEvent(onLoading = {
-                groupRc.visibleOrGone(false)
-                progressBar.visibleOrGone(true)
-            }, onError = {
-                groupRc.visibleOrGone(false)
-                progressBar.visibleOrGone(false)
-
-            }, onSuccess = {
-                if (it.isNotEmpty()) {
-                    googleMap?.clear()
-                    val list: ArrayList<LatLng> = ArrayList()
-                    val latLngBounds = LatLngBounds.Builder()
-                    it.forEach { schoolData ->
-                        list.add(LatLng(schoolData.lat, schoolData.lng))
-                        latLngBounds.include(LatLng(schoolData.lat, schoolData.lng))
-                        googleMap?.apply {
-                            addMarker {
-                                position(LatLng(schoolData.lat, schoolData.lng))
-                                anchor(0.5f, 0.5f)
-                                icon(BitmapDescriptorFactory.fromBitmap(bitmapIconRide))
-                            }.tag = schoolData
-                        }
-                    }
-                    val bounds = latLngBounds.build()
-                    val width = resources.displayMetrics.widthPixels
-                    val height = resources.displayMetrics.heightPixels
-
-                    googleMap?.apply {
-                        animateCamera(
-                            CameraUpdateFactory.newLatLngBounds(
-                                bounds,
-                                width,
-                                height,
-                                (width * 0.20).toInt()
-                            )
-                        )
-                    }
-                    googleMap?.setOnMarkerClickListener { marker ->
-                        groupRc.visibleOrGone(true)
-                        val dataSchool = marker.tag as SchoolResponse.SchoolData.DataSchool
-                        rcSchool.smoothScrollToPosition(it.indexOf(dataSchool))
-                        googleMap?.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimensionPixelOffset(R.dimen._190sdp)
-                        )
-                        false
-                    }
-                    rcSchool.adapter = MapSchoolAdapter(it)
-                    filterNumbers.text = "${it.size}"
-                } else
-                    snackbar(getString(R.string.no_result))
-                progressBar.visibleOrGone(false)
-
-            }))
-        }
+    override fun onDestroy() {
+        mapFragment.onDestroy()
+        super.onDestroy()
     }
 
 }

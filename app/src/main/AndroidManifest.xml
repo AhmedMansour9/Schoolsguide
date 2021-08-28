@@ -25,6 +25,7 @@
         android:theme="@style/Theme.SchoolsGuide"
         tools:ignore="AllowBackup">
         <activity android:name=".features.MainActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
 
             >

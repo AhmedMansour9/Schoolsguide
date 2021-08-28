@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.search
+package com.eaapps.schoolsguide.features.search.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

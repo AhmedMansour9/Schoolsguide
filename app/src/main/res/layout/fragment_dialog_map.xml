@@ -90,61 +90,70 @@
             tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/groupRc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#E6FFFFFF"
-            android:id="@+id/groupRc"
+            android:minHeight="@dimen/_150sdp"
             android:paddingBottom="@dimen/_10sdp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/filter"
-                android:text="@string/filters"
-                android:fontFamily="@font/rpt_bold"
-                android:textSize="@dimen/_15ssp"
-                android:textColor="@color/textColor1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/filterNumbers"
-                android:text=""
-                android:fontFamily="@font/rpt_bold"
-                android:textSize="@dimen/_15ssp"
-                android:textColor="@color/textColor1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                tools:text="120"
-                app:layout_constraintEnd_toStartOf="@id/school_filter"
-                android:layout_marginTop="@dimen/_15sdp"
-                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/school_filter"
-                android:text="Schools Found"
-                android:fontFamily="@font/rpt_bold"
-                android:textSize="@dimen/_14ssp"
-                android:textColor="@color/gray_2"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+            <ImageView
+                android:id="@+id/noResult"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/no_filter"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/filters"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/filterNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/_0"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintEnd_toStartOf="@id/school_filter"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="120" />
+
+            <TextView
+                android:id="@+id/school_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:fontFamily="@font/rpt_bold"
+                android:text="@string/schools_found"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcSchool"
@@ -152,8 +161,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/school_filter"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/school_filter" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -165,13 +174,12 @@
             android:indeterminate="true"
             android:indeterminateTint="@color/black"
             android:progressTint="@color/black"
-            app:indicatorColor="@color/black"
             android:visibility="gone"
+            app:indicatorColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

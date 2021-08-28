@@ -1,12 +1,17 @@
-package com.eaapps.schoolsguide.features.search.subfeature
+package com.eaapps.schoolsguide.features.search.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eaapps.schoolsguide.data.entity.*
-import com.eaapps.schoolsguide.domain.model.FilterModel
-import com.eaapps.schoolsguide.domain.usecase.*
+import com.eaapps.schoolsguide.data.entity.CityResponse
+import com.eaapps.schoolsguide.data.entity.GradesResponse
+import com.eaapps.schoolsguide.data.entity.ProgramsResponse
+import com.eaapps.schoolsguide.data.entity.TypeResponse
+import com.eaapps.schoolsguide.domain.usecase.CitiesUseCase
+import com.eaapps.schoolsguide.domain.usecase.GradesSchoolUseCase
+import com.eaapps.schoolsguide.domain.usecase.LoadSchoolTypeUseCase
+import com.eaapps.schoolsguide.domain.usecase.ProgramSchoolUseCase
 import com.eaapps.schoolsguide.utils.Resource
-import com.eaapps.schoolsguide.utils.StateFlows
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,28 +25,28 @@ class FilterViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    init {
+    fun load() {
         loadCities()
         loadSchoolType()
         loadSchoolGrades()
         loadSchoolProgram()
-
     }
 
-    internal val schoolProgramStateFlow = StateFlows<List<ProgramsResponse.Programs>>(viewModelScope)
+    internal val schoolProgramLiveData =
+        MutableLiveData<Resource<List<ProgramsResponse.Programs>>>()
 
-    internal val schoolGradesStateFlow = StateFlows<List<GradesResponse.Grades>>(viewModelScope)
+    internal val schoolGradesLiveData = MutableLiveData<Resource<List<GradesResponse.Grades>>>()
 
-    internal val citiesStateFlow = StateFlows<List<CityResponse.City>>(viewModelScope)
+    internal val citiesLiveData = MutableLiveData<Resource<List<CityResponse.City>>>()
 
-    internal val schoolTypeStateFlow = StateFlows<List<TypeResponse.TypeData>>(viewModelScope)
+    internal val schoolTypeLiveData = MutableLiveData<Resource<List<TypeResponse.TypeData>>>()
 
     private fun loadSchoolProgram() {
         viewModelScope.launch {
             try {
-                schoolProgramStateFlow.setValue(Resource.Loading())
+                schoolProgramLiveData.value = Resource.Loading()
                 val result = programSchoolUseCase.execute()
-                schoolProgramStateFlow.setValue(result)
+                schoolProgramLiveData.setValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -51,9 +56,9 @@ class FilterViewModel @Inject constructor(
     private fun loadSchoolGrades() {
         viewModelScope.launch {
             try {
-                schoolGradesStateFlow.setValue(Resource.Loading())
+                schoolGradesLiveData.value = Resource.Loading()
                 val result = gradesSchoolUseCase.execute()
-                schoolGradesStateFlow.setValue(result)
+                schoolGradesLiveData.setValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -63,9 +68,9 @@ class FilterViewModel @Inject constructor(
     private fun loadCities() {
         viewModelScope.launch {
             try {
-                citiesStateFlow.setValue(Resource.Loading())
+                citiesLiveData.value = Resource.Loading()
                 val result = citiesUseCase.execute()
-                citiesStateFlow.setValue(result)
+                citiesLiveData.setValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -76,20 +81,15 @@ class FilterViewModel @Inject constructor(
     private fun loadSchoolType() {
         viewModelScope.launch {
             try {
-                schoolTypeStateFlow.setValue(Resource.Loading())
+                schoolTypeLiveData.value = Resource.Loading()
                 val result = loadSchoolTypeUseCase.execute()
-                schoolTypeStateFlow.setValue(result)
+                schoolTypeLiveData.setValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
     }
-
-
-
-
-
 
 
 }

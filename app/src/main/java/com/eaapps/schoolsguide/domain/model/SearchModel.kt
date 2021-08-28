@@ -3,9 +3,10 @@ package com.eaapps.schoolsguide.domain.model
 import android.os.Parcel
 import android.os.Parcelable
 
-data class SearchType(var type: Int, var recommended: Boolean, var featured: Boolean) : Parcelable {
+data class SearchType(var type: Int, var recommended: Boolean, var featured: Boolean,var search:Boolean) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte()
     ) {
@@ -15,6 +16,7 @@ data class SearchType(var type: Int, var recommended: Boolean, var featured: Boo
         parcel.writeInt(type)
         parcel.writeByte(if (recommended) 1 else 0)
         parcel.writeByte(if (featured) 1 else 0)
+        parcel.writeByte(if (search) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -30,6 +32,7 @@ data class SearchType(var type: Int, var recommended: Boolean, var featured: Boo
             return arrayOfNulls(size)
         }
     }
+
 }
 
 data class FilterModel(
@@ -48,16 +51,51 @@ data class FilterModel(
         !school_type.isNullOrBlank() || grade_id != null || from_price != null ||
                 to_price != null || program_id != null || city_id != null || review != null || type_id != null
 
-    fun clear() {
-        type_id = null
-        school_type = null
-        grade_id = null
+    fun clearAll() {
+        clearCategory()
+        clearCity()
+        clearEducationLevel()
+        clearProgram()
+        clearType()
+        clearReview()
+        clearFees()
+    }
+
+    fun clearReview() {
+        review = null
+        filterPosition.review = null
+    }
+
+    fun clearFees() {
         from_price = null
         to_price = null
-        program_id = null
+        filterPosition.from_price = null
+        filterPosition.to_price = null
+    }
+
+    fun clearCity() {
         city_id = null
-        review = null
-        filterPosition = FilterPositionModel()
+        filterPosition.city_id = null
+    }
+
+    fun clearCategory() {
+        type_id = null
+        filterPosition.type_id = null
+    }
+
+    fun clearType() {
+        school_type = null
+        filterPosition.school_type = null
+    }
+
+    fun clearEducationLevel() {
+        grade_id = null
+        filterPosition.grade_id = null
+    }
+
+    fun clearProgram() {
+        program_id = null
+        filterPosition.program_id = null
     }
 
     data class FilterPositionModel(

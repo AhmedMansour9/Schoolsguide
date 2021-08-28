@@ -47,19 +47,17 @@
             android:id="@+id/fav_box"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:button="@drawable/fav_selector"
             android:checked="@{dataSchool.favoired}"
             app:buttonTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/rate" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/rate"
-            style="@style/RateBar"
+            style="@style/RateBar.Custom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
@@ -68,7 +66,6 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:numStars="5"
             android:progressTint="#FFEA61"
-            android:secondaryProgressTint="#E1E1E1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/imageSchool" />
 
@@ -76,9 +73,9 @@
             android:id="@+id/titleSchool"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:fontFamily="@font/rpt_bold"
             android:text="@{dataSchool.name}"
             android:textColor="@color/white"

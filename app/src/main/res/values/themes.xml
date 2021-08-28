@@ -104,9 +104,23 @@
     </style>
 
     <style name="RateBar.Filter" parent="android:style/Widget.Material.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/rate_large</item>
         <item name="colorControlNormal">@color/rate_active</item>
         <item name="colorControlActivated">@color/black</item>
     </style>
+
+    <style name="RateBar.Custom" parent="android:style/Widget.Material.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/rate</item>
+        <item name="colorControlNormal">@color/rate_active</item>
+        <item name="colorControlActivated">@color/black</item>
+    </style>
+
+    <style name="RateBar.Small" parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/rate_small</item>
+        <item name="colorControlNormal">@color/rate_active</item>
+        <item name="colorControlActivated">@color/black</item>
+    </style>
+
 
 
     <style name="helperTextAppearance" parent="">

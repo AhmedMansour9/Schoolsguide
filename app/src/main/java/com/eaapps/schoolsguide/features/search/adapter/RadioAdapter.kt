@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.search
+package com.eaapps.schoolsguide.features.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

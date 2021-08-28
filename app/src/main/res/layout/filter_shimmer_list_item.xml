@@ -9,13 +9,6 @@
             name="line"
             type="Boolean" />
 
-        <variable
-            name="itemSelect"
-            type="String" />
-
-        <variable
-            name="title"
-            type="String" />
 
         <import type="android.view.View" />
     </data>
@@ -30,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:fontFamily="@font/rpt_bold"
-            android:text="@{title}"
             android:background="@drawable/round_shimmer_shape"
             android:textColor="@color/shimmer_color"
             android:textSize="@dimen/_18ssp"
@@ -45,10 +37,10 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:fontFamily="@font/rpt_bold"
-            android:text="@{itemSelect}"
-            android:visibility="@{!itemSelect.empty?View.VISIBLE:View.GONE}"
-            android:textColor="#989898"
+            android:text="@string/item_selection"
+            android:textColor="@color/shimmer_color"
             android:textSize="@dimen/_14ssp"
+            android:background="@drawable/round_shimmer_shape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/shimmer_filterTitleLabel"
             app:layout_constraintTop_toTopOf="@id/shimmer_filterTitleLabel"

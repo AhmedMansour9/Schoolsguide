@@ -110,14 +110,14 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:ellipsize="end"
                 android:fontFamily="@font/rpt_bold"
+                android:maxHeight="@dimen/_40sdp"
                 android:text="@{dataSchool.short_description.toString()}"
                 android:textColor="#858585"
-                android:ellipsize="end"
-                android:maxHeight="@dimen/_40sdp"
                 android:textSize="@dimen/_9ssp"
-                app:layout_constraintBottom_toTopOf="@id/line"
                 android:visibility="@{(dataSchool.short_description.toString()!=null &amp;&amp; !dataSchool.short_description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintBottom_toTopOf="@id/line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/titleSchool"
                 app:layout_constraintTop_toBottomOf="@id/titleSchool"
@@ -142,8 +142,10 @@
                 android:layout_marginStart="5dp"
                 android:numStars="5"
                 android:progressTint="@color/rate_active"
-                android:rating="3.5"
+                android:rating="@{dataSchool.total_review}"
                 android:secondaryProgressTint="@color/rate_un_active"
+                android:stepSize="1"
+                android:isIndicator="true"
                 app:layout_constraintBottom_toBottomOf="@id/fav_box"
                 app:layout_constraintStart_toStartOf="@id/titleSchool"
                 app:layout_constraintTop_toTopOf="@id/fav_box" />
@@ -160,8 +162,7 @@
                 android:checked="@{dataSchool.favoired}"
                 app:buttonTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                  />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
                 android:id="@+id/line2"

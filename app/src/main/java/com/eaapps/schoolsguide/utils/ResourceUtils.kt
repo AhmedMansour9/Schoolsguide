@@ -1,7 +1,12 @@
 package com.eaapps.schoolsguide.utils
 
+import com.eaapps.schoolsguide.utils.Resource.Errors
+import com.google.gson.JsonSyntaxException
+import org.json.JSONException
+import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 suspend fun <T : Any> safeCall(
@@ -11,16 +16,33 @@ suspend fun <T : Any> safeCall(
     return try {
         call()
     } catch (e: Exception) {
-        val msg = when (e) {
-            is UnknownHostException -> "No internet!"
-            is ConnectException -> "No internet!"
-            else -> e.message
+        return when (e) {
+            is SocketTimeoutException -> Errors(ErrorEntity.TimeOut)
+            is UnknownHostException -> Errors(ErrorEntity.NoInternet)
+            is ConnectException -> Errors(ErrorEntity.ServerNotResponse)
+            is IOException -> Errors(ErrorEntity.IOError(e.message))
+            is HttpException -> Errors(
+                errorEntity = ErrorEntity.HttpError(
+                    when (e.code()) {
+                        400 -> HttpErrorEntity.BadRequest400
+                        401 -> HttpErrorEntity.Unauthorized401
+                        403 -> HttpErrorEntity.Forbidden403
+                        404 -> HttpErrorEntity.NotFound404
+                        406 -> HttpErrorEntity.NotAcceptable406
+                        500 -> HttpErrorEntity.ServerError500
+                        501 -> HttpErrorEntity.NotImplemented501
+                        503 -> HttpErrorEntity.ServiceUnavailable503
+                        504 -> HttpErrorEntity.TimeoutGateway504
+                        502 -> HttpErrorEntity.BadGateway502
+                        else -> HttpErrorEntity.Nothing(e.message())
+                    }
+                )
+            )
+            is JSONException, is JsonSyntaxException -> Errors(ErrorEntity.ParseError)
+            else -> Errors(ErrorEntity.NothingError)
         }
-        e.printStackTrace()
-        Resource.Exception(IOException(msg, e))
     }
 }
-
 
 fun <T : Any> resourceError(code: Int): Resource.Error<T> {
     val msg: String = when (code) {

@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class InterceptorAuthorization @Inject constructor(dataStoreRepository: DataStoreRepository) :
     Interceptor {
     var token: String = ""
-    var language = "en"
+    var language = "ar"
 
     init {
         token = dataStoreRepository.loadSessionToken()!!

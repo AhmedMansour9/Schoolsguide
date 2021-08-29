@@ -22,7 +22,7 @@ class LanguageContextWrapper @Inject constructor(base: Context) : ContextWrapper
     private fun updateLocale(context: Context) {
         val localeCode = loadLanguageUseCase.let {
             loadLanguageUseCase.execute()!!
-        } ?: "en"
+        } ?: "ar"
 
         val locale = Locale(localeCode)
         val resource = context.resources

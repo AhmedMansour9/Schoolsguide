@@ -63,7 +63,7 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override fun loadLanguage(): String? {
         return sharedPreferences.let {
-            sharedPreferences.getString(LANGUAGE, "en")
+            sharedPreferences.getString(LANGUAGE, "ar")
         }
     }
 }

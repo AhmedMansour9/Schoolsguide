@@ -31,7 +31,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"https://todatrade.com/"'
+            buildConfigField "String", "SERVER_URL", '"https://saudischoolsguide.com/"'
             manifestPlaceholders = [enableCrashReporting: "true"]
 
         }

@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.features.profile
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +14,7 @@ import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -31,7 +33,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialogProcess = requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
+        dialogProcess =
+            requireContext().progressSmallDialog(requireContext().getColorResource(R.color.colorApp1Dark))
         binding.executePendingBindings()
         mainViewModel.loadProfile()
         binding.bindProfile()
@@ -83,7 +86,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         }
     }
 
-    private fun navigationToSplash() = launchFragment(ProfileFragmentDirections.actionProfileFragmentToSplashFragment())
+    private fun navigationToSplash() =
+        launchFragment(ProfileFragmentDirections.actionProfileFragmentToSplashFragment())
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -94,7 +98,29 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
             R.id.updatePassword -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToUpdatePasswordFragment())
 
             R.id.changeLanguage -> {
-
+                val array = arrayOf("en", "ar")
+                var position = 0
+                val checkItem = mainViewModel.loadLanguage()?.let {
+                    array.indexOf(it)
+                } ?: 0
+                MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogStyle)
+                    .setTitle("Choose Language App")
+                    .setSingleChoiceItems(
+                        resources.getStringArray(R.array.languages),
+                        checkItem
+                    ) { dialog, which ->
+                        position = which
+                    }
+                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                        mainViewModel.saveLanguage(array[position])
+                        dialog.dismiss()
+                        requireActivity().recreate()
+                    }
+                    .create()
+                    .show()
             }
 
             R.id.logout -> {

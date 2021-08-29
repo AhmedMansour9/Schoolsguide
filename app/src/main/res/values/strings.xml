@@ -149,6 +149,8 @@
     <string name="please_choose_file">Please choose your file in on the following [DOC,DOCX,PDF] and then click Upload and wait a while</string>
     <string name="choose_file">Choose File</string>
     <string name="no_internet">No Connection Internet</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="gender">
 
@@ -186,6 +188,11 @@
         <item>Evening time</item>
     </array>
 
+    <array name="languages">
+        <item>English</item>
+        <item>Arabic</item>
+    </array>
+
     <string name="api_key">AIzaSyBwdy8t1oR8OlYZSPMOUUAy2AmQZ6MLE-4</string>
     <string name="permission_title">Permission Location!</string>
     <string name="permission_msg">Please allow location</string>
@@ -197,5 +204,10 @@
     <string name="schools_found">Schools Found</string>
     <string name="item_selection">Item Selection</string>
 
+    <string name="add_school">Add School</string>
+    <string name="profile_information">Profile Information</string>
+    <string name="change_password">Change Password</string>
+    <string name="language">Language</string>
+    <string name="log_out">Log out</string>
 
 </resources>

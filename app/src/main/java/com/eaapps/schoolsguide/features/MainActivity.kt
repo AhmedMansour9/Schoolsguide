@@ -1,5 +1,7 @@
 package com.eaapps.schoolsguide.features
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -7,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.ActivityMainBinding
+import com.eaapps.schoolsguide.utils.LanguageContextWrapper
 import com.eaapps.schoolsguide.utils.fullScreenEnable
 import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             }
         binding.bottomNav.setupWithNavController(navController)
 
+
     }
 
     override fun onResume() {
@@ -56,5 +60,10 @@ class MainActivity : AppCompatActivity() {
         destinationChangedListener?.apply {
             navController.removeOnDestinationChangedListener(this)
         }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        val localeUpdatedContext: ContextWrapper = LanguageContextWrapper(newBase!!)
+        super.attachBaseContext(localeUpdatedContext)
     }
 }

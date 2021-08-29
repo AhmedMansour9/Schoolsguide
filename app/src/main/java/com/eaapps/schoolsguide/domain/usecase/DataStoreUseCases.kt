@@ -10,5 +10,14 @@ class ProfileFatherStoredUseCase @Inject constructor(private val dataStoreReposi
 
     fun execute(): Flow<Resource<AuthResponse.AuthData>> =
         dataStoreRepository.loadFatherFromStoreData()
+}
 
+class LoadLanguageUseCase @Inject constructor(private val dataStoreRepository: DataStoreRepository) {
+    fun execute(): String? =
+        dataStoreRepository.loadLanguage()
+}
+
+class SaveLanguageUseCase @Inject constructor(private val dataStoreRepository: DataStoreRepository) {
+    fun execute(lang: String) =
+        dataStoreRepository.saveLanguage(lang)
 }

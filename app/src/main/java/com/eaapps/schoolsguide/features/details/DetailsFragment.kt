@@ -2,7 +2,9 @@ package com.eaapps.schoolsguide.features.details
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -25,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlin.math.abs
 
+
 typealias navigationItem = NavigationPropertiesModel
 
 @InternalCoroutinesApi
@@ -38,7 +41,12 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        createDialog(R.style.AppTheme, Color.TRANSPARENT, false,shouldInterceptBackPress = true){dismiss()}
+        createDialog(
+            R.style.AppTheme,
+            Color.TRANSPARENT,
+            false,
+            shouldInterceptBackPress = true
+        ) { dismiss() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -211,6 +219,35 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                 )
             )
         }
+
+        faceBtn.setOnClickListener {
+            dataSchool!!.facebook_link?.apply {
+                if (this.isNotBlank())
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+            }
+        }
+
+        instaBtn.setOnClickListener {
+            dataSchool!!.instgram_link?.apply {
+                if (this.isNotBlank())
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+            }
+        }
+
+        twitterBtn.setOnClickListener {
+            dataSchool!!.twitter_link?.apply {
+                if (this.isNotBlank())
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+            }
+        }
+
+        youtubeBtn.setOnClickListener {
+            dataSchool!!.youtube_link?.apply {
+                if (this.isNotBlank())
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+            }
+        }
+
     }
 
     private fun FragmentDetailsDialogBinding.bindSchoolDetailsResultData() {

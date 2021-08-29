@@ -97,7 +97,7 @@
                     android:id="@+id/addSchool"
                     arrow="@{true}"
                     icon="@{@drawable/ic_outline_school_24}"
-                    label="@{`Add school`}"
+                    label="@{@string/add_school}"
                     layout="@layout/item_include_profile"
                     line="@{true}" />
 
@@ -105,7 +105,7 @@
                     android:id="@+id/updateProfile"
                     arrow="@{true}"
                     icon="@{@drawable/ic_outline_person_outline_24}"
-                    label="@{`Profile information`}"
+                    label="@{@string/profile_information}"
                     layout="@layout/item_include_profile"
                     line="@{true}" />
 
@@ -113,7 +113,7 @@
                     android:id="@+id/updatePassword"
                     arrow="@{true}"
                     icon="@{@drawable/ic_outline_lock_24}"
-                    label="@{`Change password`}"
+                    label="@{@string/change_password}"
                     layout="@layout/item_include_profile"
                     line="@{true}" />
 
@@ -121,7 +121,7 @@
                     android:id="@+id/changeLanguage"
                     arrow="@{false}"
                     icon="@{@drawable/ic_baseline_language_24}"
-                    label="@{`Language`}"
+                    label="@{@string/language}"
                     layout="@layout/item_include_profile"
                     line="@{true}" />
 
@@ -129,7 +129,7 @@
                     android:id="@+id/logout"
                     arrow="@{false}"
                     icon="@{@drawable/ic_logout_black_24dp}"
-                    label="@{`Log out`}"
+                    label="@{@string/log_out}"
                     layout="@layout/item_include_profile"
                     line="@{false}" />
 

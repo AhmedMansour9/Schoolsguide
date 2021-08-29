@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.eaapps.schoolsguide.data.dataStore.Keys.LANGUAGE
 import com.eaapps.schoolsguide.data.dataStore.Keys.SESSION_TOKEN
 import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
@@ -49,6 +50,19 @@ class DataStoreRepositoryImpl @Inject constructor(
     override fun loadSessionToken(): String? {
         return sharedPreferences.let {
             sharedPreferences.getString(SESSION_TOKEN, "")
+        }
+    }
+
+    override fun saveLanguage(lang: String){
+        sharedPreferences.edit().apply {
+            putString(LANGUAGE, lang)
+            apply()
+        }
+    }
+
+    override fun loadLanguage(): String? {
+        return sharedPreferences.let {
+            sharedPreferences.getString(LANGUAGE, "en")
         }
     }
 }

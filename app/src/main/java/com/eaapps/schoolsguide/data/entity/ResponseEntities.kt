@@ -26,7 +26,7 @@ data class CityResponse(
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeInt(id?:-1)
+            parcel.writeInt(id ?: -1)
             parcel.writeString(name)
         }
 
@@ -122,7 +122,6 @@ data class AuthResetResponse(
 )
 
 
-
 data class SliderResponse(
     @SerializedName("success")
     val success: Boolean,
@@ -143,9 +142,11 @@ data class SliderResponse(
     )
 }
 
-data class SchoolDetailsResponse(@SerializedName("success") val success: Boolean,
-                                 @SerializedName("data") val data: SchoolResponse.SchoolData.DataSchool,
-                                 @SerializedName("message") val message: String)
+data class SchoolDetailsResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: SchoolResponse.SchoolData.DataSchool,
+    @SerializedName("message") val message: String
+)
 
 data class SchoolResponse(
     @SerializedName("success") val success: Boolean,
@@ -172,14 +173,14 @@ data class SchoolResponse(
             val discount: String,
             val email: String,
             val events: List<ShareData>,
-            val facebook_link: String,
+            val facebook_link: String? = null,
             val featured: Boolean,
             val fess_greater_similar: Boolean,
             val gallary: List<Gallary>,
             val grades: List<Grade>,
             val id: Int,
             val image: String,
-            val instgram_link: String,
+            val instgram_link: String? = null,
             var isFavoired: Boolean,
             var isFollowed: Boolean,
             var isRecommended: Boolean,
@@ -211,10 +212,10 @@ data class SchoolResponse(
             val total_number_review: Int,
             val total_review: Long,
             val tuition_fees: List<TuitionFee>,
-            val twitter_link: String,
+            val twitter_link: String? = null,
             val type: Type,
-            val website_link: String,
-            val youtube_link: String
+            val website_link: String? = null,
+            val youtube_link: String? = null
         ) : Parcelable {
             data class Gallary(
                 val image: String
@@ -608,8 +609,8 @@ data class SchoolResponse(
                 val created_at: String?,
                 val description: String?,
                 val image: String?,
-                val name:String?,
-                val id:Int?,
+                val name: String?,
+                val id: Int?,
                 val short_description: String?,
                 val title: String?,
             ) : Parcelable {

@@ -21,7 +21,7 @@ class SearchViewModel @Inject constructor(
     private val loadAllRecommendedUseCase: LoadAllRecommendedUseCase,
     private val loadAllFeaturedUseCase: LoadAllFeaturedUseCase,
     private val loadTypedSchoolUseCase: LoadTypedSchoolUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
     ) : ViewModel() {
 

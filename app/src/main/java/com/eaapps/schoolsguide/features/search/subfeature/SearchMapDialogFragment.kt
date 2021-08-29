@@ -21,7 +21,7 @@ import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.FragmentDialogMapBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
- import com.eaapps.schoolsguide.features.search.adapter.MapSchoolAdapter
+import com.eaapps.schoolsguide.features.search.adapter.MapSchoolAdapter
 import com.eaapps.schoolsguide.features.search.viewmodels.Filter
 import com.eaapps.schoolsguide.features.search.viewmodels.ShareViewModel
 import com.eaapps.schoolsguide.utils.*
@@ -34,6 +34,7 @@ import com.google.maps.android.ktx.awaitMap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.launch
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -46,7 +47,17 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         ViewModelProvider(requireActivity()).get(ShareViewModel::class.java)
     }
 
-    private val mapSchoolAdapter = MapSchoolAdapter()
+    private var selectPosition = -1
+    private val mapSchoolAdapter = MapSchoolAdapter(onSelectItem = {
+        launchFragment(
+            SearchMapDialogFragmentDirections.actionSearchMapDialogFragmentToDetailsFragment(
+                it
+            )
+        )
+    }) { id, position ->
+        selectPosition = position
+        shareViewModel.toggleFavorite(id)
+    }
 
     private lateinit var permission: ActivityResultLauncher<String>
     private lateinit var bitmapIconRide: Bitmap
@@ -74,6 +85,7 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         binding.bindList()
         binding.bindCollectFilterFire()
         binding.collectMarkSchoolMap()
+        toggleFavoriteResultData()
     }
 
     private fun setupPermission() {
@@ -247,6 +259,21 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
             }
         }) {
             takePermission()
+        }
+    }
+
+    private fun toggleFavoriteResultData() {
+        lifecycleScope.launchWhenResumed {
+            shareViewModel.toggleFavoriteStateFlow.stateFlow.collect(FlowEvent(onError = {
+                requireActivity().toastingError(it)
+            }, onSuccess = {
+                lifecycleScope.launch {
+                    if (selectPosition >= 0) {
+                        mapSchoolAdapter.updateItem(selectPosition)
+                        selectPosition = -1
+                    }
+                }
+            }))
         }
     }
 

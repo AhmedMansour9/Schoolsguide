@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.domain.usecase.GetProfileFatherUseCase
+import com.eaapps.schoolsguide.domain.usecase.LoadLanguageUseCase
 import com.eaapps.schoolsguide.domain.usecase.LogoutFatherUseCase
+import com.eaapps.schoolsguide.domain.usecase.SaveLanguageUseCase
 import com.eaapps.schoolsguide.utils.FlowEvent
 import com.eaapps.schoolsguide.utils.NetworkChecker
 import com.eaapps.schoolsguide.utils.Resource
@@ -19,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getProfileFatherUseCase: GetProfileFatherUseCase,
-    private val logoutFatherUseCase: LogoutFatherUseCase
+    private val logoutFatherUseCase: LogoutFatherUseCase,
+    private val saveLanguageUseCase: SaveLanguageUseCase,
+    private val loadLanguageUseCase: LoadLanguageUseCase
 ) : ViewModel() {
 
     internal val profileStateFlow = StateFlows<AuthResponse.AuthData>(viewModelScope)
@@ -49,6 +53,12 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun saveLanguage(lang:String){
+        saveLanguageUseCase.execute(lang)
+    }
+
+    fun loadLanguage() = loadLanguageUseCase.execute()
 
 
 }

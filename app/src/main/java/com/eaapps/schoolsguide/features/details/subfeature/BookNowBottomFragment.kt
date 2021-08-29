@@ -147,16 +147,7 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.bookSchoolFlow.stateFlow.collect(FlowEvent(onError = {
                 dialogProcess.dismiss()
-                MotionToast.createColorToast(
-                    requireActivity(),
-                    "Failed ☹",
-                    it,
-                    MotionToast.TOAST_ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
-
-                )
+                requireActivity().toastingError(it)
             },
                 onLoading = {
                     dialogProcess.show()

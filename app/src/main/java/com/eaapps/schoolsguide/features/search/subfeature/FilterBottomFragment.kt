@@ -315,8 +315,9 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
             typeList.adapter =
                 ArrayAdapter(requireContext(), R.layout.single_choice_item2, this)
             typeList.setOnItemClickListener { _, _, position, _ ->
+                val array = arrayOf("males", "females", "males_females")
                 typeSchool.itemSelect = this[position]
-                shareViewModel.filterModel.school_type = this[position].toLowerCase(Locale.ENGLISH)
+                shareViewModel.filterModel.school_type = array[position].toLowerCase(Locale.ENGLISH)
                 shareViewModel.filterModel.filterPosition.school_type = position
             }
             shareViewModel.filterModel.filterPosition.school_type?.let {

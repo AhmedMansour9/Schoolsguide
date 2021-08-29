@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlin.math.abs
 
-
 typealias navigationItem = NavigationPropertiesModel
 
 @InternalCoroutinesApi
@@ -184,6 +183,17 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         }
     }
 
+    private fun openWebPage(url: String) {
+        var webpage = Uri.parse(url)
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            webpage = Uri.parse("http://$url")
+        }
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
     private fun FragmentDetailsDialogBinding.bindClicks() {
 
         toolbar.setNavigationOnClickListener { dismiss() }
@@ -223,28 +233,28 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         faceBtn.setOnClickListener {
             dataSchool!!.facebook_link?.apply {
                 if (this.isNotBlank())
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+                    openWebPage(this)
             }
         }
 
         instaBtn.setOnClickListener {
             dataSchool!!.instgram_link?.apply {
                 if (this.isNotBlank())
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+                    openWebPage(this)
             }
         }
 
         twitterBtn.setOnClickListener {
             dataSchool!!.twitter_link?.apply {
                 if (this.isNotBlank())
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+                    openWebPage(this)
             }
         }
 
         youtubeBtn.setOnClickListener {
             dataSchool!!.youtube_link?.apply {
                 if (this.isNotBlank())
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+                    openWebPage(this)
             }
         }
 

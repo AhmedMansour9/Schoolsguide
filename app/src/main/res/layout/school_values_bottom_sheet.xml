@@ -60,7 +60,7 @@
                         layout="@layout/review_rate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        title="@{`Academic and educational level`}"
+                        title="@{@string/value_academic}"
                         />
 
                     <include
@@ -68,7 +68,7 @@
                         layout="@layout/review_rate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        title="@{`The department communicates with parents and responds to inquiries and complaints`}"
+                        title="@{@string/value_department}"
                         />
 
                     <include
@@ -76,7 +76,7 @@
                         layout="@layout/review_rate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        title="@{`Classrooms and school facilities`}"
+                        title="@{@string/value_classrooms}"
                         />
 
                     <include
@@ -84,7 +84,7 @@
                         layout="@layout/review_rate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        title="@{`The school's interest in public safety and hygiene`}"
+                        title="@{@string/value_hygiene}"
                         />
 
                     <include
@@ -92,7 +92,7 @@
                         layout="@layout/review_rate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        title="@{`The school's interest in recreational activities`}"
+                        title="@{@string/value_activities}"
                         />
 
                     <com.google.android.material.textfield.TextInputLayout

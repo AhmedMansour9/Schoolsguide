@@ -1,8 +1,8 @@
 package com.eaapps.schoolsguide.features.profile
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentProfileBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
+import com.eaapps.schoolsguide.features.MainActivity
 import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -104,7 +105,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
                     array.indexOf(it)
                 } ?: 0
                 MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogStyle)
-                    .setTitle("Choose Language App")
+                    .setTitle(getString(R.string.choose_lang))
                     .setSingleChoiceItems(
                         resources.getStringArray(R.array.languages),
                         checkItem
@@ -117,7 +118,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
                     .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
                         mainViewModel.saveLanguage(array[position])
                         dialog.dismiss()
-                        requireActivity().recreate()
+                        requireActivity().startActivity(
+                            Intent(
+                                requireContext(),
+                                MainActivity::class.java
+                            ).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            })
                     }
                     .create()
                     .show()

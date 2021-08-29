@@ -82,6 +82,8 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
             ?.toBitmap() as Bitmap
         binding.clicks()
         binding.bindMap()
+        //takePermission()
+        currentLocation()
         binding.bindList()
         binding.bindCollectFilterFire()
         binding.collectMarkSchoolMap()
@@ -90,16 +92,10 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
 
     private fun setupPermission() {
         permission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) location() else snackbar("Please Allow Permission Location")
+            if (it) currentLocation() else snackbar("Please Allow Permission Location")
         }
     }
 
-    private fun takePermission() {
-        if (requireContext().hasPermission(Manifest.permission.ACCESS_FINE_LOCATION))
-            permission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        else
-            location()
-    }
 
     @SuppressLint("MissingPermission")
     private fun FragmentDialogMapBinding.bindMap() {
@@ -118,7 +114,6 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
                 uiSettings.isScrollGesturesEnabled = true
                 setMaxZoomPreference(30F)
                 setMinZoomPreference(5F)
-                takePermission()
             }
         }
     }
@@ -252,13 +247,13 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         }
     }
 
-    private fun location() {
+    private fun currentLocation() {
         requireContext().currentLocation({
             googleMap?.apply {
                 newLocationWithZoom(it.latitude, it.longitude, animation = false)
             }
         }) {
-            takePermission()
+            permission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 
@@ -296,5 +291,4 @@ class SearchMapDialogFragment : DialogFragment(R.layout.fragment_dialog_map) {
         mapFragment.onDestroy()
         super.onDestroy()
     }
-
 }

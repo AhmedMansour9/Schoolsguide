@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.eaapps.schoolsguide.data.dataStore.Keys.LANGUAGE
 import com.eaapps.schoolsguide.data.dataStore.Keys.SESSION_TOKEN
 import com.eaapps.schoolsguide.data.entity.AuthResponse
+import com.eaapps.schoolsguide.di.InterceptorAuthorization
 import com.eaapps.schoolsguide.domain.repository.DataStoreRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.getValueFlow
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 class DataStoreRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) :
     DataStoreRepository {
 
@@ -53,7 +54,7 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun saveLanguage(lang: String){
+    override fun saveLanguage(lang: String) {
         sharedPreferences.edit().apply {
             putString(LANGUAGE, lang)
             apply()

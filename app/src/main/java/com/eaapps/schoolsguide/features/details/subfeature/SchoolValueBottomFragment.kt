@@ -99,16 +99,7 @@ class SchoolValueBottomFragment : BottomSheetDialogFragment() {
             viewModel.reviewSchoolFlow.stateFlow.collect(FlowEvent(onError = {
                 viewModel.reviewSchoolFlow.setValue(Resource.Nothing())
                 dialogProcess.dismiss()
-                MotionToast.createColorToast(
-                    requireActivity(),
-                    "Failed ☹",
-                    it,
-                    MotionToast.TOAST_ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    10_000L,
-                    ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
-
-                )
+               requireActivity().toastingError(it)
             },
                 onLoading = {
                     dialogProcess.show()

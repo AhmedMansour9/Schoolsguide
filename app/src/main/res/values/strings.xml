@@ -210,4 +210,20 @@
     <string name="language">Language</string>
     <string name="log_out">Log out</string>
 
+    <string name="value_academic">Academic and educational level</string>
+    <string name="value_department">The department communicates with parents and responds to inquiries and complaints</string>
+    <string name="value_classrooms">Classrooms and school facilities</string>
+    <string name="value_hygiene">The school\'s interest in public safety and hygiene</string>
+    <string name="value_activities">The school\'s interest in recreational activities</string>
+    <string name="n_saudi_schools_guide">دليل المدارس السعوديه\nSAUDI SCHOOLS GUIDE</string>
+
+
+    <string name="name_">Name : </string>
+    <string name="email_">Email : </string>
+    <string name="phone_">Phone : </string>
+    <string name="grade_">Grades : </string>
+    <string name="shunt_">Shunt : </string>
+    <string name="choose_lang">Choose Language App</string>
+
+
 </resources>

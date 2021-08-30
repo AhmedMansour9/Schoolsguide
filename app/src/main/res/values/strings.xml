@@ -221,9 +221,30 @@
     <string name="name_">Name : </string>
     <string name="email_">Email : </string>
     <string name="phone_">Phone : </string>
-    <string name="grade_">Grades : </string>
+    <string name="grade_">Grades : </string>s
     <string name="shunt_">Shunt : </string>
     <string name="choose_lang">Choose Language App</string>
 
+
+    <string name="connect_timeout">Connection timeout please try again</string>
+    <string name="no_internet_">Please check connection internet</string>
+    <string name="server_not_responding">Server not responding</string>
+    <string name="parse_error">Error parsing from server</string>
+    <string name="something_wrong">Please try Again</string>
+
+    <string name="error400">General error when fulfilling the request would cause an invalid state. Domain validation errors</string>
+    <string name="error401">Invalid authentication or you may have entered an incorrect email or password</string>
+    <string name="error403"> Error code for user not authorized to perform the operation or the resource is unavailable for some reason</string>
+    <string name="error404">The requested resource could not be found but may be available again in the future.</string>
+    <string name="error500">The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
+    <string name="error501">The server does not support the functionality required to fulfill the request</string>
+    <string name="error502">The server was acting as a gateway or proxy and received an invalid response from the upstream server.</string>
+    <string name="error503">The server is currently unavailable (because it is overloaded or down for maintenance). Generally, this is a temporary state.</string>
+    <string name="error504">The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server specified by the URI</string>
+    <string name="try_again">TRY AGAIN</string>
+    <string name="ok_cool">OK,COOL</string>
+
+    <string name="yay">yay!!</string>
+    <string name="oh_snap">oh snap</string>
 
 </resources>

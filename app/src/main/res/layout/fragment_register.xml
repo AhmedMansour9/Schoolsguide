@@ -19,6 +19,7 @@
             android:layout_width="@dimen/_92sdp"
             android:layout_height="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layoutDirection="ltr"
             android:src="@drawable/ic_splash_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -196,11 +197,11 @@
                             app:boxBackgroundMode="filled"
                             app:boxStrokeColor="@color/black"
                             app:boxStrokeWidth="2dp"
+                            app:endIconTint="@color/black"
                             app:helperTextEnabled="true"
                             app:helperTextTextColor="@color/red"
                             app:hintEnabled="true"
                             app:hintTextColor="#444444"
-                            app:endIconTint="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/phoneInputRegister">
 
@@ -301,8 +302,7 @@
                             app:hintEnabled="true"
                             app:hintTextColor="#444444"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/passwordInputRegister"
-                            >
+                            app:layout_constraintTop_toBottomOf="@id/passwordInputRegister">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/confirmPasswordEditRegister"
@@ -325,9 +325,9 @@
                             android:fontFamily="@font/rpt_bold"
                             android:text="@{@string/i_agree_read_the_terms_and_conditions}"
                             android:textColor="@color/textColor1"
-                            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputRegister"
-                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputRegister" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -337,37 +337,37 @@
                     android:id="@+id/registerNow"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:onClick="@{()->registerViewModel.register()}"
                     android:layout_marginStart="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_40sdp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/register"
                     android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:onClick="@{()->registerViewModel.register()}"
+                    android:text="@string/register"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp"
                     app:backgroundTint="@color/colorApp1"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toTopOf="@+id/have_account"
-                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
-                            android:id="@+id/have_account"
-                            click="@{registerViewModel.loginClick}"
-                            spanColor="@{@color/black}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:fontFamily="@font/rpt_bold"
-                            android:text="@{@string/i_have_account_login_now}"
-                            android:textColor="@color/textColor1"
-                            android:textSize="@dimen/_11ssp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                             tools:text="@string/don_t_have_account_yetLabel" />
+                <TextView
+                    android:id="@+id/have_account"
+                    click="@{registerViewModel.loginClick}"
+                    spanColor="@{@color/black}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rpt_bold"
+                    android:text="@{@string/i_have_account_login_now}"
+                    android:textColor="@color/textColor1"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="@string/don_t_have_account_yetLabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

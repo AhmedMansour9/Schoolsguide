@@ -23,6 +23,7 @@
         android:name=".GuideApp"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.SchoolsGuide"
+        tools:replace="android:supportsRtl"
         tools:ignore="AllowBackup">
         <activity android:name=".features.MainActivity"
             android:screenOrientation="portrait"

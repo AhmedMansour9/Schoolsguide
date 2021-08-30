@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class FlowEvent<T : Any>(
     private inline val onError: ((String) -> Unit)? = null,
+    private inline val onErrors: ((ErrorEntity) -> Unit)? = null,
     private inline val onLoading: (() -> Unit)? = null,
     private inline val onSuccess: (T) -> Unit,
     private inline val onNothing: (() -> Unit)? = null,
@@ -21,6 +22,8 @@ class FlowEvent<T : Any>(
                 onSuccess(value.data!!)
 
             }
+
+
 
             is Resource.Error -> {
                 onError?.let { it(value.errorMessage) }
@@ -39,7 +42,9 @@ class FlowEvent<T : Any>(
                     it(value.error.message!!)
                 }
             }
-
+            is Resource.Errors -> {
+                onErrors?.let { it(value.errorEntity!!) }
+            }
         }
     }
 }

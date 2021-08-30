@@ -11,6 +11,7 @@ import com.eaapps.schoolsguide.databinding.FragmentSplashBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.FlowEvent
+import com.eaapps.schoolsguide.utils.handleApiError
 import com.eaapps.schoolsguide.utils.launchFragment
 import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,38 +32,42 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     private fun FragmentSplashBinding.bindProfileCollectResult() {
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
-                progressCircle.visibleOrGone(false)
-                setupCountDown(false)
-            }, onSuccess = {
-                progressCircle.visibleOrGone(false)
-                if (it.email.isNotBlank())
-                    setupCountDown(true)
-                else
+        lifecycleScope.launchWhenResumed {
+            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(
+                onSuccess = {
+                    progressCircle.visibleOrGone(false)
+                    if (it.email.isNotBlank())
+                        setupCountDown(true)
+                    else
+                        setupCountDown(false)
+                }, onLoading = {
+                    progressCircle.visibleOrGone(true)
+                }, onErrors = {
+                    progressCircle.visibleOrGone(false)
                     setupCountDown(false)
-            }, onException = {
-                progressCircle.visibleOrGone(false)
-                navigationToNoInternet()
-            }, onLoading = {
-                progressCircle.visibleOrGone(true)
-
-            }
+                    if (!mainViewModel.sessionToken.isNullOrBlank())
+                        handleApiError(it)
+                    else
+                        setupCountDown(false)
+                }
             ))
         }
 
     }
 
     private fun FragmentSplashBinding.bindLogoutCollectResult() {
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.logoutStateFlow.stateFlow.collect(FlowEvent(onError = {
-                setupCountDown(true)
-            }, onSuccess = {
-                progressCircle.visibleOrGone(false)
-                setupCountDown(false)
-            }, onLoading = {
-                progressCircle.visibleOrGone(true)
-            }
+        lifecycleScope.launchWhenResumed {
+            mainViewModel.logoutStateFlow.stateFlow.collect(FlowEvent(
+                onErrors = {
+                    handleApiError(it) {
+                        setupCountDown(true)
+                    }
+                }, onSuccess = {
+                    progressCircle.visibleOrGone(false)
+                    setupCountDown(false)
+                }, onLoading = {
+                    progressCircle.visibleOrGone(true)
+                }
             ))
         }
     }
@@ -101,5 +106,3 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         super.onStop()
     }
 }
-
-private const val TAG = "SplashFragment"

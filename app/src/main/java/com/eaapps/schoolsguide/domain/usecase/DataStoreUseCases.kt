@@ -15,6 +15,11 @@ class ProfileFatherStoredUseCase @Inject constructor(
         dataStoreRepository.loadFatherFromStoreData()
 }
 
+class LoadTokenUseCase @Inject constructor(private val dataStoreRepository: DataStoreRepository) {
+    fun execute(): String? =
+        dataStoreRepository.loadSessionToken()
+}
+
 class LoadLanguageUseCase @Inject constructor(private val dataStoreRepository: DataStoreRepository) {
     fun execute(): String? =
         dataStoreRepository.loadLanguage()

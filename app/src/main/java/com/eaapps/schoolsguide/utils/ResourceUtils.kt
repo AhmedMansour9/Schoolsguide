@@ -44,6 +44,7 @@ suspend fun <T : Any> safeCall(
     }
 }
 
+
 fun <T : Any> resourceError(code: Int): Resource.Error<T> {
     val msg: String = when (code) {
         400 -> "Server is under maintenance"

@@ -10,28 +10,29 @@ import retrofit2.http.*
 interface ApiServices {
 
     @POST("/api/login")
-    fun loginAsync(@Body loginEntity: LoginEntity): Deferred<Response<AuthResponse>>
+    suspend fun loginAsync(@Body loginEntity: LoginEntity): AuthResponse
 
     @POST("/api/signupFather")
-    fun registerAsync(@Body registerEntity: RegisterEntity): Deferred<Response<AuthResponse>>
+    suspend fun registerAsync(@Body registerEntity: RegisterEntity): AuthResponse
 
     @POST("/api/social_login")
-    fun loginBySocialAsync(@Body socialEntity: SocialEntity): Deferred<Response<AuthResponse>>
+    suspend fun loginBySocialAsync(@Body socialEntity: SocialEntity): AuthResponse
 
     @GET("api/father/profile")
-    fun loadProfileFatherAsync(): Deferred<Response<AuthResponse>>
+    suspend fun loadProfileFatherAsync(): AuthResponse
+
+    @GET("/api/father/logout")
+    suspend fun logoutAsync(): ResponseEntity
+
 
     @POST("/api/changePassword")
     fun changePasswordAsync(@Body changePasswordEntity: ChangePasswordEntity): Deferred<Response<ResponseEntity>>
 
     @POST("/api/password/create")
-    fun createPasswordAsync(@Body body: HashMap<String, String>): Deferred<Response<AuthResetResponse>>
+    suspend fun createPasswordAsync(@Body body: HashMap<String, String>): AuthResetResponse
 
     @POST("/api/password/reset")
-    fun resetPasswordAsync(@Body resetPasswordRequestEntity: ResetPasswordRequestEntity): Deferred<Response<AuthResetResponse>>
-
-    @GET("/api/father/logout")
-    fun logoutAsync(): Deferred<Response<ResponseEntity>>
+    suspend fun resetPasswordAsync(@Body resetPasswordRequestEntity: ResetPasswordRequestEntity): AuthResetResponse
 
 
     @Multipart

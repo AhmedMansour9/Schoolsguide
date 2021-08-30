@@ -15,6 +15,8 @@ import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.View
@@ -47,7 +49,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import com.bumptech.glide.Glide
 import com.eaapps.schoolsguide.R
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.github.ybq.android.spinkit.style.FoldingCube
@@ -626,7 +627,12 @@ fun Context.currentLocation(
 
 }
 
-fun GoogleMap.newLocationWithZoom(lat: Double, lng: Double, animation: Boolean = true,zoom:Float = 12f) {
+fun GoogleMap.newLocationWithZoom(
+    lat: Double,
+    lng: Double,
+    animation: Boolean = true,
+    zoom: Float = 12f
+) {
     if (animation) animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lat, lng), zoom))
     else moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lat, lng), zoom))
 }
@@ -645,3 +651,139 @@ fun Location.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
 }
 
+fun View.snack(message: String, action: (() -> Unit)? = null, error: Boolean = true) {
+    context.errorDialog(error, message, action)
+}
+
+fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null) {
+    failure.apply {
+        when (this) {
+            is ErrorEntity.HttpError -> {
+                when (this.httpError) {
+                    HttpErrorEntity.BadGateway502 -> requireView().snack(
+                        resources.getString(R.string.error502),
+                        retry
+                    )
+                    HttpErrorEntity.BadRequest400 -> requireView().snack(
+                        resources.getString(R.string.error400),
+                        retry
+                    )
+                    HttpErrorEntity.Forbidden403 -> requireView().snack(
+                        resources.getString(R.string.error403),
+                        retry
+                    )
+                    HttpErrorEntity.NotAcceptable406 -> requireView().snack(
+                        resources.getString(R.string.error400),
+                        retry
+                    )
+                    HttpErrorEntity.NotFound404 -> requireView().snack(
+                        resources.getString(R.string.error404),
+                        retry
+                    )
+                    HttpErrorEntity.NotImplemented501 -> requireView().snack(
+                        resources.getString(R.string.error501),
+                        retry
+                    )
+                    is HttpErrorEntity.Nothing -> {
+                        requireView().snack(
+                            (this.httpError as HttpErrorEntity.Nothing).msg ?: "",
+                            retry
+                        )
+                    }
+
+                    HttpErrorEntity.ServerError500 -> requireView().snack(
+                        resources.getString(R.string.error500),
+                        retry
+                    )
+                    HttpErrorEntity.ServiceUnavailable503 -> requireView().snack(
+                        resources.getString(R.string.error503),
+                        retry
+                    )
+                    HttpErrorEntity.TimeoutGateway504 -> requireView().snack(
+                        resources.getString(R.string.error504),
+                        retry
+                    )
+                    HttpErrorEntity.Unauthorized401 -> requireView().snack(
+                        resources.getString(R.string.error401),
+                        retry
+                    )
+                    else -> Unit
+                }
+            }
+            is ErrorEntity.IOError -> {
+                requireView().snack(this.msg ?: "", retry)
+            }
+            ErrorEntity.NoInternet -> requireView().snack(
+                resources.getString(R.string.no_internet_),
+                retry
+            )
+            ErrorEntity.NothingError -> requireView().snack(
+                resources.getString(R.string.connect_timeout),
+                retry
+            )
+            ErrorEntity.ParseError -> requireView().snack(
+                resources.getString(R.string.parse_error),
+                retry
+            )
+            ErrorEntity.ServerNotResponse -> requireView().snack(
+                resources.getString(R.string.server_not_responding),
+                retry
+            )
+            ErrorEntity.TimeOut -> requireView().snack(
+                resources.getString(R.string.connect_timeout),
+                retry
+            )
+        }
+    }
+}
+
+fun Context.errorDialog(
+    error: Boolean = true,
+    descMsg: String,
+    onButtonClicked: (() -> Unit)? = null): Dialog {
+    val dialog = AlertDialog.Builder(this)
+    dialog.create().window
+    val view = LayoutInflater.from(this).inflate(R.layout.dialog_error_1, null)
+    dialog.setView(view)
+    dialog.setCancelable(false)
+    val title = view.findViewById<TextView>(R.id.title)
+    if (error)
+        title.text = getString(R.string.oh_snap)
+    else
+        title.text = getString(R.string.yay)
+
+    val msg = view.findViewById<TextView>(R.id.msg)
+    msg.text = descMsg
+    val icon = view.findViewById<ImageView>(R.id.icon)
+    if (error)
+        icon.setImageResource(R.drawable.sad)
+    else
+        icon.setImageResource(R.drawable.smile)
+
+    val errorBtn = view.findViewById<Button>(R.id.errorBtn)
+    if (error)
+        errorBtn.text = getString(R.string.try_again)
+    else
+        errorBtn.text = getString(R.string.ok_cool)
+
+    val alertDialog = dialog.create()
+    onButtonClicked?.apply {
+        errorBtn.visibleOrGone(true)
+        errorBtn.setOnClickListener {
+            this()
+            alertDialog.dismiss()
+        }
+    } ?: run {
+        errorBtn.visibleOrGone(false)
+        Handler(Looper.getMainLooper()).postDelayed({
+            alertDialog.dismiss()
+        }, 5000L)
+    }
+
+    alertDialog.window?.apply {
+        setBackgroundDrawableResource(android.R.color.transparent)
+        attributes.gravity = Gravity.CENTER
+    }
+    alertDialog.show()
+    return alertDialog
+}

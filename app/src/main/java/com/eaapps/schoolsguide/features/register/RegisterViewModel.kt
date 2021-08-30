@@ -22,10 +22,12 @@ class RegisterViewModel @Inject constructor(
 
     lateinit var registerNavigator: RegisterNavigator
 
-    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> = MutableStateFlow(Resource.Nothing())
+    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> =
+        MutableStateFlow(Resource.Nothing())
     val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
 
-    private val _registerStateFlow = MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())
+    private val _registerStateFlow =
+        MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())
     val registerStateFlow: StateFlow<Resource<AuthResponse.AuthData>> = _registerStateFlow
 
     private var helperValid = HashMap<String, String>().apply {
@@ -52,8 +54,9 @@ class RegisterViewModel @Inject constructor(
         registerNavigator.loginNow()
     }
 
-    private fun loadCities() {
+    fun loadCities() {
         viewModelScope.launch {
+            _citiesStateFlow.emit(Resource.Loading())
             val result = getCitiesUseCase.execute()
             _citiesStateFlow.emit(result)
         }

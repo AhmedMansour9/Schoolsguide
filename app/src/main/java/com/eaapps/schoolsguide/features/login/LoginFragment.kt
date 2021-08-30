@@ -81,10 +81,11 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
 
     private fun collectResultLoginFlow() {
         lifecycleScope.launchWhenStarted {
-            loginViewModel.loginStateFlow.stateFlow.collect(FlowEvent(onError = {
-                dialog.dismiss()
-                requireActivity().toastingError(it)
-            },
+            loginViewModel.loginStateFlow.stateFlow.collect(FlowEvent(
+                onErrors = {
+                    dialog.dismiss()
+                    handleApiError(it)
+                },
                 onLoading = {
                     dialog.show()
                 },
@@ -99,10 +100,11 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
 
     private fun collectResultLoginBySocialFlow() {
         lifecycleScope.launchWhenStarted {
-            loginViewModel.loginByGoogleStateFlow.stateFlow.collect(FlowEvent(onError = {
-                dialog.dismiss()
-                requireActivity().toastingError(it)
-            },
+            loginViewModel.loginByGoogleStateFlow.stateFlow.collect(FlowEvent(
+                onErrors = {
+                    dialog.dismiss()
+                    handleApiError(it)
+                },
                 onLoading = {
                     dialog.show()
                 },

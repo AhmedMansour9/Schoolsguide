@@ -2,6 +2,10 @@ package com.eaapps.schoolsguide.features
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -23,13 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     private var destinationChangedListener: NavController.OnDestinationChangedListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    lateinit var connectivityManager:ConnectivityManager
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment)
-        destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+        destinationChangedListener =
+            NavController.OnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.splashFragment, R.id.loginFragment, R.id.registerFragment, R.id.forgetPasswordFragment, R.id.noInternetFragment ->
                         binding.bottomNav.visibleOrGone(false)
@@ -66,4 +74,37 @@ class MainActivity : AppCompatActivity() {
         val localeUpdatedContext: ContextWrapper = LanguageContextWrapper(newBase!!)
         super.attachBaseContext(localeUpdatedContext)
     }
+
+
+    private var networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            connected()
+        }
+
+        override fun onLost(network: Network) {
+            disconnected()
+        }
+    }
+
+    private fun disconnected() {
+        navController.navigate(R.id.noInternetFragment)
+    }
+
+    private fun connected() {
+        //navController.navigate(R.id.noInternetFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val builder = NetworkRequest.Builder()
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        val networkRequest = builder.build()
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+
 }

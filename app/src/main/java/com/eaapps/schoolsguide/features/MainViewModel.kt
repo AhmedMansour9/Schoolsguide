@@ -4,17 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
-import com.eaapps.schoolsguide.domain.usecase.GetProfileFatherUseCase
-import com.eaapps.schoolsguide.domain.usecase.LoadLanguageUseCase
-import com.eaapps.schoolsguide.domain.usecase.LogoutFatherUseCase
-import com.eaapps.schoolsguide.domain.usecase.SaveLanguageUseCase
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.NetworkChecker
+import com.eaapps.schoolsguide.domain.usecase.*
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.StateFlows
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +16,8 @@ class MainViewModel @Inject constructor(
     private val getProfileFatherUseCase: GetProfileFatherUseCase,
     private val logoutFatherUseCase: LogoutFatherUseCase,
     private val saveLanguageUseCase: SaveLanguageUseCase,
-    private val loadLanguageUseCase: LoadLanguageUseCase
+    private val loadLanguageUseCase: LoadLanguageUseCase,
+    private val loadTokenUseCase: LoadTokenUseCase,
 ) : ViewModel() {
 
     internal val profileStateFlow = StateFlows<AuthResponse.AuthData>(viewModelScope)
@@ -54,7 +48,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun saveLanguage(lang:String){
+    val sessionToken = loadTokenUseCase.execute()
+
+    fun saveLanguage(lang: String) {
         saveLanguageUseCase.execute(lang)
     }
 

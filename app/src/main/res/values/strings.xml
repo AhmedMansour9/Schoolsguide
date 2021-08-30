@@ -246,5 +246,6 @@
 
     <string name="yay">yay!!</string>
     <string name="oh_snap">oh snap</string>
+    <string name="any_network">Please make sure to connect to any network</string>
 
 </resources>

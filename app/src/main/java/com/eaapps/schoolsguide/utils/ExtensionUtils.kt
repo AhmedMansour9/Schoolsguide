@@ -44,12 +44,15 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.eaapps.schoolsguide.R
+import com.eaapps.schoolsguide.databinding.FragmentNoInternetBinding
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.github.ybq.android.spinkit.style.FoldingCube
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -65,6 +68,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.maps.android.ktx.addCircle
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -655,7 +659,8 @@ fun View.snack(message: String, action: (() -> Unit)? = null, error: Boolean = t
     context.errorDialog(error, message, action)
 }
 
-fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null) {
+@InternalCoroutinesApi
+fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null, networkConnected: ((Boolean) -> Unit)) {
     failure.apply {
         when (this) {
             is ErrorEntity.HttpError -> {
@@ -710,13 +715,24 @@ fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null) {
                     else -> Unit
                 }
             }
-            is ErrorEntity.IOError -> {
-                requireView().snack(this.msg ?: "", retry)
+            ErrorEntity.NoInternet -> {
+                networkConnected(false)
+                requireActivity().noInternetDialog {
+                    networkConnected(true)
+                }.show()
             }
-            ErrorEntity.NoInternet -> requireView().snack(
-                resources.getString(R.string.no_internet_),
-                retry
-            )
+
+            is ErrorEntity.IOError -> {
+                if (NetworkChecker.isNetworkConnected(requireContext())) {
+                    requireView().snack(this.msg ?: "", retry)
+                } else {
+                    networkConnected(false)
+                    requireActivity().noInternetDialog {
+                        networkConnected(true)
+                    }.show()
+                }
+            }
+
             ErrorEntity.NothingError -> requireView().snack(
                 resources.getString(R.string.connect_timeout),
                 retry
@@ -740,7 +756,8 @@ fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null) {
 fun Context.errorDialog(
     error: Boolean = true,
     descMsg: String,
-    onButtonClicked: (() -> Unit)? = null): Dialog {
+    onButtonClicked: (() -> Unit)? = null
+): Dialog {
     val dialog = AlertDialog.Builder(this)
     dialog.create().window
     val view = LayoutInflater.from(this).inflate(R.layout.dialog_error_1, null)
@@ -785,5 +802,52 @@ fun Context.errorDialog(
         attributes.gravity = Gravity.CENTER
     }
     alertDialog.show()
+    return alertDialog
+}
+
+@InternalCoroutinesApi
+fun FragmentActivity.noInternetDialog(
+    onSuccessConnection: (() -> Unit)
+): Dialog {
+    val dialog =
+        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen)
+    dialog.create().window
+    val binding = FragmentNoInternetBinding.inflate(layoutInflater)
+    dialog.setView(binding.root)
+    dialog.setCancelable(false)
+    val alertDialog = dialog.create()
+    alertDialog.window?.apply {
+        setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+    }
+    binding.run {
+        retryButton.setOnClickListener {
+            progressBar.visibleOrGone(true)
+            retryButton.visibleOrGone(false)
+            if (NetworkChecker.isNetworkConnected(this@noInternetDialog)) {
+                msg.text = getString(R.string.no_internet)
+                lifecycleScope.launchWhenStarted {
+                    NetworkChecker.isOnline().collect(FlowEvent(onError = {
+                        progressBar.visibleOrGone(false)
+                        retryButton.visibleOrGone(true)
+                    }, onSuccess = {
+                        if (it) {
+                            progressBar.visibleOrGone(false)
+                            retryButton.visibleOrGone(false)
+                            msg.text = getString(R.string.online)
+                            onSuccessConnection()
+                            alertDialog.cancel()
+                        } else {
+                            progressBar.visibleOrGone(false)
+                            retryButton.visibleOrGone(true)
+                        }
+                    }))
+                }
+            } else {
+                progressBar.visibleOrGone(false)
+                retryButton.visibleOrGone(true)
+                msg.text = getString(R.string.any_network)
+            }
+        }
+    }
     return alertDialog
 }

@@ -84,7 +84,7 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
             loginViewModel.loginStateFlow.stateFlow.collect(FlowEvent(
                 onErrors = {
                     dialog.dismiss()
-                    handleApiError(it)
+                    handleApiError(it){}
                 },
                 onLoading = {
                     dialog.show()
@@ -103,7 +103,7 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginNavigator {
             loginViewModel.loginByGoogleStateFlow.stateFlow.collect(FlowEvent(
                 onErrors = {
                     dialog.dismiss()
-                    handleApiError(it)
+                    handleApiError(it){}
                 },
                 onLoading = {
                     dialog.show()

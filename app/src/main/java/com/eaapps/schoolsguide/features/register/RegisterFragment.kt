@@ -11,10 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentRegisterBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.getColorResource
-import com.eaapps.schoolsguide.utils.handleApiError
-import com.eaapps.schoolsguide.utils.progressSmallDialog
+import com.eaapps.schoolsguide.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -75,6 +72,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterNavigator
                 },
                 onSuccess = {
                     dialog.dismiss()
+                    launchFragment(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment())
                 },
                 onNothing = { dialog.dismiss() }
             ))

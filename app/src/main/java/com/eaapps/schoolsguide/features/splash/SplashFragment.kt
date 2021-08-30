@@ -42,11 +42,14 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                         setupCountDown(false)
                 }, onLoading = {
                     progressCircle.visibleOrGone(true)
-                }, onErrors = {
+                }, onErrors = { it ->
                     progressCircle.visibleOrGone(false)
-                    setupCountDown(false)
                     if (!mainViewModel.sessionToken.isNullOrBlank())
-                        handleApiError(it)
+                        handleApiError(it, networkConnected = {
+                            if (it) {
+                                mainViewModel.loadProfile()
+                            }
+                        })
                     else
                         setupCountDown(false)
                 }

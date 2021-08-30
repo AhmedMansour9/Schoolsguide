@@ -20,12 +20,9 @@ interface AuthRepository {
     suspend fun loginBySocial(provider: String, social_id: String, email: String, fullName: String)
             : Resource<AuthResponse.AuthData>
 
-    suspend fun resetPassword(resetPasswordRequestEntity: ResetPasswordRequestEntity): Resource<AuthResetResponse>
-
-    suspend fun createPassword(email: String): Resource<AuthResetResponse>
-
-    suspend fun getProfileFather(): Resource<AuthResponse.AuthData>
-
     suspend fun logoutFather():Resource<ResponseEntity>
+
+    suspend fun updateProfileFather(changeFatherProfileEntity: ChangeFatherProfileEntity): Resource<ResponseEntity>
+
 
 }

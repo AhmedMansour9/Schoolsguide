@@ -4,14 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.eaapps.schoolsguide.data.entity.FilterRequestEntity
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
-import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.data.network.apiServices.GeneralApis
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val TYPED_STATING_INDEX = 1
 
 class FilterSchoolPagingSource(
-    private val apiServices: ApiServices,
+    private val apiServices: GeneralApis,
     private val filterRequestEntity: FilterRequestEntity
 ) :
     PagingSource<Int, SchoolResponse.SchoolData.DataSchool>() {
@@ -51,15 +51,15 @@ class FilterSchoolPagingSource(
                 )
 
             }
-            val dataSchool = response.body()?.data?.data
-            val meta = response.body()?.data?.meta
-            val nextKey = if (meta?.last_page == nextPageNumber) {
+            val dataSchool = response.data.data
+            val meta = response.data.meta
+            val nextKey = if (meta.last_page == nextPageNumber) {
                 null
             } else {
                 nextPageNumber + 1
             }
             LoadResult.Page(
-                data = dataSchool!!,
+                data = dataSchool,
                 prevKey = if (nextPageNumber == TYPED_STATING_INDEX) null else nextPageNumber - 1,
                 nextKey = nextKey
             )

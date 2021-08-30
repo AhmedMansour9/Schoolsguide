@@ -4,8 +4,9 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eaapps.schoolsguide.data.entity.AuthResponse
+import com.eaapps.schoolsguide.data.entity.CityResponse
 import com.eaapps.schoolsguide.domain.model.RegisterModel
-import com.eaapps.schoolsguide.domain.usecase.GetCitiesUseCase
+import com.eaapps.schoolsguide.domain.usecase.CitiesUseCase
 import com.eaapps.schoolsguide.domain.usecase.RegisterUseCase
 import com.eaapps.schoolsguide.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,15 +17,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val getCitiesUseCase: GetCitiesUseCase,
+    private val getCitiesUseCase: CitiesUseCase,
     private val registerUseCase: RegisterUseCase
 ) : ViewModel() {
 
     lateinit var registerNavigator: RegisterNavigator
 
-    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> =
+    private var _citiesStateFlow: MutableStateFlow<Resource<List<CityResponse.City>>> =
         MutableStateFlow(Resource.Nothing())
-    val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
+    val citiesStateFlow: StateFlow<Resource<List<CityResponse.City>>> = _citiesStateFlow
 
     private val _registerStateFlow =
         MutableStateFlow<Resource<AuthResponse.AuthData>>(Resource.Nothing())

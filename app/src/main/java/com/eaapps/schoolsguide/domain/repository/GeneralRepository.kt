@@ -1,7 +1,9 @@
 package com.eaapps.schoolsguide.domain.repository
 
+import androidx.paging.PagingData
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface GeneralRepository {
@@ -24,5 +26,22 @@ interface GeneralRepository {
 
     suspend fun filterSchools(filterRequestEntity: FilterRequestEntity): Resource<List<SchoolResponse.SchoolData.DataSchool>>
 
+    suspend fun getTypeSchool(): Resource<List<TypeResponse.TypeData>>
+
+    suspend fun getSlider(): Resource<List<SliderResponse.SliderData>>
+
+    suspend fun getRecommended(): Resource<List<SchoolResponse.SchoolData.DataSchool>>
+
+    suspend fun getFeature(): Resource<List<SchoolResponse.SchoolData.DataSchool>>
+
+    suspend fun addSchool(addSchoolEntity: AddSchoolEntity): Resource<ResponseEntity>
+
+    suspend fun loadAllRecommended(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
+
+    suspend fun loadAllFeatured(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
+
+    suspend fun loadAllTypedSchool(typeId: Int): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
+
+    suspend fun loadAllSchoolsByFilter(filterRequestEntity: FilterRequestEntity): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
 
 }

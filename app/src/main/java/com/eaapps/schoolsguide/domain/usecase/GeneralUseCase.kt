@@ -1,16 +1,15 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.util.Patterns
+import androidx.paging.PagingData
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.*
 import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-
-class GetCitiesUseCase @Inject constructor(private val cityRepository: CityRepository) {
-    suspend fun execute(): Resource<List<String>> = cityRepository.getCities()
-}
 
 class ProgramSchoolUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
     suspend fun execute(): Resource<List<ProgramsResponse.Programs>> =
@@ -221,3 +220,105 @@ class FilterMapUseCase @Inject constructor(private val generalRepository: Genera
         )
 }
 
+class AddSchoolUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+
+    suspend fun execute(addSchoolModel: AddSchoolModel): Resource<ResponseEntity> =
+        generalRepository.addSchool(
+            AddSchoolEntity(
+                addSchoolModel.school_name,
+                addSchoolModel.phone,
+                addSchoolModel.email,
+                addSchoolModel.notes
+            )
+        )
+
+    fun isValid(addSchoolModel: AddSchoolModel): Boolean =
+        (addSchoolModel.school_name.isNotBlank() &&
+                addSchoolModel.email.isNotBlank() &&
+                Patterns.EMAIL_ADDRESS.matcher(addSchoolModel.email).matches()) &&
+                (addSchoolModel.phone.isNotBlank())
+
+    fun validMessage(addSchoolModel: AddSchoolModel): HashMap<String, String> {
+        val errorMap = HashMap<String, String>()
+        errorMap.clear()
+        when {
+            addSchoolModel.email.isBlank() -> {
+                return HashMap<String, String>().apply {
+                    put("email", "Please Enter Email Address")
+                }
+            }
+            !Patterns.EMAIL_ADDRESS.matcher(addSchoolModel.email).matches() -> {
+                return errorMap.apply {
+                    put("email", "Please Enter Validation Email")
+                }
+            }
+
+            addSchoolModel.school_name.isBlank() -> {
+                return errorMap.apply {
+                    put("name", "Please Enter School Name")
+                }
+            }
+            addSchoolModel.phone.isBlank() -> {
+                return errorMap.apply {
+                    put("phone", "Please Enter Phone Number")
+                }
+            }
+
+            else -> return errorMap
+
+        }
+
+    }
+
+}
+
+class LoadAllRecommendedUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.loadAllRecommended()
+}
+
+class LoadAllFeaturedUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.loadAllFeatured()
+}
+
+class LoadTypedSchoolUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(typeId: Int): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.loadAllTypedSchool(typeId)
+}
+
+class LoadFilterSchoolsUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(filterModel: FilterModel): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.loadAllSchoolsByFilter(
+            FilterRequestEntity(
+                filterModel.search,
+                filterModel.school_type,
+                filterModel.type_id,
+                filterModel.grade_id,
+                filterModel.from_price,
+                filterModel.to_price,
+                filterModel.program_id,
+                filterModel.city_id,
+                filterModel.review
+            )
+        )
+}
+
+class LoadSchoolTypeUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Resource<List<TypeResponse.TypeData>> = generalRepository.getTypeSchool()
+}
+
+class LoadSliderUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Resource<List<SliderResponse.SliderData>> = generalRepository.getSlider()
+}
+
+class LoadRecommendedUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Resource<List<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.getRecommended()
+
+}
+
+class LoadFeatureUseCase @Inject constructor(private val generalRepository: GeneralRepository) {
+    suspend fun execute(): Resource<List<SchoolResponse.SchoolData.DataSchool>> =
+        generalRepository.getFeature()
+}

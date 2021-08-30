@@ -1,40 +1,40 @@
 package com.eaapps.schoolsguide.domain.usecase
 
 import androidx.paging.PagingData
+import com.eaapps.schoolsguide.data.entity.AuthResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.data.entity.ReviewRequestEntity
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.domain.model.ReviewModel
-import com.eaapps.schoolsguide.domain.repository.FavoriteRepository
-import com.eaapps.schoolsguide.domain.repository.ProfileRepository
+import com.eaapps.schoolsguide.domain.repository.FatherRepository
 import com.eaapps.schoolsguide.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ToggleFavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
+class ToggleFavoriteUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
 
     suspend fun execute(schoolId: Int): Resource<ResponseEntity> =
-        favoriteRepository.toggleFavorite(schoolId)
+        fatherRepository.toggleFavorite(schoolId)
 }
 
-class LoadFavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
+class LoadFavoriteUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
-        favoriteRepository.loadFavorite()
+        fatherRepository.loadFavorite()
 }
 
-class ToggleFollowUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
+class ToggleFollowUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(schoolId: Int): Resource<ResponseEntity> =
-        profileRepository.toggleFollow(schoolId)
+        fatherRepository.toggleFollow(schoolId)
 }
 
-class ToggleRecommendedUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
+class ToggleRecommendedUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(schoolId: Int): Resource<ResponseEntity> =
-        profileRepository.toggleRecommendedIt(schoolId)
+        fatherRepository.toggleRecommendedIt(schoolId)
 }
 
-class PutReviewUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
+class PutReviewUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(reviewModel: ReviewModel): Resource<ResponseEntity> =
-        profileRepository.putReview(
+        fatherRepository.putReview(
             ReviewRequestEntity(
                 reviewModel.school_id,
                 reviewModel.comment,
@@ -51,7 +51,7 @@ class PutReviewUseCase @Inject constructor(private val profileRepository: Profil
                 reviewModel.communication > 0 &&
                 reviewModel.facilities > 0 &&
                 reviewModel.safety > 0 &&
-                 reviewModel.activities > 0 &&
+                reviewModel.activities > 0 &&
                 reviewModel.comment.isNotBlank()
 
 
@@ -103,5 +103,7 @@ class PutReviewUseCase @Inject constructor(private val profileRepository: Profil
 
 }
 
-
-
+class GetProfileFatherUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
+    suspend fun execute(): Resource<AuthResponse.AuthData> =
+        fatherRepository.getProfileFather()
+}

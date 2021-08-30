@@ -3,9 +3,10 @@ package com.eaapps.schoolsguide.features.profile.updateProfile
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.eaapps.schoolsguide.data.entity.CityResponse
 import com.eaapps.schoolsguide.data.entity.ResponseEntity
 import com.eaapps.schoolsguide.domain.model.UpdateProfileModel
-import com.eaapps.schoolsguide.domain.usecase.GetCitiesUseCase
+import com.eaapps.schoolsguide.domain.usecase.CitiesUseCase
 import com.eaapps.schoolsguide.domain.usecase.UpdateFatherProfileUseCase
 import com.eaapps.schoolsguide.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UpdateProfileViewModel @Inject constructor(
     private val updateFatherProfileUseCase: UpdateFatherProfileUseCase,
-    private val getCitiesUseCase: GetCitiesUseCase
+    private val getCitiesUseCase: CitiesUseCase
 ) : ViewModel() {
 
     init {
@@ -30,11 +31,11 @@ class UpdateProfileViewModel @Inject constructor(
 
     val inputEditError = ObservableField<HashMap<String, String>>(HashMap())
 
-    private var _citiesStateFlow: MutableStateFlow<Resource<List<String>>> =
+    private var _citiesStateFlow: MutableStateFlow<Resource<List<CityResponse.City>>> =
         MutableStateFlow(Resource.Nothing())
-    val citiesStateFlow: StateFlow<Resource<List<String>>> = _citiesStateFlow
+    val citiesStateFlow: StateFlow<Resource<List<CityResponse.City>>> = _citiesStateFlow
 
-      var updateProfileModel: UpdateProfileModel = UpdateProfileModel()
+    var updateProfileModel: UpdateProfileModel = UpdateProfileModel()
 
 
     private var helperValid = HashMap<String, String>().apply {

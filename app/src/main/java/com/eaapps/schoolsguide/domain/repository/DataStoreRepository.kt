@@ -14,9 +14,7 @@ interface DataStoreRepository {
 
     fun loadSessionToken(): String?
 
-    fun saveLanguage(lang:String)
+    fun saveLanguage(lang: String)
 
     fun loadLanguage(): String?
-
-
 }

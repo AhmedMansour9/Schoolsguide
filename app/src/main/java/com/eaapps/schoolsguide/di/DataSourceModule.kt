@@ -1,7 +1,10 @@
 package com.eaapps.schoolsguide.di
 
 import com.eaapps.schoolsguide.data.dataStore.DataStoreRepositoryImpl
-import com.eaapps.schoolsguide.data.network.repositories.*
+import com.eaapps.schoolsguide.data.network.repositories.AuthRepositoryImpl
+import com.eaapps.schoolsguide.data.network.repositories.FatherRepositoryImpl
+import com.eaapps.schoolsguide.data.network.repositories.GeneralRepositoryImpl
+import com.eaapps.schoolsguide.data.network.repositories.PasswordRepositoryImpl
 import com.eaapps.schoolsguide.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -20,44 +23,22 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCityRepository(cityRepositoryImpl: CityRepositoryImpl): CityRepository =
-        cityRepositoryImpl
-
-
-    @Provides
-    @Singleton
-    fun provideDataStoreRepository(dataStoreRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository =
-        dataStoreRepositoryImpl
-
+    fun provideFatherRepository(fatherRepositoryImpl: FatherRepositoryImpl): FatherRepository =
+        fatherRepositoryImpl
 
     @Provides
     @Singleton
-    fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository =
-        homeRepositoryImpl
-
-
-    @Provides
-    @Singleton
-    fun provideProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository =
-        profileRepositoryImpl
-
-
-    @Provides
-    @Singleton
-    fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository =
-        favoriteRepositoryImpl
-
-
-    @Provides
-    @Singleton
-    fun provideSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository =
-        searchRepositoryImpl
-
+    fun providePasswordRepository(passwordRepositoryImpl: PasswordRepositoryImpl): PasswordRepository =
+        passwordRepositoryImpl
 
     @Provides
     @Singleton
     fun provideGeneralRepository(generalRepositoryImpl: GeneralRepositoryImpl): GeneralRepository =
         generalRepositoryImpl
 
+    @Provides
+    @Singleton
+    fun provideDataStoreRepository(dataStoreRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository =
+        dataStoreRepositoryImpl
 
 }

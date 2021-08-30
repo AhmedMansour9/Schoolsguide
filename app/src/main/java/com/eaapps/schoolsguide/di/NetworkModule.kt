@@ -2,7 +2,10 @@ package com.eaapps.schoolsguide.di
 
 import android.content.Context
 import com.eaapps.schoolsguide.BuildConfig
-import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.data.network.apiServices.AuthenticationApis
+import com.eaapps.schoolsguide.data.network.apiServices.FatherApis
+import com.eaapps.schoolsguide.data.network.apiServices.GeneralApis
+import com.eaapps.schoolsguide.data.network.apiServices.PasswordApis
 import com.eaapps.schoolsguide.utils.NetworkChecker
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
@@ -20,6 +23,7 @@ import java.util.concurrent.TimeUnit
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     private const val CONNECT_TIMEOUT_IN_SECONDS = 10
     private const val READ_TIMEOUT_IN_SECONDS = 60
     private const val WRITE_TIMEOUT_IN_SECONDS = 60
@@ -48,13 +52,31 @@ object NetworkModule {
             .build()
     }
 
-    @Provides
-    fun providerApiService(okHttpClient: OkHttpClient): ApiServices =
+    private val retrofit: (OkHttpClient) -> Retrofit = {
         Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(okHttpClient)
-            .build().create(ApiServices::class.java)
+            .client(it)
+            .build()
+    }
+
+    @Provides
+    fun providerGeneralApis(okHttpClient: OkHttpClient): GeneralApis =
+        retrofit(okHttpClient).create(GeneralApis::class.java)
+
+    @Provides
+    fun providerFatherApis(okHttpClient: OkHttpClient): FatherApis =
+        retrofit(okHttpClient).create(FatherApis::class.java)
+
+
+    @Provides
+    fun providerAuthenticationApis(okHttpClient: OkHttpClient): AuthenticationApis =
+        retrofit(okHttpClient).create(AuthenticationApis::class.java)
+
+    @Provides
+    fun providerPasswordApis(okHttpClient: OkHttpClient): PasswordApis =
+        retrofit(okHttpClient).create(PasswordApis::class.java)
+
 
 }

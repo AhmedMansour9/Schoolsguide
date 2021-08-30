@@ -3,13 +3,13 @@ package com.eaapps.schoolsguide.data.network.dataSources
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
-import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.data.network.apiServices.FatherApis
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val FAVORITE_STATING_INDEX = 1
 
-class FavoritePagingDataSource(private val apiServices: ApiServices) :
+class FavoritePagingDataSource(private val apiServices: FatherApis) :
     PagingSource<Int, SchoolResponse.SchoolData.DataSchool>() {
 
     companion object {

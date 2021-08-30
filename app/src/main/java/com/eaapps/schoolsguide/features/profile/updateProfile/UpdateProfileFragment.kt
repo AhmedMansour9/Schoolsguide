@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
@@ -120,7 +119,8 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
                         val file = FileHelper.writeTempFileFromUri(requireContext(), this)
                         file.apply {
                             binding.profileImg.setImageURI(Uri.parse(path))
-                            viewModel.updateProfileModel.image = FileHelper.multiPartFile(file, "image")
+                            viewModel.updateProfileModel.image =
+                                FileHelper.multiPartFile(file, "image")
                         }
                     }
 
@@ -181,8 +181,13 @@ class UpdateProfileFragment : DialogFragment(R.layout.fragment_dialog_edit_profi
         lifecycleScope.launchWhenCreated {
             viewModel.citiesStateFlow.collect(
                 FlowEvent(onError = {},
-                    onSuccess = {
-                        val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, it)
+                    onSuccess = { it ->
+                        val listString = ArrayList<String>()
+                        it.forEach {
+                            listString.add(it.name)
+                        }
+                        val adapter =
+                            ArrayAdapter(requireContext(), R.layout.city_list_item, listString)
                         cityEditProfile.setAdapter(adapter)
                     })
             )

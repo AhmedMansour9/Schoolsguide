@@ -50,8 +50,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterNavigator
                             registerViewModel?.loadCities()!!
                         }
                     },
-                    onSuccess = {
-                        val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, it)
+                    onSuccess = { it ->
+                        val listString = ArrayList<String>()
+                        it.forEach {
+                            listString.add(it.name)
+                        }
+                        val adapter = ArrayAdapter(requireContext(), R.layout.city_list_item, listString)
                         cityEditRegister.setAdapter(adapter)
                     })
             )

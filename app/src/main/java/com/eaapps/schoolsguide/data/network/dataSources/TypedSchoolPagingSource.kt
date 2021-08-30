@@ -3,13 +3,13 @@ package com.eaapps.schoolsguide.data.network.dataSources
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
-import com.eaapps.schoolsguide.data.network.ApiServices
+import com.eaapps.schoolsguide.data.network.apiServices.GeneralApis
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val TYPED_STATING_INDEX = 1
 
-class TypedSchoolPagingSource(private val apiServices: ApiServices,private val typeId:Int) :
+class TypedSchoolPagingSource(private val apiServices: GeneralApis,private val typeId:Int) :
     PagingSource<Int, SchoolResponse.SchoolData.DataSchool>() {
 
     companion object {

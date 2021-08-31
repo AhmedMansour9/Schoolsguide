@@ -40,9 +40,6 @@ class MainActivity : AppCompatActivity() {
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dialogNoInternet = noInternetDialog {
-
-        }
 
         navController = findNavController(R.id.nav_host_fragment)
         destinationChangedListener =
@@ -84,39 +81,39 @@ class MainActivity : AppCompatActivity() {
         super.attachBaseContext(localeUpdatedContext)
     }
 
-    private var networkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            connected()
-        }
-
-        override fun onLost(network: Network) {
-            disconnected()
-        }
-    }
-
-    private fun disconnected() {
-        runOnUiThread {
-            dialogNoInternet.show()
-        }
-
-    }
-
-    private fun connected() {
-
-    }
+//    private var networkCallback = object : ConnectivityManager.NetworkCallback() {
+//        override fun onAvailable(network: Network) {
+//            connected()
+//        }
+//
+//        override fun onLost(network: Network) {
+//            disconnected()
+//        }
+//    }
+//
+//    private fun disconnected() {
+//        runOnUiThread {
+//            dialogNoInternet.show()
+//        }
+//
+//    }
+//
+//    private fun connected() {
+//
+//    }
 
     override fun onStart() {
         super.onStart()
-        val builder = NetworkRequest.Builder()
-        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        val networkRequest = builder.build()
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+//        val builder = NetworkRequest.Builder()
+//        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+//        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+//        val networkRequest = builder.build()
+//        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
     override fun onStop() {
         super.onStop()
-        connectivityManager.unregisterNetworkCallback(networkCallback)
+//        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }
 

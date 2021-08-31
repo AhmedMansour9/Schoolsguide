@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemVerticalBinding
 
-class FavoriteAdapter(private val onToggleFavorite: (Int) -> Unit) :
+class FavoriteAdapter( private val onShareSchool: (Int) -> Unit,private val onToggleFavorite: (Int) -> Unit) :
     PagingDataAdapter<SchoolResponse.SchoolData.DataSchool, FavoriteAdapter.FavoriteViewHolder>(
         object :
             DiffUtil.ItemCallback<SchoolResponse.SchoolData.DataSchool>() {
@@ -49,6 +49,10 @@ class FavoriteAdapter(private val onToggleFavorite: (Int) -> Unit) :
                 if (buttonView.isPressed) {
                     onToggleFavorite(schoolData?.id!!)
                 }
+            }
+
+            schoolItemVerticalBinding.share.setOnClickListener {
+                onShareSchool(schoolData?.id!!)
             }
         }
     }

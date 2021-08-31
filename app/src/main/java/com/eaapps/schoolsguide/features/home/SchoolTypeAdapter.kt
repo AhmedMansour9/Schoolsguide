@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.TypeResponse
 import com.eaapps.schoolsguide.databinding.ItemSchoolTypeBinding
 
-class SchoolTypeAdapter(private val type:(TypeResponse.TypeData)->Unit) : RecyclerView.Adapter<SchoolTypeAdapter.SchoolTypeViewHolder>() {
+class SchoolTypeAdapter(
+    private val type: (TypeResponse.TypeData) -> Unit
+) : RecyclerView.Adapter<SchoolTypeAdapter.SchoolTypeViewHolder>() {
 
     private val schoolTypeListData = ArrayList<TypeResponse.TypeData>()
 

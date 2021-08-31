@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.SchoolItemHomeBinding
 
-class SchoolHomeAdapter(val onToggleFavorite: (Int) -> Unit, val onSelectItem: (SchoolResponse.SchoolData.DataSchool) -> Unit) :
+class SchoolHomeAdapter(
+    val onToggleFavorite: (Int) -> Unit,
+    private val onShareSchool: (Int) -> Unit,
+    val onSelectItem: (SchoolResponse.SchoolData.DataSchool) -> Unit
+
+) :
     RecyclerView.Adapter<SchoolHomeAdapter.SchoolViewHolder>() {
 
     private val dataSchoolList = ArrayList<SchoolResponse.SchoolData.DataSchool>()
@@ -42,6 +47,12 @@ class SchoolHomeAdapter(val onToggleFavorite: (Int) -> Unit, val onSelectItem: (
             itemView.setOnClickListener {
                 onSelectItem(schoolData)
             }
+
+            schoolItemHomeBinding.share.setOnClickListener {
+                onShareSchool(schoolData.id)
+            }
+
+
         }
 
     }

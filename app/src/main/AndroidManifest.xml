@@ -81,9 +81,12 @@
 
                 <data
                     android:host="saudischoolsguide.com"
-                    android:scheme="https" />
+                    android:pathPrefix="/ar/father/password/find"
+                     android:scheme="https" />
+
                 <data
-                    android:host="saudischoolsguide.page.link"
+                    android:host="saudischoolsguide.com"
+                    android:pathPrefix="/en/father/password/find"
                     android:scheme="https" />
             </intent-filter>
         </activity>

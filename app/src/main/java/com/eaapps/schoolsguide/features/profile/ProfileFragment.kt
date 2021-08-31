@@ -2,7 +2,9 @@ package com.eaapps.schoolsguide.features.profile
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -44,20 +49,25 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     private fun FragmentProfileBinding.bindProfile() {
         lifecycleScope.launchWhenCreated {
-            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(onError = {
-                profileShimmer.shimmerLayout.stopShimmer()
-                profileShimmer.shimmerLayout.visibleOrGone(false)
-                requireActivity().toastingError(it)
-            }, onSuccess = {
-                profileShimmer.shimmerLayout.stopShimmer()
-                profileShimmer.shimmerLayout.visibleOrGone(false)
-                groupProfile.visibleOrGone(true)
-                authData = it
-            }, onLoading = {
-                groupProfile.visibleOrGone(false)
-                profileShimmer.shimmerLayout.startShimmer()
-                profileShimmer.shimmerLayout.visibleOrGone(true)
-            }))
+            mainViewModel.profileStateFlow.stateFlow.collect(FlowEvent(
+                onErrors = {
+                    profileShimmer.shimmerLayout.stopShimmer()
+                    groupProfile.visibleOrGone(false)
+                    profileShimmer.shimmerLayout.visibleOrGone(false)
+                    handleApiError(it) {
+                        mainViewModel.loadProfile()
+                    }
+                }, onSuccess = {
+                    profileShimmer.shimmerLayout.stopShimmer()
+                    profileShimmer.shimmerLayout.visibleOrGone(false)
+                    groupProfile.visibleOrGone(true)
+                    authData = it
+                }, onLoading = {
+                    groupProfile.visibleOrGone(false)
+                    profileShimmer.shimmerLayout.startShimmer()
+                    profileShimmer.shimmerLayout.visibleOrGone(true)
+                })
+            )
         }
     }
 
@@ -109,13 +119,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
                     .setSingleChoiceItems(
                         resources.getStringArray(R.array.languages),
                         checkItem
-                    ) { dialog, which ->
+                    ) { _, which ->
                         position = which
                     }
-                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
                         dialog.dismiss()
                     }
-                    .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                    .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
                         mainViewModel.saveLanguage(array[position])
                         dialog.dismiss()
                         requireActivity().startActivity(
@@ -150,4 +160,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         super.onDestroy()
     }
 
+
+    private fun openWebPage(url: String) {
+        var webpage = Uri.parse(url)
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            webpage = Uri.parse("http://$url")
+        }
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
+
 }
+
+private const val TAG = "ProfileFragment"

@@ -16,6 +16,7 @@ sealed class ErrorEntity {
     object ParseError : ErrorEntity()
     data class HttpError(var httpError: HttpErrorEntity? = null) : ErrorEntity()
     data class IOError(var msg: String? = null) : ErrorEntity()
+    object SSLError : ErrorEntity()
     object NothingError : ErrorEntity()
 }
 

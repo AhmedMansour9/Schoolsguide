@@ -13,6 +13,7 @@ import com.eaapps.schoolsguide.databinding.SchoolItemVerticalBinding
 class SchoolPagingAdapter(
     private var listMode: Boolean = true,
     private val onToggleFavorite: (Int, Int) -> Unit,
+    private val onShareSchool: (Int) -> Unit,
     private val onItemSelected: (SchoolResponse.SchoolData.DataSchool) -> Unit
 ) :
     PagingDataAdapter<SchoolResponse.SchoolData.DataSchool, RecyclerView.ViewHolder>(
@@ -61,6 +62,10 @@ class SchoolPagingAdapter(
             itemView.setOnClickListener {
                 onItemSelected(schoolData!!)
             }
+
+            schoolItemVerticalBinding.share.setOnClickListener {
+                onShareSchool(schoolData?.id!!)
+            }
         }
     }
 
@@ -77,6 +82,9 @@ class SchoolPagingAdapter(
                 }
                 itemView.setOnClickListener {
                     onItemSelected(schoolData!!)
+                }
+                schoolItemGridBinding.share.setOnClickListener {
+                    onShareSchool(schoolData?.id!!)
                 }
             }
         }

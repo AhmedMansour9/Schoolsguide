@@ -36,21 +36,25 @@ object NetworkChecker {
     @OptIn(ExperimentalCoroutinesApi::class)
     fun isOnline(): Flow<Resource<Boolean>> {
         return callbackFlow {
-            OkHttpClient().newCall(
-                Request.Builder()
-                    .url("https://www.google.com")
-                    .build()
-            ).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    trySend(Resource.Error<Boolean>(0, e.message!!))
+            //if (isNetworkConnected(context)) {
+                OkHttpClient().newCall(
+                    Request.Builder()
+                        .url("https://www.google.com")
+                        .build()
+                ).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        trySend(Resource.Error<Boolean>(0, e.message!!))
 
-                }
+                    }
 
-                override fun onResponse(call: Call, response: Response) {
-                    trySend(Resource.Success(response.code == 200))
-                }
+                    override fun onResponse(call: Call, response: Response) {
+                        trySend(Resource.Success(response.code == 200))
+                    }
 
-            })
+                })
+//            }else{
+//
+//            }
             awaitClose()
         }
     }

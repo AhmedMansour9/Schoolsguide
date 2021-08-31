@@ -10,10 +10,7 @@ import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentSplashBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.MainViewModel
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.handleApiError
-import com.eaapps.schoolsguide.utils.launchFragment
-import com.eaapps.schoolsguide.utils.visibleOrGone
+import com.eaapps.schoolsguide.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -26,9 +23,25 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.loadProfile()
+        checkInternet()
         binding.bindProfileCollectResult()
         binding.bindLogoutCollectResult()
+    }
+
+    private fun checkInternet() {
+        lifecycleScope.launchWhenStarted {
+            NetworkChecker.isOnline().collect(
+                FlowEvent(
+                    onError = {
+                        requireActivity().noInternetDialog {
+                            mainViewModel.loadProfile()
+                        }
+                    },
+                    onSuccess = {
+                        mainViewModel.loadProfile()
+                    })
+            )
+        }
     }
 
     private fun FragmentSplashBinding.bindProfileCollectResult() {
@@ -45,10 +58,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 }, onErrors = { it ->
                     progressCircle.visibleOrGone(false)
                     if (!mainViewModel.sessionToken.isNullOrBlank())
-                        handleApiError(it, networkConnected = {
-                            if (it) {
-                                mainViewModel.loadProfile()
-                            }
+                        handleApiError(it, retry = {
+                            mainViewModel.loadProfile()
                         })
                     else
                         setupCountDown(false)
@@ -95,9 +106,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private fun navigationToHome() =
         launchFragment(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
-
-    private fun navigationToNoInternet() =
-        launchFragment(SplashFragmentDirections.actionSplashFragmentToNoInternetFragment())
 
     override fun onStart() {
         super.onStart()

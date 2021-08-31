@@ -14,6 +14,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -63,6 +64,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.maps.android.ktx.addCircle
@@ -660,7 +664,10 @@ fun View.snack(message: String, action: (() -> Unit)? = null, error: Boolean = t
 }
 
 @InternalCoroutinesApi
-fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null, networkConnected: ((Boolean) -> Unit)) {
+fun Fragment.handleApiError(
+    failure: ErrorEntity,
+    retry: (() -> Unit)? = null
+) {
     failure.apply {
         when (this) {
             is ErrorEntity.HttpError -> {
@@ -696,6 +703,7 @@ fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null, n
                         )
                     }
 
+
                     HttpErrorEntity.ServerError500 -> requireView().snack(
                         resources.getString(R.string.error500),
                         retry
@@ -715,22 +723,23 @@ fun Fragment.handleApiError(failure: ErrorEntity, retry: (() -> Unit)? = null, n
                     else -> Unit
                 }
             }
+
             ErrorEntity.NoInternet -> {
-                networkConnected(false)
-                requireActivity().noInternetDialog {
-                    networkConnected(true)
-                }.show()
+                requireView().snack(
+                    resources.getString(R.string.no_internet_),
+                    retry
+                )
+            }
+
+            ErrorEntity.SSLError -> {
+                requireView().snack(
+                    resources.getString(R.string.no_internet_),
+                    retry
+                )
             }
 
             is ErrorEntity.IOError -> {
-                if (NetworkChecker.isNetworkConnected(requireContext())) {
-                    requireView().snack(this.msg ?: "", retry)
-                } else {
-                    networkConnected(false)
-                    requireActivity().noInternetDialog {
-                        networkConnected(true)
-                    }.show()
-                }
+                requireView().snack(this.msg ?: "", retry)
             }
 
             ErrorEntity.NothingError -> requireView().snack(
@@ -808,16 +817,27 @@ fun Context.errorDialog(
 @InternalCoroutinesApi
 fun FragmentActivity.noInternetDialog(
     onSuccessConnection: (() -> Unit)
-): Dialog {
-    val dialog =
-        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen)
-    dialog.create().window
+) {
+    val dialogBottomSheet = BottomSheetDialog(this)
     val binding = FragmentNoInternetBinding.inflate(layoutInflater)
-    dialog.setView(binding.root)
-    dialog.setCancelable(false)
-    val alertDialog = dialog.create()
-    alertDialog.window?.apply {
-        setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+    dialogBottomSheet.setContentView(binding.root)
+    dialogBottomSheet.setCancelable(false)
+    dialogBottomSheet.setOnShowListener {
+        val bottomSheetDialog = it as BottomSheetDialog
+        val parentLayout = bottomSheetDialog.findViewById<View>(
+            com.google.android.material.R.id.design_bottom_sheet
+        )
+        parentLayout?.let { bottomSheet ->
+            val behaviour = BottomSheetBehavior.from(bottomSheet)
+            val layoutParams = bottomSheet.layoutParams
+            val displayMetrics = resources.displayMetrics
+            val size = displayMetrics.heightPixels
+            layoutParams.height = size
+            bottomSheet.layoutParams = layoutParams
+            behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            behaviour.isDraggable = false
+            behaviour.isHideable = false
+        }
     }
     binding.run {
         retryButton.setOnClickListener {
@@ -835,10 +855,7 @@ fun FragmentActivity.noInternetDialog(
                             retryButton.visibleOrGone(false)
                             msg.text = getString(R.string.online)
                             onSuccessConnection()
-                            alertDialog.cancel()
-                        } else {
-                            progressBar.visibleOrGone(false)
-                            retryButton.visibleOrGone(true)
+                            dialogBottomSheet.dismiss()
                         }
                     }))
                 }
@@ -849,5 +866,14 @@ fun FragmentActivity.noInternetDialog(
             }
         }
     }
-    return alertDialog
+    dialogBottomSheet.show()
+}
+
+fun Fragment.shortLink(id: Int, onLinkShare: (String) -> Unit) {
+    Firebase.dynamicLinks.shortLinkAsync {
+        link = Uri.parse("https://saudischoolsguide.com/ar/schoolDetails/$id")
+        domainUriPrefix = "https://schoolsguide.page.link"
+    }.addOnSuccessListener {
+        onLinkShare(it.shortLink.toString())
+    }
 }

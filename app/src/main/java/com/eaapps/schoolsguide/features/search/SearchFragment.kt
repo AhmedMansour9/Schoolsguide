@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentSearchBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
+import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.features.favorite.PagingStateLoading
 import com.eaapps.schoolsguide.features.search.adapter.SchoolPagingAdapter
 import com.eaapps.schoolsguide.features.search.viewmodels.Filter
@@ -53,6 +54,14 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     private val schoolPagingAdapter = SchoolPagingAdapter(onToggleFavorite = { position, id ->
         positionFavorite = position
         viewModel.toggleFavorite(id)
+    }, onShareSchool = { it ->
+        shortLink(it) {
+            ShareCompat.IntentBuilder(requireContext())
+                .setType("text/plain")
+                .setChooserTitle("Share School")
+                .setText(it)
+                .startChooser()
+        }
     }) {
         launchFragment(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it))
     }
@@ -68,6 +77,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupArg()
+        checkInternet()
         binding.bindListChangeMode(true)
         binding.bindState()
         binding.bindList()
@@ -79,8 +89,34 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
 
     }
 
+    private fun checkInternet() {
+        lifecycleScope.launchWhenStarted {
+            NetworkChecker.isOnline().collect(
+                FlowEvent(
+                    onError = {
+                        requireActivity().noInternetDialog {
+                            loadCollectDataByType()
+                        }
+                    },
+                    onSuccess = {
+                        loadCollectDataByType()
+                    })
+            )
+        }
+    }
+
+    private var searchType: SearchType? = null
+
     private fun setupArg() {
         SearchFragmentArgs.fromBundle(requireArguments()).searchType.apply {
+            searchType = this
+            loadCollectDataByType()
+        }
+
+    }
+
+    private fun loadCollectDataByType() {
+        searchType?.apply {
             when {
                 this.type > -1 -> {
                     viewModel.filterModel.type_id = type
@@ -97,7 +133,6 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                 }
             }
         }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,11 +167,9 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
                     ?: it.append as? LoadState.Error
                     ?: it.prepend as? LoadState.Error
                 errorState?.let {
-                    Toast.makeText(
-                        requireContext(),
-                        "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    handleApiError(filterError(it.error)) {
+                        schoolPagingAdapter.retry()
+                    }
                 }
             }
         }

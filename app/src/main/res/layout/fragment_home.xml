@@ -63,300 +63,309 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
+            android:id="@+id/refresh"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_8sdp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardSearch">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@id/cardSearch"
+            android:layout_marginTop="@dimen/_8sdp">
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingBottom="@dimen/_10sdp">
+                android:background="@color/white">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/groupType"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/_10sdp">
 
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerSchoolType"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/groupType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.flexbox.FlexboxLayout
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerSchoolType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:orientation="horizontal"
-                            app:justifyContent="space_between">
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <include layout="@layout/item_shimmer_main_type" />
+                            <com.google.android.flexbox.FlexboxLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                app:justifyContent="space_between">
 
-                            <include layout="@layout/item_shimmer_main_type" />
+                                <include layout="@layout/item_shimmer_main_type" />
 
-                            <include layout="@layout/item_shimmer_main_type" />
+                                <include layout="@layout/item_shimmer_main_type" />
 
-                            <include layout="@layout/item_shimmer_main_type" />
+                                <include layout="@layout/item_shimmer_main_type" />
 
-                        </com.google.android.flexbox.FlexboxLayout>
+                                <include layout="@layout/item_shimmer_main_type" />
 
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                            </com.google.android.flexbox.FlexboxLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcSchoolType"
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcSchoolType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/sliderGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/groupType">
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/top_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_180sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:alpha=".06"
+                            android:background="#0073DB"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/sliderGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/groupType">
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_19sdp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="18dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/top_view"
+                            app:tabBackground="@drawable/indicator_selector"
+                            app:tabGravity="center"
+                            app:tabIndicator="@null"
+                            app:tabPaddingEnd="8dp"
+                            app:tabPaddingStart="8dp" />
+
+                        <TextView
+                            android:id="@+id/discover"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/discover_you_perfect_school"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_14ssp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/indicator"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/indicator" />
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_130sdp"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toBottomOf="@id/top_view"
+                            app:layout_constraintTop_toBottomOf="@+id/discover">
+
+                            <include layout="@layout/item_shimmer_main_slider" />
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/viewSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_130sdp"
+                            android:layout_marginBottom="5dp"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@id/top_view"
+                            app:layout_constraintTop_toBottomOf="@+id/discover" />
 
 
-                    <ImageView
-                        android:id="@+id/top_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_180sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:alpha=".06"
-                        android:background="#0073DB"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_19sdp"
-                        android:layout_marginStart="18dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="18dp"
-                        android:background="@color/transparent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/top_view"
-                        app:tabBackground="@drawable/indicator_selector"
-                        app:tabGravity="center"
-                        app:tabIndicator="@null"
-                        app:tabPaddingEnd="8dp"
-                        app:tabPaddingStart="8dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/discover"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         android:fontFamily="@font/rpt_bold"
-                        android:text="@string/discover_you_perfect_school"
+                        android:text="@string/recommended_schools"
                         android:textColor="@color/textColor1"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/indicator"
+                        app:layout_constraintBottom_toBottomOf="@id/viewAllRecommended"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/indicator" />
+                        app:layout_constraintTop_toTopOf="@id/viewAllRecommended" />
 
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_130sdp"
-                        android:layout_marginBottom="5dp"
-                        app:layout_constraintBottom_toBottomOf="@id/top_view"
-                        app:layout_constraintTop_toBottomOf="@+id/discover">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/viewAllRecommended"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/view_all"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_13ssp"
+                        app:cornerRadius="45dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sliderGroup" />
 
-                        <include layout="@layout/item_shimmer_main_slider" />
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_130sdp"
-                        android:layout_marginBottom="5dp"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@id/top_view"
-                        app:layout_constraintTop_toBottomOf="@+id/discover" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/recommended_schools"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_14ssp"
-                    app:layout_constraintBottom_toBottomOf="@id/viewAllRecommended"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/viewAllRecommended" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/viewAllRecommended"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/view_all"
-                    android:textAllCaps="false"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_13ssp"
-                    app:cornerRadius="45dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sliderGroup" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/groupRecommended"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewAllRecommended">
-
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerRecommended"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/groupRecommended"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toBottomOf="@id/viewAllRecommended">
 
-                        <com.google.android.flexbox.FlexboxLayout
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerRecommended"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:orientation="horizontal"
-                            app:justifyContent="space_between">
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                            <com.google.android.flexbox.FlexboxLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                app:justifyContent="space_between">
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                                <include layout="@layout/item_shimmer_main_recommended" />
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                                <include layout="@layout/item_shimmer_main_recommended" />
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                                <include layout="@layout/item_shimmer_main_recommended" />
 
-                        </com.google.android.flexbox.FlexboxLayout>
+                                <include layout="@layout/item_shimmer_main_recommended" />
 
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                            </com.google.android.flexbox.FlexboxLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcRecommended"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="5dp"
-                        android:visibility="gone"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toTopOf="parent"
+                        </com.facebook.shimmer.ShimmerFrameLayout>
 
-                        />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/featured_schools"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_14ssp"
-                    app:layout_constraintBottom_toBottomOf="@id/viewAllFeature"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/viewAllFeature" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/viewAllFeature"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/rpt_bold"
-                    android:text="@string/view_all"
-                    android:textAllCaps="false"
-                    android:textColor="@color/textColor1"
-                    android:textSize="@dimen/_13ssp"
-                    app:cornerRadius="45dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/groupRecommended" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/featureGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/viewAllFeature">
-
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerFeature"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.google.android.flexbox.FlexboxLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcRecommended"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:orientation="horizontal"
-                            app:justifyContent="space_between">
+                            android:paddingBottom="5dp"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toTopOf="parent"
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                            />
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/featured_schools"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewAllFeature"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/viewAllFeature" />
 
-                            <include layout="@layout/item_shimmer_main_recommended" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/viewAllFeature"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/rpt_bold"
+                        android:text="@string/view_all"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_13ssp"
+                        app:cornerRadius="45dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/groupRecommended" />
 
-                        </com.google.android.flexbox.FlexboxLayout>
-
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcFeature"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/featureGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                         android:visibility="gone"
-                        android:paddingBottom="5dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_marginTop="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewAllFeature">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFeature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.flexbox.FlexboxLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                app:justifyContent="space_between">
+
+                                <include layout="@layout/item_shimmer_main_recommended" />
+
+                                <include layout="@layout/item_shimmer_main_recommended" />
+
+                                <include layout="@layout/item_shimmer_main_recommended" />
+
+                                <include layout="@layout/item_shimmer_main_recommended" />
+
+                            </com.google.android.flexbox.FlexboxLayout>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcFeature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:paddingBottom="5dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
 
-        </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

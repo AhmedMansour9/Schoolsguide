@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.binding.ImageBinding
+import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.databinding.FragmentDetailsDialogBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
@@ -39,6 +40,8 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
     }
 
+    private lateinit var dataSchool: SchoolResponse.SchoolData.DataSchool
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         createDialog(
             R.style.AppTheme,
@@ -50,10 +53,12 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.executePendingBindings()
+        setupArgs()
+        checkInternet()
         toggleFollowResultData()
         toggleRecommendedResultData()
         binding.bindActionBar()
-        binding.bindArgs()
+        binding.bindSchoolDetailsResultData()
         binding.bindPropertiesList()
         binding.bindClicks()
     }
@@ -69,7 +74,6 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             )
             false
         }
-
         collapsing.setContentScrimColor(ContextCompat.getColor(requireContext(), R.color.colorApp3))
         collapsing.setStatusBarScrimColor(
             ContextCompat.getColor(
@@ -77,7 +81,6 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                 R.color.colorApp3
             )
         )
-
         collapsing.isTitleEnabled = false
         appbar.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
             if (abs(verticalOffset) > 200) {
@@ -89,13 +92,26 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             }
         })
 
-
     }
 
-    private fun FragmentDetailsDialogBinding.bindArgs() {
-        val dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
-        viewModel.loadSchoolDetails(dataSchool.id)
-        bindSchoolDetailsResultData()
+    private fun setupArgs() {
+        dataSchool = DetailsFragmentArgs.fromBundle(requireArguments()).dataSchool
+    }
+
+    private fun checkInternet() {
+        lifecycleScope.launchWhenStarted {
+            NetworkChecker.isOnline().collect(
+                FlowEvent(
+                    onError = {
+                        requireActivity().noInternetDialog {
+                            viewModel.loadSchoolDetails(dataSchool.id)
+                        }
+                    },
+                    onSuccess = {
+                        viewModel.loadSchoolDetails(dataSchool.id)
+                    })
+            )
+        }
     }
 
     private fun FragmentDetailsDialogBinding.bindPropertiesList() {
@@ -262,9 +278,11 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
     private fun FragmentDetailsDialogBinding.bindSchoolDetailsResultData() {
         lifecycleScope.launchWhenCreated {
-            viewModel.schoolDetailsFlow.stateFlow.collect(FlowEvent(onError = {
+            viewModel.schoolDetailsFlow.stateFlow.collect(FlowEvent(onErrors = {
                 bindStopShimmer()
-                requireActivity().toastingError(it)
+                handleApiError(it) {
+                    viewModel.loadSchoolDetails(dataSchool?.id!!)
+                }
             }, onSuccess = {
                 bindStopShimmer()
                 binding.dataSchool = it

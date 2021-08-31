@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
-    init {
+   fun init() {
         loadSchoolType()
         loadSlider()
         loadRecommendedSchool()
@@ -52,7 +52,7 @@ class HomeViewModel @Inject constructor(
         _featureStateFlow
 
 
-    private fun loadSchoolType() {
+     fun loadSchoolType() {
         viewModelScope.launch {
             try {
                 _schoolTypeStateFlow.emit(Resource.Loading())
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun loadSlider() {
+     fun loadSlider() {
         viewModelScope.launch {
             try {
                 _sliderStateFlow.emit(Resource.Loading())
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadRecommendedSchool() {
+     fun loadRecommendedSchool() {
         viewModelScope.launch {
             try {
                 _recommendedStateFlow.emit(Resource.Loading())
@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadFeatureSchool() {
+     fun loadFeatureSchool() {
         viewModelScope.launch {
             try {
                 _featureStateFlow.emit(Resource.Loading())

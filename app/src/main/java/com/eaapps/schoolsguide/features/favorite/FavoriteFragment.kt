@@ -3,6 +3,7 @@ package com.eaapps.schoolsguide.features.favorite
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,8 +12,7 @@ import androidx.paging.LoadState
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentFavoriteBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
-import com.eaapps.schoolsguide.utils.FlowEvent
-import com.eaapps.schoolsguide.utils.visibleOrGone
+import com.eaapps.schoolsguide.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -25,7 +25,15 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private val viewModel: FavoriteViewModel by viewModels()
 
-    private val favoriteAdapter = FavoriteAdapter { id ->
+    private val favoriteAdapter = FavoriteAdapter({ it ->
+        shortLink(it) {
+            ShareCompat.IntentBuilder(requireContext())
+                .setType("text/plain")
+                .setChooserTitle("Share School")
+                .setText(it)
+                .startChooser()
+        }
+    }) { id ->
         viewModel.toggleFavorite(id)
     }
 
@@ -33,7 +41,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         super.onViewCreated(view, savedInstanceState)
         binding.bindState(favoriteAdapter)
         binding.bindList(favoriteAdapter)
-        binding.bindClicks()
         binding.bindToggleFavoriteResultData()
         collectFavoritePagingData()
     }
@@ -51,10 +58,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 loadRetry.apply {
                     // Show loading spinner during initial load or refresh.
                     progressBar.visibleOrGone(it.source.refresh is LoadState.Loading)
-                    // Show the retry state if initial load or refresh fails.
-                    retryButton.visibleOrGone(it.source.refresh is LoadState.Error)
-
-                    msgError.visibleOrGone(it.source.refresh is LoadState.Error)
 
                 }
 
@@ -70,17 +73,14 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                     ?: it.append as? LoadState.Error
                     ?: it.prepend as? LoadState.Error
                 errorState?.apply {
-                    loadRetry.msgError.text = "\uD83D\uDE28 Wooops $error"
+                    handleApiError(filterError(this.error)) {
+                        favoriteAdapter.retry()
+                    }
                 }
             }
         }
     }
 
-    private fun FragmentFavoriteBinding.bindClicks() {
-        loadRetry.retryButton.setOnClickListener {
-            favoriteAdapter.retry()
-        }
-    }
 
     private fun FragmentFavoriteBinding.bindState(favoriteAdapter: FavoriteAdapter) {
         rcFavorite.adapter = favoriteAdapter.withLoadStateHeaderAndFooter(

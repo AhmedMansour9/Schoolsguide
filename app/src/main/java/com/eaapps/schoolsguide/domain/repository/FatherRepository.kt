@@ -1,10 +1,7 @@
 package com.eaapps.schoolsguide.domain.repository
 
 import androidx.paging.PagingData
-import com.eaapps.schoolsguide.data.entity.AuthResponse
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
-import com.eaapps.schoolsguide.data.entity.ReviewRequestEntity
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -23,5 +20,7 @@ interface FatherRepository {
     suspend fun putReview(reviewRequestEntity: ReviewRequestEntity): Resource<ResponseEntity>
 
     suspend fun getProfileFather(): Resource<AuthResponse.AuthData>
+
+    suspend fun myOrderSchools(): Resource<List<SchoolBookingRequestsResponse.RequestData>>
 
 }

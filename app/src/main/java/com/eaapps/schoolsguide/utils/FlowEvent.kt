@@ -50,8 +50,7 @@ class FlowEvent<T : Any>(
 }
 
 class StateFlows<T : Any>(private val viewModelScoped: CoroutineScope) {
-    private val _stateFlowMutable: MutableStateFlow<Resource<T>> =
-        MutableStateFlow(Resource.Nothing())
+    private val _stateFlowMutable: MutableStateFlow<Resource<T>> = MutableStateFlow(Resource.Nothing())
     val stateFlow: StateFlow<Resource<T>> = _stateFlowMutable
 
     fun setValue(t: Resource<T>) {

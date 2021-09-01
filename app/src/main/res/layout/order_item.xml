@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="jobData"
-            type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool.JobData" />
+            name="orderSchool"
+            type="com.eaapps.schoolsguide.data.entity.SchoolBookingRequestsResponse.RequestData" />
 
         <import type="android.view.View" />
     </data>
@@ -25,7 +25,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_8sdp">
 
             <TextView
                 android:id="@+id/title_blog"
@@ -35,107 +36,110 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:ellipsize="end"
+                android:gravity="start"
                 android:fontFamily="@font/rpt_bold"
-                android:text="@{jobData.name}"
+                android:text="@{orderSchool.full_name}"
                 android:textColor="@color/textColor1"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Teacher Math Required" />
+                tools:text="Islam Jamal Hussien" />
 
             <TextView
-                android:id="@+id/nationality"
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:background="@drawable/info_text_shape"
                 android:fontFamily="@font/rpt_bold"
                 android:padding="5dp"
-                android:text="@{`Nationality - `+jobData.nationality}"
-                android:textColor="@color/red_dark"
+                android:text="@{@string/email__+` `+orderSchool.email}"
+                android:textColor="@color/textColor1"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_blog"
-                tools:text="Nationality - Egyptian" />
+                tools:text="Email - eslamdev902@gmail.com" />
 
 
             <TextView
-                android:id="@+id/short_desc"
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="@drawable/info_text_shape"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{@string/phone__+` `+orderSchool.phone.toString()}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toStartOf="@id/title_blog"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                tools:text="Phone - 01275264136" />
+
+            <TextView
+                android:id="@+id/number_of_student"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="@drawable/info_text_shape"
+                android:ellipsize="end"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{@string/number_of_student__+` `+orderSchool.number_of_students.toString()}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toStartOf="@id/title_blog"
+                app:layout_constraintTop_toBottomOf="@id/phone"
+                tools:text="Number of Student - 10" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@color/gray_0"
+                app:layout_constraintTop_toBottomOf="@id/number_of_student" />
+
+
+            <TextView
+                android:id="@+id/pending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@{orderSchool.status}"
+                android:textAllCaps="false"
+                android:textColor="@color/red_dark"
+                app:layout_constraintBottom_toBottomOf="@id/viewDetails"
+                app:layout_constraintEnd_toEndOf="@id/title_blog"
+                app:layout_constraintTop_toTopOf="@id/viewDetails"
+                tools:text="Pending" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewDetails"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:fontFamily="@font/rpt_bold"
-                android:text="@{jobData.description.toString()}"
-                android:textColor="@color/gray_2"
-                android:textSize="@dimen/_11ssp"
-                android:visibility="@{(jobData.description.toString()!=null &amp;&amp; !jobData.description.toString().empty )?View.VISIBLE:View.INVISIBLE}"
-                app:layout_constraintEnd_toEndOf="@id/title_blog"
-                app:layout_constraintStart_toStartOf="@id/title_blog"
-                app:layout_constraintTop_toBottomOf="@id/nationality"
-                tools:text="Obhur Al-Shamaliyah, Jeddah 23814, KSA American • 1900 students • 30,000 m2" />
-
-
-            <TextView
-                android:id="@+id/vacant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/info_text_shape"
-                android:fontFamily="@font/rpt_bold"
-                android:padding="5dp"
-                android:text="@{`Vacant - `+jobData.vacant_places+` Places`}"
-                android:textColor="@color/textColor1"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/short_desc"
-                tools:text="Vacant - 3 Places" />
-
-            <TextView
-                android:id="@+id/experience"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/info_text_shape"
-                android:fontFamily="@font/rpt_bold"
-                android:padding="5dp"
-                android:text="@{`Experience - `+jobData.years_of_experience+` Years`}"
-                android:textColor="@color/textColor1"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintStart_toEndOf="@id/vacant"
-                app:layout_constraintTop_toBottomOf="@id/short_desc"
-                tools:text="Experience - 3 Years" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:text="@string/apply_job"
                 android:fontFamily="@font/rpt_bold"
+                android:padding="5dp"
+                android:text="@string/view_school"
                 android:textAllCaps="false"
-                app:backgroundTint="@color/colorApp3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/title_blog"
-                app:layout_constraintTop_toBottomOf="@id/experience" />
-
-            <ImageButton
-                android:id="@+id/shareBtn"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/background_clear_rect"
-                android:src="@drawable/round_share_black_24"
-                app:layout_constraintBottom_toBottomOf="@id/applyBtn"
+                app:backgroundTint="@color/gray_0"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toStartOf="@id/pending"
                 app:layout_constraintStart_toStartOf="@id/title_blog"
-                app:layout_constraintTop_toTopOf="@id/applyBtn"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toBottomOf="@id/line" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

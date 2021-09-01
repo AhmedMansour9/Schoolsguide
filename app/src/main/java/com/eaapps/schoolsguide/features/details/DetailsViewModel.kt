@@ -26,8 +26,7 @@ class DetailsViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    internal val schoolDetailsFlow =
-        StateFlows<SchoolResponse.SchoolData.DataSchool>(viewModelScope)
+    internal val schoolDetailsFlow = StateFlows<SchoolResponse.SchoolData.DataSchool>(viewModelScope)
     internal val toggleFollowFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val toggleRecommendedFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val sendInquiryFlow = StateFlows<ResponseEntity>(viewModelScope)
@@ -93,8 +92,6 @@ class DetailsViewModel @Inject constructor(
     }
 
     fun bookSchoolNow() {
-//        inputEditHelper.set(helperValid)
-//        inputEditHelper.notifyChange()
         if (schoolBookSchoolUseCase.isValid(bookSchoolModel)) {
             viewModelScope.launch {
                 try {
@@ -112,8 +109,6 @@ class DetailsViewModel @Inject constructor(
     }
 
     fun joinDiscount() {
-        //        inputEditHelper.set(helperValid)
-//        inputEditHelper.notifyChange()
         if (joinDiscountSchoolUseCase.isValid(joinDiscountModel)) {
             viewModelScope.launch {
                 try {

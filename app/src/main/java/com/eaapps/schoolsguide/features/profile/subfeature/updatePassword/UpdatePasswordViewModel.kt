@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.profile.updatePassword
+package com.eaapps.schoolsguide.features.profile.subfeature.updatePassword
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel

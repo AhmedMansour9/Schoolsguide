@@ -1,6 +1,7 @@
 package com.eaapps.schoolsguide.features.details.subfeature
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -163,11 +164,17 @@ class BookNowBottomFragment : BottomSheetDialogFragment() {
                         ResourcesCompat.getFont(requireContext(), R.font.rpt_bold)
                     )
                     viewModel.bookSchoolFlow.setValue(Resource.Nothing())
+                    viewModel.bookSchoolModel.clear()
                     dialogProcess.dismiss()
                     dismiss()
                 },
                 onNothing = { dialogProcess.dismiss() }
             ))
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        viewModel.bookSchoolModel.clear()
+        super.onDismiss(dialog)
     }
 }

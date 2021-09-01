@@ -142,6 +142,24 @@ data class SliderResponse(
     )
 }
 
+data class SchoolBookingRequestsResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: List<RequestData>,
+    @SerializedName("message") val message: String
+) {
+
+    data class RequestData(
+        @SerializedName("id") val message: Int,
+        @SerializedName("status") val status: String,
+        @SerializedName("number_of_students") val number_of_students: String,
+        @SerializedName("full_name") val full_name: String,
+        @SerializedName("email") val email: String,
+        @SerializedName("phone") val phone: String,
+        @SerializedName("school") val data: SchoolResponse.SchoolData.DataSchool
+    )
+
+}
+
 data class SchoolDetailsResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("data") val data: SchoolResponse.SchoolData.DataSchool,

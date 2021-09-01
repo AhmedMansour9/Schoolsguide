@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.profile.updateProfile
+package com.eaapps.schoolsguide.features.profile.subfeature.updateProfile
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel

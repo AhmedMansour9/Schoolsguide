@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.profile.updateProfile
+package com.eaapps.schoolsguide.features.profile.subfeature.updateProfile
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK

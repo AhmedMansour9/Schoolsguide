@@ -27,7 +27,18 @@ data class BookSchoolModel(
     var number_of_students: String ="",
     var school_id: Int? = null,
     var grades: Array<Int>? = null
-)
+){
+    fun clear(){
+        full_name = ""
+        email = ""
+        phone= ""
+        address=""
+        number_of_students=""
+        school_id=null
+        grades=null
+
+    }
+}
 
 data class UploadCvModel(
     var school_id: Int? = null,

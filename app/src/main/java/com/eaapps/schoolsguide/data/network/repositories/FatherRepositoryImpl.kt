@@ -3,10 +3,7 @@ package com.eaapps.schoolsguide.data.network.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.eaapps.schoolsguide.data.entity.AuthResponse
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
-import com.eaapps.schoolsguide.data.entity.ReviewRequestEntity
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.apiServices.FatherApis
 import com.eaapps.schoolsguide.data.network.pagingDataSources.FavoritePagingDataSource
 import com.eaapps.schoolsguide.data.network.pagingDataSources.FollowPagingDataSource
@@ -65,6 +62,14 @@ class FatherRepositoryImpl @Inject constructor(private val fatherApis: FatherApi
             }, "Exception occurred!")
         }
 
+    override suspend fun myOrderSchools(): Resource<List<SchoolBookingRequestsResponse.RequestData>> =
+        withContext(Dispatchers.IO) {
+            safeCall(call = {
+                val result = fatherApis.loadMyOrderSchool()
+                Resource.Success(result.data)
+
+            }, "Exception occurred!")
+        }
 
     override suspend fun toggleRecommendedIt(schoolId: Int): Resource<ResponseEntity> =
         withContext(Dispatchers.IO) {

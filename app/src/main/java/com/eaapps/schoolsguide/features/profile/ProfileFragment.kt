@@ -33,6 +33,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         FirebaseAuth.getInstance()
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialogProcess =
@@ -98,8 +99,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.booksRequest -> requireActivity().toastingInfo("under development - تحت التطوير")
-
+            R.id.booksRequest -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToOrderSchoolFragment())
 
             R.id.updateProfile -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToUpdateProfileFragment())
 

@@ -272,6 +272,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:onClick="@{()->detailsViewModel.uploadCv()}"
                     android:text="@string/apply_job"
+                    android:fontFamily="@font/rpt_bold"
                     android:textAllCaps="false"
                     app:backgroundTint="@color/colorApp3"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -1,9 +1,6 @@
 package com.eaapps.schoolsguide.data.network.apiServices
 
-import com.eaapps.schoolsguide.data.entity.AuthResponse
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
-import com.eaapps.schoolsguide.data.entity.ReviewRequestEntity
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.entity.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -35,7 +32,9 @@ interface FatherApis {
         @Query("per_page") limitedItemLoad: Int
     ): SchoolResponse
 
-    @GET("api/father/profile")
+    @GET("/api/father/profile")
     suspend fun loadProfileFatherAsync(): AuthResponse
 
+    @POST("/api/father/bookSchoolRequests")
+    suspend fun loadMyOrderSchool(): SchoolBookingRequestsResponse
 }

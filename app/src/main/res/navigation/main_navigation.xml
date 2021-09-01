@@ -83,21 +83,24 @@
             app:popUpToInclusive="true"
             app:popUpTo="@id/profileFragment"
             app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_orderSchoolFragment"
+            app:destination="@id/orderSchoolFragment" />
     </fragment>
     <dialog
         android:id="@+id/updatePasswordFragment"
         tools:layout="@layout/fragment_dialog_update_password"
-        android:name="com.eaapps.schoolsguide.features.profile.updatePassword.UpdatePasswordFragment"
+        android:name="com.eaapps.schoolsguide.features.profile.subfeature.updatePassword.UpdatePasswordFragment"
         android:label="UpdatePasswordFragment" />
     <dialog
         android:id="@+id/updateProfileFragment"
         tools:layout="@layout/fragment_dialog_edit_profile"
-        android:name="com.eaapps.schoolsguide.features.profile.updateProfile.UpdateProfileFragment"
+        android:name="com.eaapps.schoolsguide.features.profile.subfeature.updateProfile.UpdateProfileFragment"
         android:label="UpdateProfileFragment" />
     <dialog
         android:id="@+id/addSchoolFragment"
         tools:layout="@layout/fragment_dialog_add_school"
-        android:name="com.eaapps.schoolsguide.features.profile.addSchool.AddSchoolFragment"
+        android:name="com.eaapps.schoolsguide.features.profile.subfeature.addSchool.AddSchoolFragment"
         android:label="AddSchoolFragment" />
     <fragment
         android:id="@+id/favoriteFragment"
@@ -373,4 +376,13 @@
         android:name="com.eaapps.schoolsguide.features.follow.FollowFragment"
         tools:layout="@layout/fragment_follow"
         android:label="FollowFragment" />
+    <dialog
+        android:id="@+id/orderSchoolFragment"
+        tools:layout="@layout/fragment_orders"
+        android:name="com.eaapps.schoolsguide.features.profile.subfeature.orderSchool.OrderSchoolFragment"
+        android:label="OrderSchoolFragment" >
+        <action
+            android:id="@+id/action_orderSchoolFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </dialog>
 </navigation>

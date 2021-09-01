@@ -33,7 +33,7 @@ interface GeneralApis {
     @POST("/api/add_enquery")
     suspend fun addInquiryAsync(@Body addInquiryRequestEntity: InquiryRequestEntity): ResponseEntity
 
-    @POST("/api/bookSchool")
+    @POST("/api/father/bookSchool")
     suspend fun bookSchoolAsync(@Body body: HashMap<String, Any>): ResponseEntity
 
     @Multipart

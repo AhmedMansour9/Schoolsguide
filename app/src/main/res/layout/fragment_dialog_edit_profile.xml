@@ -6,7 +6,7 @@
     <data>
         <variable
             name="updateProfileViewModel"
-            type="com.eaapps.schoolsguide.features.profile.updateProfile.UpdateProfileViewModel" />
+            type="com.eaapps.schoolsguide.features.profile.subfeature.updateProfile.UpdateProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

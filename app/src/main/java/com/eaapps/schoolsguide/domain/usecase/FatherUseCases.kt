@@ -1,10 +1,7 @@
 package com.eaapps.schoolsguide.domain.usecase
 
 import androidx.paging.PagingData
-import com.eaapps.schoolsguide.data.entity.AuthResponse
-import com.eaapps.schoolsguide.data.entity.ResponseEntity
-import com.eaapps.schoolsguide.data.entity.ReviewRequestEntity
-import com.eaapps.schoolsguide.data.entity.SchoolResponse
+import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.ReviewModel
 import com.eaapps.schoolsguide.domain.repository.FatherRepository
 import com.eaapps.schoolsguide.utils.Resource
@@ -112,4 +109,9 @@ class PutReviewUseCase @Inject constructor(private val fatherRepository: FatherR
 class GetProfileFatherUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(): Resource<AuthResponse.AuthData> =
         fatherRepository.getProfileFather()
+}
+
+class MyOrderSchoolUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
+    suspend fun execute(): Resource<List<SchoolBookingRequestsResponse.RequestData>> =
+        fatherRepository.myOrderSchools()
 }

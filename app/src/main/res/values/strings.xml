@@ -122,7 +122,7 @@
     <string name="notifications">Notifications</string>
     <string name="name_user">Name User</string>
     <string name="admin00_gmail_com">admin00@gmail.com</string>
-    <string name="label">Label</string>
+    <string name="label">Loading…</string>
     <string name="facebook_app_id">1135312883662693</string>
     <string name="fb_login_protocol_scheme">fb1135312883662693</string>
     <string name="details_desc_shimmer">School Good For student because give yours free to play football and study</string>
@@ -145,7 +145,9 @@
     <string name="favorite_no_msg">You did not choose your favorite schools</string>
     <string name="follow_no_msg">You did not follow any school</string>
     <string name="job_no_msg">There are no jobs in this school</string>
+    <string name="orders_no_msg">You have not booked any school</string>
     <string name="jobs">Jobs</string>
+    <string name="order">Orders</string>
     <string name="apply_job">Apply Job</string>
     <string name="job_apply">Job Apply</string>
     <string name="please_choose_file">Please choose your file in on the following [DOC,DOCX,PDF] and then click Upload and wait a while</string>
@@ -250,5 +252,10 @@
     <string name="yay">yay!!</string>
     <string name="oh_snap">oh snap</string>
     <string name="any_network">Please make sure to connect to any network</string>
+
+    <string name="phone__">Phone -</string>
+    <string name="email__">Email -</string>
+    <string name="number_of_student__">Number of Student - </string>
+    <string name="view_school">View School</string>
 
 </resources>

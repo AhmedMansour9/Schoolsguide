@@ -24,7 +24,7 @@ import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentSearchBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.SearchType
-import com.eaapps.schoolsguide.features.favorite.PagingStateLoading
+import com.eaapps.schoolsguide.features.adapter.PagingStateLoading
 import com.eaapps.schoolsguide.features.search.adapter.SchoolPagingAdapter
 import com.eaapps.schoolsguide.features.search.viewmodels.Filter
 import com.eaapps.schoolsguide.features.search.viewmodels.FilterViewModel

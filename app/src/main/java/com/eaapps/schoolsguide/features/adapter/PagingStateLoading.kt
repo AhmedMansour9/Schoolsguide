@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.favorite
+package com.eaapps.schoolsguide.features.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

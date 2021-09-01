@@ -23,10 +23,10 @@ import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.NavigationPropertiesModel
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.PhotosAdapter
 import com.eaapps.schoolsguide.utils.*
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlin.math.abs
+import java.lang.Math.abs
 
 typealias navigationItem = NavigationPropertiesModel
 
@@ -67,11 +67,19 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         toolbar.title = ""
         toolbar.inflateMenu(R.menu.details_menu)
         toolbar.setOnMenuItemClickListener {
-            launchFragment(
-                DetailsFragmentDirections.actionDetailsFragmentToNotificationBottomFragment(
-                    dataSchool!!
+            if (it.itemId == R.id.support) {
+                launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToAddInquiryBottomFragment(
+                        dataSchool?.id!!
+                    )
                 )
-            )
+            } else {
+                launchFragment(
+                    DetailsFragmentDirections.actionDetailsFragmentToNotificationBottomFragment(
+                        dataSchool!!
+                    )
+                )
+            }
             false
         }
         collapsing.setContentScrimColor(ContextCompat.getColor(requireContext(), R.color.colorApp3))
@@ -82,7 +90,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
             )
         )
         collapsing.isTitleEnabled = false
-        appbar.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             if (abs(verticalOffset) > 200) {
                 if (toolbar.title == "")
                     toolbar.title = getString(R.string.school_details)
@@ -91,6 +99,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                     toolbar.title = ""
             }
         })
+
 
     }
 
@@ -376,6 +385,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
+        viewModel.schoolDetailsFlow.setValue(Resource.Nothing())
         findNavController().navigateUp()
     }
 

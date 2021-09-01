@@ -1,22 +1,24 @@
 package com.eaapps.schoolsguide.features.home
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.FragmentHomeBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.domain.model.SearchType
 import com.eaapps.schoolsguide.utils.*
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.JustifyContent
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -110,15 +112,45 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)
 
     private fun FragmentHomeBinding.bindAdapters() {
-        val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
-        flexBoxLayoutManager.apply {
-            alignItems = AlignItems.CENTER
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.NOWRAP
-            justifyContent = JustifyContent.SPACE_EVENLY
-        }
-        rcSchoolType.layoutManager = flexBoxLayoutManager
+//        val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
+//        flexBoxLayoutManager.apply {
+//            flexDirection = FlexDirection.COLUMN
+//            flexWrap =
+//         }
+
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//        val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        rcSchoolType.layoutManager = layoutManager
         rcSchoolType.adapter = schoolTypeAdapter
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(rcSchoolType)
+        rcSchoolType.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                parent.adapter?.let {
+                    val itemCount = state.itemCount
+                    val margin = parent.marginEnd + parent.marginStart
+                    val widthScreen = requireContext().resources.displayMetrics.widthPixels - margin
+                    val sizeItem =
+                        requireContext().resources.getDimensionPixelOffset(R.dimen._50sdp)
+                    val sizeMin = widthScreen - (sizeItem * itemCount)
+                    val paddingItem = (sizeMin / itemCount) / 2
+
+                    if (sizeMin <= widthScreen && paddingItem >= 15) {
+                        outRect.set(paddingItem, 0, paddingItem, 0)
+                    } else {
+                        outRect.set(15, 0, 15, 0)
+                    }
+                }
+            }
+        })
+
+
         rcRecommended.adapter = recommendedSchoolHomeAdapter
         rcFeature.adapter = featureSchoolHomeAdapter
     }
@@ -212,6 +244,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     shimmerSchoolType.stopShimmer()
                     rcSchoolType.visibleOrGone(true)
                     schoolTypeAdapter.setData(it)
+
                 },
                 onLoading = {
                     rcSchoolType.visibleOrGone(false)
@@ -319,3 +352,4 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 }
 
+private const val TAG = "HomeFragment"

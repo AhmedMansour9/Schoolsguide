@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,9 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -72,7 +68,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
     }
 
     private fun FragmentProfileBinding.bindClicks() {
-        addSchool.profileItemGroup.setOnClickListener(this@ProfileFragment)
+        booksRequest.profileItemGroup.setOnClickListener(this@ProfileFragment)
         updateProfile.profileItemGroup.setOnClickListener(this@ProfileFragment)
         updatePassword.profileItemGroup.setOnClickListener(this@ProfileFragment)
         changeLanguage.profileItemGroup.setOnClickListener(this@ProfileFragment)
@@ -102,7 +98,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.addSchool -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToAddSchoolFragment())
+            R.id.booksRequest -> requireActivity().toastingInfo("under development - تحت التطوير")
+
 
             R.id.updateProfile -> launchFragment(ProfileFragmentDirections.actionProfileFragmentToUpdateProfileFragment())
 

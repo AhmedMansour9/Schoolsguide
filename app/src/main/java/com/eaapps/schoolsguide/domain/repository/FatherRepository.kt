@@ -14,6 +14,8 @@ interface FatherRepository {
 
     suspend fun loadFavorite(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
 
+    suspend fun loadFollow(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>>
+
     suspend fun toggleRecommendedIt(schoolId: Int): Resource<ResponseEntity>
 
     suspend fun toggleFollow(schoolId: Int): Resource<ResponseEntity>

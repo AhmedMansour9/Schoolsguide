@@ -7,4 +7,10 @@
         android:title=""
         app:showAsAction="ifRoom" />
 
+    <item
+        android:icon="@drawable/round_support_white_24"
+        android:title=""
+        android:id="@+id/support"
+        app:showAsAction="ifRoom" />
+
 </menu>

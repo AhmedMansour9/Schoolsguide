@@ -22,6 +22,12 @@ class LoadFavoriteUseCase @Inject constructor(private val fatherRepository: Fath
         fatherRepository.loadFavorite()
 }
 
+class LoadFollowUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
+    suspend fun execute(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
+        fatherRepository.loadFollow()
+}
+
+
 class ToggleFollowUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(schoolId: Int): Resource<ResponseEntity> =
         fatherRepository.toggleFollow(schoolId)

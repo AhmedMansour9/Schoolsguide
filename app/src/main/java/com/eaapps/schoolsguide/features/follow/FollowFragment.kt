@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.features.favorite
+package com.eaapps.schoolsguide.features.follow
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,23 +10,26 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.eaapps.schoolsguide.R
-import com.eaapps.schoolsguide.databinding.FragmentFavoriteBinding
+import com.eaapps.schoolsguide.databinding.FragmentFollowBinding
 import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.adapter.PagingStateLoading
-import com.eaapps.schoolsguide.utils.*
+import com.eaapps.schoolsguide.utils.filterError
+import com.eaapps.schoolsguide.utils.handleApiError
+import com.eaapps.schoolsguide.utils.shortLink
+import com.eaapps.schoolsguide.utils.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
-class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
+class FollowFragment : Fragment(R.layout.fragment_follow) {
 
-    private val binding: FragmentFavoriteBinding by viewBinding(FragmentFavoriteBinding::bind)
+    private val binding: FragmentFollowBinding by viewBinding(FragmentFollowBinding::bind)
 
-    private val viewModel: FavoriteViewModel by viewModels()
+    private val viewModel: FollowViewModel by viewModels()
 
-    private val favoriteAdapter = FavoriteAdapter({ it ->
+    private val followAdapter = FollowAdapter { it ->
         shortLink(it) {
             ShareCompat.IntentBuilder(requireContext())
                 .setType("text/plain")
@@ -34,27 +37,24 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 .setText(it)
                 .startChooser()
         }
-    }) { id ->
-        viewModel.toggleFavorite(id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bindState(favoriteAdapter)
-        binding.bindList(favoriteAdapter)
-        binding.bindToggleFavoriteResultData()
-        collectFavoritePagingData()
+        binding.bindState()
+        binding.bindList()
+        collectFollowPagingData()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun FragmentFavoriteBinding.bindList(favoriteAdapter: FavoriteAdapter) {
+    private fun FragmentFollowBinding.bindList() {
         lifecycleScope.launchWhenCreated {
-            favoriteAdapter.loadStateFlow.collect {
+            followAdapter.loadStateFlow.collect {
                 val isListEmpty =
-                    it.refresh is LoadState.NotLoading && favoriteAdapter.itemCount == 0
+                    it.refresh is LoadState.NotLoading && followAdapter.itemCount == 0
                 // show empty list Text
                 // only show the list if refresh succeeds
-                rcFavorite.visibleOrGone(!isListEmpty)
+                rcFollow.visibleOrGone(!isListEmpty)
 
                 loadRetry.apply {
                     // Show loading spinner during initial load or refresh.
@@ -64,8 +64,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
                 noItem.apply {
                     groupNo.visibleOrGone(isListEmpty)
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_favorite)
-                    titleNo = getString(R.string.favorite_no_msg)
+                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.no_list)
+                    titleNo = getString(R.string.follow_no_msg)
                 }
 
                 // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -75,7 +75,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                     ?: it.prepend as? LoadState.Error
                 errorState?.apply {
                     handleApiError(filterError(this.error)) {
-                        favoriteAdapter.retry()
+                        followAdapter.retry()
                     }
                 }
             }
@@ -83,31 +83,19 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
 
-    private fun FragmentFavoriteBinding.bindState(favoriteAdapter: FavoriteAdapter) {
-        rcFavorite.adapter = favoriteAdapter.withLoadStateHeaderAndFooter(
-            header = PagingStateLoading { favoriteAdapter.retry() },
-            footer = PagingStateLoading { favoriteAdapter.retry() }
+    private fun FragmentFollowBinding.bindState() {
+        rcFollow.adapter = followAdapter.withLoadStateHeaderAndFooter(
+            header = PagingStateLoading { followAdapter.retry() },
+            footer = PagingStateLoading { followAdapter.retry() }
         )
     }
 
-    private fun collectFavoritePagingData() {
+    private fun collectFollowPagingData() {
         lifecycleScope.launchWhenCreated {
             viewModel.loadData().collect {
-                favoriteAdapter.submitData(it)
+                followAdapter.submitData(it)
             }
         }
     }
 
-    private fun FragmentFavoriteBinding.bindToggleFavoriteResultData() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.toggleFavoriteFlow.stateFlow.collect(FlowEvent(onError = {
-            }, onSuccess = {
-                if (favoriteAdapter.itemCount > 0) {
-                    favoriteAdapter.refresh()
-                    noItem.groupNo.visibleOrGone(favoriteAdapter.itemCount == 0)
-                }
-
-            }))
-        }
-    }
 }

@@ -42,6 +42,7 @@
     <string name="school_phone">School Phone</string>
     <string name="school_email">School Email</string>
     <string name="favorite">Favorite</string>
+    <string name="follows">follower schools</string>
     <string name="retry">Retry</string>
     <string name="search_by_map">Search By Map</string>
     <string name="city_name">City name</string>
@@ -142,6 +143,7 @@
     <string name="notification_no_msg">There are no notifications for this school</string>
     <string name="tuition_no_msg">Tuition Fees have not yet been determined</string>
     <string name="favorite_no_msg">You did not choose your favorite schools</string>
+    <string name="follow_no_msg">You did not follow any school</string>
     <string name="job_no_msg">There are no jobs in this school</string>
     <string name="jobs">Jobs</string>
     <string name="apply_job">Apply Job</string>
@@ -205,6 +207,7 @@
     <string name="item_selection">Item Selection</string>
 
     <string name="add_school">Add School</string>
+    <string name="book_school">Booking requests</string>
     <string name="profile_information">Profile Information</string>
     <string name="change_password">Change Password</string>
     <string name="language">Language</string>

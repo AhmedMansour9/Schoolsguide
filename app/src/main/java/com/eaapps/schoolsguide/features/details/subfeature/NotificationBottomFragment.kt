@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.databinding.NotificationsBottomSheetBinding
-import com.eaapps.schoolsguide.features.details.DetailsViewModel
 import com.eaapps.schoolsguide.features.details.subfeature.adapters.NotificationsAdapter
 import com.eaapps.schoolsguide.utils.dialogShow
 import com.eaapps.schoolsguide.utils.visibleOrGone
@@ -22,9 +20,6 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @AndroidEntryPoint
 class NotificationBottomFragment : BottomSheetDialogFragment() {
     private lateinit var binding: NotificationsBottomSheetBinding
-    private val viewModel: DetailsViewModel by lazy {
-        ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
-    }
 
     override fun getTheme(): Int = R.style.CustomBottomSheetDialog
 
@@ -45,12 +40,10 @@ class NotificationBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.detailsViewModel = viewModel
         binding.buildArgs()
         binding.bindClicks()
 
     }
-
 
     private fun NotificationsBottomSheetBinding.buildArgs() {
         NotificationBottomFragmentArgs.fromBundle(requireArguments()).dataSchool.apply {

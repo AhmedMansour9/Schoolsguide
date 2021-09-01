@@ -5,10 +5,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.data.network.apiServices.GeneralApis
-import com.eaapps.schoolsguide.data.network.dataSources.FeaturedPagingSource
-import com.eaapps.schoolsguide.data.network.dataSources.FilterSchoolPagingSource
-import com.eaapps.schoolsguide.data.network.dataSources.RecommendedPagingDataSource
-import com.eaapps.schoolsguide.data.network.dataSources.TypedSchoolPagingSource
+import com.eaapps.schoolsguide.data.network.pagingDataSources.FeaturedPagingSource
+import com.eaapps.schoolsguide.data.network.pagingDataSources.FilterSchoolPagingSource
+import com.eaapps.schoolsguide.data.network.pagingDataSources.RecommendedPagingDataSource
+import com.eaapps.schoolsguide.data.network.pagingDataSources.TypedSchoolPagingSource
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
 import com.eaapps.schoolsguide.utils.safeCall

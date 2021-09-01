@@ -613,6 +613,19 @@ fun Activity.toastingError(msg: String) {
     )
 }
 
+fun Activity.toastingInfo(msg: String) {
+    MotionToast.createColorToast(
+        this,
+        "Info",
+        msg,
+        MotionToast.TOAST_INFO,
+        MotionToast.GRAVITY_BOTTOM,
+        MotionToast.SHORT_DURATION,
+        ResourcesCompat.getFont(this, R.font.rpt_bold)
+
+    )
+}
+
 
 fun Context.currentLocation(
     location: (location: Location) -> Unit,

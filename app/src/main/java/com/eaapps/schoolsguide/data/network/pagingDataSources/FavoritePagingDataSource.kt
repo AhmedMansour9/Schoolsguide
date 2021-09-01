@@ -1,4 +1,4 @@
-package com.eaapps.schoolsguide.data.network.dataSources
+package com.eaapps.schoolsguide.data.network.pagingDataSources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

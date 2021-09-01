@@ -368,4 +368,9 @@
             android:id="@+id/action_searchMapDialogFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/followFragment"
+        android:name="com.eaapps.schoolsguide.features.follow.FollowFragment"
+        tools:layout="@layout/fragment_follow"
+        android:label="FollowFragment" />
 </navigation>

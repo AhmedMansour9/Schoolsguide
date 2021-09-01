@@ -1,19 +1,23 @@
-package com.eaapps.schoolsguide.data.network.dataSources
+package com.eaapps.schoolsguide.data.network.pagingDataSources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.eaapps.schoolsguide.data.entity.FilterRequestEntity
 import com.eaapps.schoolsguide.data.entity.SchoolResponse
 import com.eaapps.schoolsguide.data.network.apiServices.GeneralApis
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val RECOMMENDED_STATING_INDEX = 1
+private const val TYPED_STATING_INDEX = 1
 
-class RecommendedPagingDataSource(private val apiServices: GeneralApis) :
+class FilterSchoolPagingSource(
+    private val apiServices: GeneralApis,
+    private val filterRequestEntity: FilterRequestEntity
+) :
     PagingSource<Int, SchoolResponse.SchoolData.DataSchool>() {
 
     companion object {
-        const val LIMITED_LOAD = 20
+        const val LIMITED_LOAD = 30
     }
 
     override fun getRefreshKey(state: PagingState<Int, SchoolResponse.SchoolData.DataSchool>): Int? {
@@ -32,8 +36,21 @@ class RecommendedPagingDataSource(private val apiServices: GeneralApis) :
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SchoolResponse.SchoolData.DataSchool> {
         return try {
-            val nextPageNumber = params.key ?: RECOMMENDED_STATING_INDEX
-            val response = apiServices.loadAllRecommendedSchool(nextPageNumber, LIMITED_LOAD)
+            val nextPageNumber = params.key ?: TYPED_STATING_INDEX
+            val response = filterRequestEntity.let {
+                apiServices.filterSchool(
+                    search = it.search,
+                    city_id = it.city_id,
+                    program_id = it.program_id,
+                    school_type = it.school_type,
+                    from_price = it.from_price,
+                    to_price = it.to_price,
+                    type_id = it.type_id,
+                    page = nextPageNumber,
+                    perPage = LIMITED_LOAD
+                )
+
+            }
             val dataSchool = response.data.data
             val meta = response.data.meta
             val nextKey = if (meta.last_page == nextPageNumber) {
@@ -43,7 +60,7 @@ class RecommendedPagingDataSource(private val apiServices: GeneralApis) :
             }
             LoadResult.Page(
                 data = dataSchool,
-                prevKey = if (nextPageNumber == RECOMMENDED_STATING_INDEX) null else nextPageNumber - 1,
+                prevKey = if (nextPageNumber == TYPED_STATING_INDEX) null else nextPageNumber - 1,
                 nextKey = nextKey
             )
         } catch (exception: IOException) {

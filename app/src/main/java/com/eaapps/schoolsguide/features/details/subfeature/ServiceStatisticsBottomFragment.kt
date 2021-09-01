@@ -24,9 +24,6 @@ import kotlinx.coroutines.InternalCoroutinesApi
 class ServiceStatisticsBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: ServiceStatisticsBottomSheetBinding
-    private val viewModel: DetailsViewModel by lazy {
-        ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
-    }
 
     override fun getTheme(): Int = R.style.CustomBottomSheetDialog
 
@@ -47,7 +44,6 @@ class ServiceStatisticsBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.detailsViewModel = viewModel
         binding.buildArgs()
         binding.bindClicks()
 

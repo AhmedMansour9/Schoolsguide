@@ -29,6 +29,12 @@ interface FatherApis {
         @Query("per_page") limitedItemLoad: Int
     ): SchoolResponse
 
+    @GET("/api/father/follows")
+    suspend fun loadFollowsAsync(
+        @Query("page") page: Int,
+        @Query("per_page") limitedItemLoad: Int
+    ): SchoolResponse
+
     @GET("api/father/profile")
     suspend fun loadProfileFatherAsync(): AuthResponse
 

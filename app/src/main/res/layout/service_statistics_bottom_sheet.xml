@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="detailsViewModel"
-            type="com.eaapps.schoolsguide.features.details.DetailsViewModel" />
-    </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

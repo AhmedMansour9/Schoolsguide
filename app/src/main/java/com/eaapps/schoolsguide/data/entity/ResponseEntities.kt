@@ -186,7 +186,7 @@ data class SchoolResponse(
             val blogs: List<ShareData>,
             val city: CityResponse.City,
             val communicates: List<CommunicateData>,
-            val data_completion: String,
+            val data_completion: Int,
             val dates_for_communicating_with_supervisors: String?,
             val discount: String,
             val email: String,

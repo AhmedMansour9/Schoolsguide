@@ -59,9 +59,9 @@ object ViewBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("shortString")
-    fun shortString(textView: TextView, txt: String?) {
-        val width = 150
+    @BindingAdapter("shortString", "maxLength")
+    fun shortString(textView: TextView, txt: String?, maxLength: Int?) {
+        val width = maxLength ?: 120
         var txtSub = txt
         if (txt != null && txt.length > width) {
             txtSub = txt.substring(0, width - 3) + "..."

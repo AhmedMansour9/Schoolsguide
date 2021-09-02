@@ -112,15 +112,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun toggleFavorite(schoolId: Int) = homeViewModel.toggleFavorite(schoolId)
 
     private fun FragmentHomeBinding.bindAdapters() {
-//        val flexBoxLayoutManager = com.google.android.flexbox.FlexboxLayoutManager(requireContext())
-//        flexBoxLayoutManager.apply {
-//            flexDirection = FlexDirection.COLUMN
-//            flexWrap =
-//         }
-
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         rcSchoolType.layoutManager = layoutManager
         rcSchoolType.adapter = schoolTypeAdapter
         val snapHelper = LinearSnapHelper()

@@ -9,7 +9,7 @@
             name="dataSchool"
             type="com.eaapps.schoolsguide.data.entity.SchoolResponse.SchoolData.DataSchool" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,15 +26,14 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
-
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_1"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?colorPrimary"
                 android:scrollbarAlwaysDrawHorizontalTrack="false"
+                app:contentScrim="?colorPrimary"
 
                 app:expandedTitleMarginStart="12dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -81,15 +80,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:orientation="vertical"
-                        tools:listitem="@layout/photo_item"
-                        tools:itemCount="5"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        tools:itemCount="5"
+                        tools:listitem="@layout/photo_item" />
 
                     <com.facebook.shimmer.ShimmerFrameLayout
                         android:id="@+id/shimmerSee"
@@ -155,8 +153,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/shimmerSee"
-                        >
+                        app:layout_constraintTop_toBottomOf="@id/shimmerSee">
 
                         <ImageView
                             android:layout_width="@dimen/_70sdp"
@@ -274,10 +271,40 @@
                         android:text="@{dataSchool.short_description}"
                         android:textColor="@color/gray_2"
                         android:textSize="@dimen/_13ssp"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/complete"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="School Good For student because give yours free to play football and study" />
+
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:max="100"
+                        app:indicatorSize="@dimen/_32sdp"
+                        android:progress="@{dataSchool.data_completion}"
+                        android:progressTint="@color/colorApp3"
+                        app:trackColor="@color/gray_0"
+                        app:indicatorColor="@color/colorApp3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/shortDesc"
+                        tools:progress="50" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rpt_bold"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_9ssp"
+                        android:text="@{dataSchool.data_completion +`%`}"
+                        app:layout_constraintBottom_toBottomOf="@id/complete"
+                        app:layout_constraintEnd_toEndOf="@id/complete"
+                        app:layout_constraintStart_toStartOf="@id/complete"
+                        app:layout_constraintTop_toTopOf="@id/complete"
+                        tools:text="50%" />
 
                     <TextView
                         android:id="@+id/type_school"
@@ -469,10 +496,10 @@
                             android:id="@+id/faceBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:visibility="@{dataSchool.facebook_link!=null?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/facebook_"
+                            android:visibility="@{dataSchool.facebook_link!=null?View.VISIBLE:View.GONE}"
                             tools:ignore="ContentDescription" />
 
 
@@ -480,10 +507,10 @@
                             android:id="@+id/twitterBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:visibility="@{dataSchool.twitter_link!=null?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/twitter_"
+                            android:visibility="@{dataSchool.twitter_link!=null?View.VISIBLE:View.GONE}"
                             tools:ignore="ContentDescription" />
 
 
@@ -491,20 +518,20 @@
                             android:id="@+id/youtubeBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:visibility="@{dataSchool.youtube_link!=null?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/youtube_"
+                            android:visibility="@{dataSchool.youtube_link!=null?View.VISIBLE:View.GONE}"
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
                             android:id="@+id/instaBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:visibility="@{dataSchool.instgram_link!=null?View.VISIBLE:View.GONE}"
                             android:background="?android:selectableItemBackgroundBorderless"
                             android:scaleType="centerInside"
                             android:src="@drawable/insta_"
+                            android:visibility="@{dataSchool.instgram_link!=null?View.VISIBLE:View.GONE}"
                             tools:ignore="ContentDescription" />
 
                     </com.google.android.flexbox.FlexboxLayout>

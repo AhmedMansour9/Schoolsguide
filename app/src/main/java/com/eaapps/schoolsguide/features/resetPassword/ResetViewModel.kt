@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.resetPassword
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ResetViewModel @Inject constructor(private val resetNewPasswordUseCase: ResetNewPasswordUseCase) :
+class ResetViewModel @Inject constructor(
+    private val resetNewPasswordUseCase: ResetNewPasswordUseCase,
+    private val resources: Resources
+) :
     ViewModel() {
 
     val resetPasswordModel = ResetPasswordModel()
@@ -42,7 +46,7 @@ class ResetViewModel @Inject constructor(private val resetNewPasswordUseCase: Re
                 }
             }
         } else {
-            inputEditHelper.set(resetNewPasswordUseCase.validMessage(resetPasswordModel))
+            inputEditHelper.set(resetNewPasswordUseCase.validMessage(resources, resetPasswordModel))
             inputEditHelper.notifyChange()
         }
 

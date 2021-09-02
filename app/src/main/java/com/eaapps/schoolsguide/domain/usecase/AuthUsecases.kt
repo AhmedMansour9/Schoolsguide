@@ -1,13 +1,24 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.content.res.Resources
 import android.util.Patterns.EMAIL_ADDRESS
-import com.eaapps.schoolsguide.data.entity.*
-import com.eaapps.schoolsguide.domain.model.*
+import com.eaapps.schoolsguide.R
+import com.eaapps.schoolsguide.data.entity.AuthResponse
+import com.eaapps.schoolsguide.data.entity.ChangeFatherProfileEntity
+import com.eaapps.schoolsguide.data.entity.LoginEntity
+import com.eaapps.schoolsguide.data.entity.ResponseEntity
+import com.eaapps.schoolsguide.domain.model.LoginModel
+import com.eaapps.schoolsguide.domain.model.RegisterModel
+import com.eaapps.schoolsguide.domain.model.SocialModel
+import com.eaapps.schoolsguide.domain.model.UpdateProfileModel
 import com.eaapps.schoolsguide.domain.repository.AuthRepository
 import com.eaapps.schoolsguide.utils.Resource
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(private val authRepository: AuthRepository) {
+class LoginUseCase @Inject constructor(
+    private val authRepository: AuthRepository
+
+) {
 
     suspend fun execute(loginModel: LoginModel): Resource<AuthResponse.AuthData> =
         authRepository.login(LoginEntity(loginModel.email, loginModel.password))
@@ -16,30 +27,30 @@ class LoginUseCase @Inject constructor(private val authRepository: AuthRepositor
         (loginModel.email.isNotBlank() && EMAIL_ADDRESS.matcher(loginModel.email)
             .matches()) && (loginModel.password.isNotBlank() && loginModel.password.length >= 8)
 
-    fun validMessage(loginModel: LoginModel): HashMap<String, String> {
+    fun validMessage(resources: Resources, loginModel: LoginModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             loginModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
             !EMAIL_ADDRESS.matcher(loginModel.email).matches() -> {
                 return errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
 
             loginModel.password.isBlank() -> {
                 return errorMap.apply {
-                    put("password", "Please Enter Password")
+                    put("password", resources.getString(R.string.please_enter_pass))
                 }
             }
 
             loginModel.password.length < 8 -> {
                 return errorMap.apply {
-                    put("password", "Password must be at least 8 characters")
+                    put("password", resources.getString(R.string.password_must_8_char))
                 }
             }
 
@@ -95,62 +106,61 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
                 && registerModel.city > -1
                 && registerModel.district.isNotBlank()
 
-    fun validMessage(registerModel: RegisterModel): HashMap<String, String> {
+    fun validMessage(resources: Resources,registerModel: RegisterModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             registerModel.fullName.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("name", "Please Enter Full Name")
+                    put("name", resources.getString(R.string.please_enter_full_name))
                 }
             }
 
             registerModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
 
             !EMAIL_ADDRESS.matcher(registerModel.email).matches() -> {
                 return errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
 
             registerModel.phone.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("name", "Please Enter Phone Number")
+                    put("name", resources.getString(R.string.please_enter_phone))
                 }
             }
 
-
             registerModel.password.isBlank() -> {
                 return errorMap.apply {
-                    put("password", "Please Enter Password")
+                    put("password", resources.getString(R.string.please_enter_password))
                 }
             }
 
             registerModel.password.length < 8 -> {
                 return errorMap.apply {
-                    put("password", "Password must be at least 8 characters")
+                    put("password", resources.getString(R.string.password_must_8_char))
                 }
             }
 
             registerModel.password != registerModel.confirmPassword -> {
                 return errorMap.apply {
-                    put("confirmPassword", "confirm password must match the password")
+                    put("confirmPassword", resources.getString(R.string.confirm_password_must_match))
                 }
             }
 
             registerModel.city < 0 -> {
                 return errorMap.apply {
-                    put("city", "Please select an item in the list")
+                    put("city", resources.getString(R.string.please_select_item_list))
                 }
             }
 
             registerModel.district.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("name", "Please Enter District site")
+                    put("name", resources.getString(R.string.please_enter_district))
                 }
             }
 
@@ -191,37 +201,37 @@ class UpdateFatherProfileUseCase @Inject constructor(private val authRepository:
                 && updateProfileModel.phone.isNotBlank()
                 && updateProfileModel.city_id > -1
 
-    fun validMessage(updateProfileModel: UpdateProfileModel): HashMap<String, String> {
+    fun validMessage(resources: Resources,updateProfileModel: UpdateProfileModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             updateProfileModel.full_name.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("name", "Please Enter Full Name")
+                    put("name", resources.getString(R.string.enter_full_name))
                 }
             }
 
             updateProfileModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
 
             !EMAIL_ADDRESS.matcher(updateProfileModel.email).matches() -> {
                 return errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
 
             updateProfileModel.phone.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("phone", "Please Enter Phone Number")
+                    put("phone", resources.getString(R.string.please_enter_phone))
                 }
             }
 
             updateProfileModel.city_id < 0 -> {
                 return errorMap.apply {
-                    put("city", "Please select an item in the list")
+                    put("city", resources.getString(R.string.please_select_item_list))
                 }
             }
 

@@ -1,6 +1,8 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.content.res.Resources
 import android.util.Patterns
+import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.AuthResetResponse
 import com.eaapps.schoolsguide.data.entity.ChangePasswordEntity
 import com.eaapps.schoolsguide.data.entity.ResetPasswordRequestEntity
@@ -19,18 +21,18 @@ class CreateNewPasswordUseCase @Inject constructor(private val passwordRepositor
         (email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email)
             .matches())
 
-    fun validMessage(email: String): HashMap<String, String> {
+    fun validMessage(resources: Resources,email: String): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         return when {
             email.isBlank() -> {
                 HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email", resources.getString(R.string.please_enter_phone))
                 }
             }
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
             else -> errorMap
@@ -55,30 +57,30 @@ class ResetNewPasswordUseCase @Inject constructor(private val passwordRepository
         (resetPasswordModel.email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(resetPasswordModel.email)
             .matches()) && (resetPasswordModel.password.isNotBlank() && resetPasswordModel.password.length >= 8)
 
-    fun validMessage(resetPasswordModel: ResetPasswordModel): HashMap<String, String> {
+    fun validMessage(resources: Resources,resetPasswordModel: ResetPasswordModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             resetPasswordModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email",resources.getString(R.string.please_enter_email))
                 }
             }
             !Patterns.EMAIL_ADDRESS.matcher(resetPasswordModel.email).matches() -> {
                 return errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
 
             resetPasswordModel.password.isBlank() -> {
                 return errorMap.apply {
-                    put("password", "Please Enter Password")
+                    put("password", resources.getString(R.string.please_enter_password))
                 }
             }
 
             resetPasswordModel.password.length < 8 -> {
                 return errorMap.apply {
-                    put("password", "Password must be at least 8 characters")
+                    put("password", resources.getString(R.string.password_must_8_char))
                 }
             }
 
@@ -106,32 +108,32 @@ class UpdatePasswordUseCase @Inject constructor(private val passwordRepository: 
                 && updatePasswordModel.password.length > 8
                 && updatePasswordModel.password == updatePasswordModel.confirmPassword
 
-    fun validMessage(updatePasswordModel: UpdatePasswordModel): HashMap<String, String> {
+    fun validMessage(resources: Resources,updatePasswordModel: UpdatePasswordModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
 
             updatePasswordModel.oldPassword.isBlank() -> {
                 return errorMap.apply {
-                    put("oldPassword", "For your security,please enter old password")
+                    put("oldPassword", resources.getString(R.string.for_your_security))
                 }
             }
 
             updatePasswordModel.password.isBlank() -> {
                 return errorMap.apply {
-                    put("newPassword", "Please Enter New Password")
+                    put("newPassword", resources.getString(R.string.please_enter_new_password))
                 }
             }
 
             updatePasswordModel.password.length < 8 -> {
                 return errorMap.apply {
-                    put("newPassword", "Password must be at least 8 characters")
+                    put("newPassword", resources.getString(R.string.password_must_8_char))
                 }
             }
 
             updatePasswordModel.password != updatePasswordModel.confirmPassword -> {
                 return errorMap.apply {
-                    put("confirmPassword", "confirm password must match the password")
+                    put("confirmPassword",resources.getString(R.string.confirm_password_must_match))
                 }
             }
 

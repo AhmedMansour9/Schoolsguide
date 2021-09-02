@@ -1,10 +1,11 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.content.res.Resources
 import android.util.Patterns
 import androidx.paging.PagingData
+import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.*
-import com.eaapps.schoolsguide.domain.repository.CityRepository
 import com.eaapps.schoolsguide.domain.repository.GeneralRepository
 import com.eaapps.schoolsguide.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -50,26 +51,26 @@ class AddInquiryUseCase @Inject constructor(private val generalRepository: Gener
                 && addInquiryModel.reply_time.isNotBlank()
                 && addInquiryModel.message.isNotBlank()
 
-    fun validMessage(addInquiryModel: InquiryModel): HashMap<String, String> {
+    fun validMessage(resources: Resources, addInquiryModel: InquiryModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             addInquiryModel.message_type.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("typeMessage", "Please Select Type Message")
+                    put("typeMessage", resources.getString(R.string.please_select_type_message))
                 }
             }
 
             addInquiryModel.reply_type.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("replay_message", "Please Select Replay Method")
+                    put("replay_message", resources.getString(R.string.please_select_replay_method))
                 }
             }
 
 
             addInquiryModel.reply_time.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("replay_time", "Please Select Best Time")
+                    put("replay_time", resources.getString(R.string.please_select_best))
                 }
             }
 
@@ -99,26 +100,29 @@ class JoinDiscountSchoolUseCase @Inject constructor(private val generalRepositor
                 && joinDiscountModel.phone.isNotBlank()
                 && joinDiscountModel.number_of_students!! > -1
 
-    fun validMessage(joinDiscountModel: JoinDiscountModel): HashMap<String, String> {
+    fun validMessage(
+        resources: Resources,
+        joinDiscountModel: JoinDiscountModel
+    ): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             joinDiscountModel.full_name.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("full_name", "Please Enter Full Name")
+                    put("full_name", resources.getString(R.string.please_enter_full_name))
                 }
             }
 
             joinDiscountModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
 
 
             joinDiscountModel.phone.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("phone", "Please Enter Phone")
+                    put("phone", resources.getString(R.string.please_enter_phone))
                 }
             }
 
@@ -151,38 +155,41 @@ class BookSchoolUseCase @Inject constructor(private val generalRepository: Gener
                 && bookSchoolModel.number_of_students.isNotBlank()
                 && bookSchoolModel.grades?.size!! > 0
 
-    fun validMessage(bookSchoolModel: BookSchoolModel): HashMap<String, String> {
+    fun validMessage(
+        resources: Resources,
+        bookSchoolModel: BookSchoolModel
+    ): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             bookSchoolModel.full_name.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("full_name", "Please Enter Full Name")
+                    put("full_name", resources.getString(R.string.please_enter_full_name))
                 }
             }
 
             bookSchoolModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
 
             bookSchoolModel.number_of_students.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("student_number", "Please Select Student Number")
+                    put("student_number", resources.getString(R.string.please_select_student_n))
                 }
             }
 
 
             bookSchoolModel.phone.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("phone", "Please Enter Phone")
+                    put("phone", resources.getString(R.string.please_enter_phone))
                 }
             }
 
             bookSchoolModel.phone.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("address", "Please Enter Address")
+                    put("address", resources.getString(R.string.please_enter_address))
                 }
             }
 
@@ -238,29 +245,32 @@ class AddSchoolUseCase @Inject constructor(private val generalRepository: Genera
                 Patterns.EMAIL_ADDRESS.matcher(addSchoolModel.email).matches()) &&
                 (addSchoolModel.phone.isNotBlank())
 
-    fun validMessage(addSchoolModel: AddSchoolModel): HashMap<String, String> {
+    fun validMessage(
+        resources: Resources,
+        addSchoolModel: AddSchoolModel
+    ): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             addSchoolModel.email.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("email", "Please Enter Email Address")
+                    put("email", resources.getString(R.string.please_enter_email))
                 }
             }
             !Patterns.EMAIL_ADDRESS.matcher(addSchoolModel.email).matches() -> {
                 return errorMap.apply {
-                    put("email", "Please Enter Validation Email")
+                    put("email", resources.getString(R.string.please_enter_v_email))
                 }
             }
 
             addSchoolModel.school_name.isBlank() -> {
                 return errorMap.apply {
-                    put("name", "Please Enter School Name")
+                    put("name", resources.getString(R.string.please_enter_school_name))
                 }
             }
             addSchoolModel.phone.isBlank() -> {
                 return errorMap.apply {
-                    put("phone", "Please Enter Phone Number")
+                    put("phone", resources.getString(R.string.please_enter_phone))
                 }
             }
 

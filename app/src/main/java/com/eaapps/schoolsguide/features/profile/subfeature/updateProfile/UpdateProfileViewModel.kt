@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.profile.subfeature.updateProfile
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UpdateProfileViewModel @Inject constructor(
     private val updateFatherProfileUseCase: UpdateFatherProfileUseCase,
-    private val getCitiesUseCase: CitiesUseCase
+    private val getCitiesUseCase: CitiesUseCase,
+    private val resources: Resources
 ) : ViewModel() {
 
     init {
@@ -66,7 +68,7 @@ class UpdateProfileViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditError.set(updateFatherProfileUseCase.validMessage(updateProfileModel))
+            inputEditError.set(updateFatherProfileUseCase.validMessage(resources,updateProfileModel))
             inputEditError.notifyChange()
         }
     }

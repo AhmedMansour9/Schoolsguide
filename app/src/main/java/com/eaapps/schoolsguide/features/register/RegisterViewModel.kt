@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.register
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val getCitiesUseCase: CitiesUseCase,
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val resources: Resources
 ) : ViewModel() {
 
     lateinit var registerNavigator: RegisterNavigator
@@ -77,7 +79,7 @@ class RegisterViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditError.set(registerUseCase.validMessage(registerModel))
+            inputEditError.set(registerUseCase.validMessage(resources, registerModel))
             inputEditError.notifyChange()
         }
     }

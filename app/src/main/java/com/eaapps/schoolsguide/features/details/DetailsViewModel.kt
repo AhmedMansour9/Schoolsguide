@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.details
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,11 +23,13 @@ class DetailsViewModel @Inject constructor(
     private val schoolBookSchoolUseCase: BookSchoolUseCase,
     private val joinDiscountSchoolUseCase: JoinDiscountSchoolUseCase,
     private val putReviewUseCase: PutReviewUseCase,
-    private val uploadCvUseCase: UploadCvUseCase
+    private val uploadCvUseCase: UploadCvUseCase,
+    private val resources: Resources
 
 ) : ViewModel() {
 
-    internal val schoolDetailsFlow = StateFlows<SchoolResponse.SchoolData.DataSchool>(viewModelScope)
+    internal val schoolDetailsFlow =
+        StateFlows<SchoolResponse.SchoolData.DataSchool>(viewModelScope)
     internal val toggleFollowFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val toggleRecommendedFlow = StateFlows<ResponseEntity>(viewModelScope)
     internal val sendInquiryFlow = StateFlows<ResponseEntity>(viewModelScope)
@@ -86,7 +89,7 @@ class DetailsViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditHelper.set(addInquiryUseCase.validMessage(inquiryModel))
+            inputEditHelper.set(addInquiryUseCase.validMessage(resources,inquiryModel))
             inputEditHelper.notifyChange()
         }
     }
@@ -103,7 +106,7 @@ class DetailsViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditHelper.set(schoolBookSchoolUseCase.validMessage(bookSchoolModel))
+            inputEditHelper.set(schoolBookSchoolUseCase.validMessage(resources,bookSchoolModel))
             inputEditHelper.notifyChange()
         }
     }
@@ -120,7 +123,7 @@ class DetailsViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditHelper.set(joinDiscountSchoolUseCase.validMessage(joinDiscountModel))
+            inputEditHelper.set(joinDiscountSchoolUseCase.validMessage(resources,joinDiscountModel))
             inputEditHelper.notifyChange()
         }
     }
@@ -136,7 +139,7 @@ class DetailsViewModel @Inject constructor(
                     e.printStackTrace()
                 }
             } else {
-                putReviewUseCase.validMessage(reviewModel).forEach {
+                putReviewUseCase.validMessage(resources, reviewModel).forEach {
                     reviewSchoolFlow.setValue(Resource.Error(0, it.value))
                 }
             }

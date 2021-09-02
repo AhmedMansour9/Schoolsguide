@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.profile.subfeature.addSchool
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSchoolUseCase) :
+class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSchoolUseCase,private val resources: Resources) :
     ViewModel() {
 
     private val _addSchoolStateFlow: MutableStateFlow<Resource<ResponseEntity>> =
@@ -44,7 +45,7 @@ class AddSchoolViewModel @Inject constructor(private val addSchoolUseCase: AddSc
                 }
             }
         } else {
-            inputEditHelper.set(addSchoolUseCase.validMessage(addSchoolModel))
+            inputEditHelper.set(addSchoolUseCase.validMessage(resources,addSchoolModel))
             inputEditHelper.notifyChange()
         }
     }

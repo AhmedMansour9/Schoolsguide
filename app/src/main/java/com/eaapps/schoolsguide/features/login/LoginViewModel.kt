@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.login
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val loginBySocialUseCase: LoginBySocialUseCase
+    private val loginBySocialUseCase: LoginBySocialUseCase,
+    private val resources: Resources
 ) : ViewModel() {
 
     lateinit var navigator: LoginNavigator
@@ -51,7 +53,7 @@ class LoginViewModel @Inject constructor(
                 }
             }
         } else {
-            inputEditHelper.set(loginUseCase.validMessage(loginModel))
+            inputEditHelper.set(loginUseCase.validMessage(resources,loginModel))
             inputEditHelper.notifyChange()
         }
     }

@@ -1,6 +1,8 @@
 package com.eaapps.schoolsguide.domain.usecase
 
+import android.content.res.Resources
 import androidx.paging.PagingData
+import com.eaapps.schoolsguide.R
 import com.eaapps.schoolsguide.data.entity.*
 import com.eaapps.schoolsguide.domain.model.ReviewModel
 import com.eaapps.schoolsguide.domain.repository.FatherRepository
@@ -23,7 +25,6 @@ class LoadFollowUseCase @Inject constructor(private val fatherRepository: Father
     suspend fun execute(): Flow<PagingData<SchoolResponse.SchoolData.DataSchool>> =
         fatherRepository.loadFollow()
 }
-
 
 class ToggleFollowUseCase @Inject constructor(private val fatherRepository: FatherRepository) {
     suspend fun execute(schoolId: Int): Resource<ResponseEntity> =
@@ -58,43 +59,43 @@ class PutReviewUseCase @Inject constructor(private val fatherRepository: FatherR
                 reviewModel.comment.isNotBlank()
 
 
-    fun validMessage(reviewModel: ReviewModel): HashMap<String, String> {
+    fun validMessage(resources: Resources,reviewModel: ReviewModel): HashMap<String, String> {
         val errorMap = HashMap<String, String>()
         errorMap.clear()
         when {
             reviewModel.education == 0 -> {
                 return HashMap<String, String>().apply {
-                    put("rate_education", "Education rate at least 1")
+                    put("rate_education", resources.getString(R.string.education_rate_atleast))
                 }
             }
 
             reviewModel.communication == 0 -> {
                 return HashMap<String, String>().apply {
-                    put("rate_communication", "Communication rate at least 1")
+                    put("rate_communication", resources.getString(R.string.communicate_rate_least))
                 }
             }
 
             reviewModel.facilities == 0 -> {
                 return HashMap<String, String>().apply {
-                    put("rate_facilities", "Facilities rate at least 1")
+                    put("rate_facilities", resources.getString(R.string.facilities_rate_least))
                 }
             }
 
             reviewModel.safety == 0 -> {
                 return HashMap<String, String>().apply {
-                    put("rate_safety", "Safety rate at least 1")
+                    put("rate_safety", resources.getString(R.string.safety_rate_least))
                 }
             }
 
             reviewModel.activities == 0 -> {
                 return HashMap<String, String>().apply {
-                    put("rate_activities", "Activities rate at least 1")
+                    put("rate_activities", resources.getString(R.string.activities_rate_least))
                 }
             }
 
             reviewModel.comment.isBlank() -> {
                 return HashMap<String, String>().apply {
-                    put("comment", "Please Enter Comment")
+                    put("comment", resources.getString(R.string.please_enter_comment))
                 }
             }
 

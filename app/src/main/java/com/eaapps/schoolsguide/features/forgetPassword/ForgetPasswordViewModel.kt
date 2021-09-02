@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.forgetPassword
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ForgetPasswordViewModel @Inject constructor(private val createNewPasswordUseCase: CreateNewPasswordUseCase) :
+class ForgetPasswordViewModel @Inject constructor(
+    private val createNewPasswordUseCase: CreateNewPasswordUseCase,
+    private val resources: Resources
+
+) :
     ViewModel() {
 
     val inputEditHelp = ObservableField<HashMap<String, String>>(HashMap())
@@ -21,7 +26,7 @@ class ForgetPasswordViewModel @Inject constructor(private val createNewPasswordU
         put("email", "")
     }
 
-    var email:String=""
+    var email: String = ""
 
     private val _createStateFlow = MutableStateFlow<Resource<AuthResetResponse>>(Resource.Nothing())
     val createStateFlow: StateFlow<Resource<AuthResetResponse>> = _createStateFlow
@@ -40,11 +45,10 @@ class ForgetPasswordViewModel @Inject constructor(private val createNewPasswordU
                 }
             }
         } else {
-            inputEditHelp.set(createNewPasswordUseCase.validMessage(email))
+            inputEditHelp.set(createNewPasswordUseCase.validMessage(resources,email))
             inputEditHelp.notifyChange()
         }
     }
-
 
 
 }

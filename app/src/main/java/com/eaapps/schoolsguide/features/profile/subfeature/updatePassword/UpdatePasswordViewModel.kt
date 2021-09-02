@@ -1,5 +1,6 @@
 package com.eaapps.schoolsguide.features.profile.subfeature.updatePassword
 
+import android.content.res.Resources
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UpdatePasswordViewModel @Inject constructor(private val updatePasswordUseCase: UpdatePasswordUseCase) :
+class UpdatePasswordViewModel @Inject constructor(
+    private val updatePasswordUseCase: UpdatePasswordUseCase,
+    private val resources: Resources
+) :
     ViewModel() {
 
     private val _updatePasswordStateFlow: MutableStateFlow<Resource<ResponseEntity>> =
@@ -44,7 +48,7 @@ class UpdatePasswordViewModel @Inject constructor(private val updatePasswordUseC
                 }
             }
         } else {
-            inputEditHelper.set(updatePasswordUseCase.validMessage(updatePasswordModel))
+            inputEditHelper.set(updatePasswordUseCase.validMessage(resources, updatePasswordModel))
             inputEditHelper.notifyChange()
         }
     }

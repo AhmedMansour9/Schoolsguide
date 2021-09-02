@@ -253,9 +253,34 @@
     <string name="oh_snap">oh snap</string>
     <string name="any_network">Please make sure to connect to any network</string>
 
+    <!--    messages error input-->
     <string name="phone__">Phone -</string>
     <string name="email__">Email -</string>
     <string name="number_of_student__">Number of Student - </string>
     <string name="view_school">View School</string>
+    <string name="please_enter_email">Please Enter Email Address</string>
+    <string name="please_enter_v_email">Please Enter Validation Email</string>
+    <string name="please_enter_pass">Please Enter Password</string>
+    <string name="password_must_8_char">Password must be at least 8 characters</string>
+    <string name="please_enter_full_name">Please Enter Full Name</string>
+    <string name="please_enter_phone">Please Enter Phone Number</string>
+    <string name="please_enter_password">Please Enter Password</string>
+    <string name="confirm_password_must_match">confirm password must match the password</string>
+    <string name="please_select_item_list">Please select an item in the list</string>
+    <string name="please_enter_district">Please Enter District site</string>
+    <string name="please_enter_new_password">Please Enter New Password</string>
+    <string name="for_your_security">For your security,please enter old password</string>
+    <string name="education_rate_atleast">Education rate at least 1</string>
+    <string name="communicate_rate_least">Communication rate at least 1</string>
+    <string name="facilities_rate_least">Facilities rate at least 1</string>
+    <string name="safety_rate_least">Safety rate at least 1</string>
+    <string name="activities_rate_least">Activities rate at least 1</string>
+    <string name="please_enter_comment">Please Enter Comment</string>
+    <string name="please_select_type_message">Please Select Type Message</string>
+    <string name="please_select_replay_method">Please Select Replay Method</string>
+    <string name="please_select_best">Please Select Best Time</string>
+    <string name="please_select_student_n">Please Select Student Number</string>
+    <string name="please_enter_address">Please Enter Address</string>
+    <string name="please_enter_school_name">Please Enter School Name</string>
 
 </resources>

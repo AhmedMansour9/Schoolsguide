@@ -45,14 +45,14 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:id="@+id/titleSlider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/rpt_bold"
             android:text="@{sliderData.title}"
             android:textColor="@color/white"
-            android:textSize="@dimen/_14ssp"
-            android:id="@+id/titleSlider"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -60,16 +60,20 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            maxLength="@{100}"
+            shortString="@{sliderData.description}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/rpt_bold"
-            android:text="@{sliderData.description}"
+            android:lines="2"
+            android:gravity="start"
             android:textColor="@color/white"
-            android:textSize="@dimen/_10ssp"
-             app:layout_constraintStart_toStartOf="parent"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleSlider"
-             tools:text="Discover You prefect school" />
+            tools:text="Discover You prefect school" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -14,6 +14,7 @@ import com.eaapps.schoolsguide.delegate.viewBinding
 import com.eaapps.schoolsguide.features.MainActivity
 import com.eaapps.schoolsguide.features.MainViewModel
 import com.eaapps.schoolsguide.utils.*
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -140,6 +141,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
             R.id.logout -> {
                 firebaseAuth.currentUser?.apply {
                     firebaseAuth.signOut()
+                    LoginManager.getInstance().logOut();
                     GoogleSignIn.getClient(
                         requireContext(),
                         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()

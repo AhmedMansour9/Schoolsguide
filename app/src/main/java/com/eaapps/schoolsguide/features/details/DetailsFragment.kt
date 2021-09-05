@@ -6,9 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +28,6 @@ import com.eaapps.schoolsguide.utils.*
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
-import java.lang.Math.abs
 
 typealias navigationItem = NavigationPropertiesModel
 
@@ -91,7 +92,7 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
         )
         collapsing.isTitleEnabled = false
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-            if (abs(verticalOffset) > 200) {
+            if (kotlin.math.abs(verticalOffset) > 200) {
                 if (toolbar.title == "")
                     toolbar.title = getString(R.string.school_details)
             } else {
@@ -223,6 +224,23 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
 
         toolbar.setNavigationOnClickListener { dismiss() }
 
+        expandableBtn.setOnClickListener {
+            about.toggle()
+            if (about.isExpanded) {
+                expandableBtn.icon = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.baseline_expand_more_black_20
+                )
+                expandableBtn.text = getString(R.string.expand_)
+            } else {
+                expandableBtn.icon = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.baseline_expand_less_black_20
+                )
+                expandableBtn.text = getString(R.string.collapse_)
+            }
+        }
+
         follow.group.setOnClickListener {
             viewModel.toggleFollow(dataSchool?.id!!)
         }
@@ -282,11 +300,10 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                     openWebPage(this)
             }
         }
-
     }
 
     private fun FragmentDetailsDialogBinding.bindSchoolDetailsResultData() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             viewModel.schoolDetailsFlow.stateFlow.collect(FlowEvent(onErrors = {
                 bindStopShimmer()
                 handleApiError(it) {
@@ -294,8 +311,8 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
                 }
             }, onSuccess = {
                 bindStopShimmer()
-                binding.dataSchool = it
-                binding.bindSchoolPhotosList()
+                dataSchool = it
+                bindSchoolPhotosList()
             }, onLoading = {
                 bindStartShimmer()
             }))
@@ -390,3 +407,5 @@ class DetailsFragment : DialogFragment(R.layout.fragment_details_dialog) {
     }
 
 }
+
+private const val TAG = "DetailsFragment"

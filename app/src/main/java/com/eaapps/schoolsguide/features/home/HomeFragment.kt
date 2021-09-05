@@ -51,14 +51,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private val sliderAdapter = SliderAdapter()
-
     private var jobTime: Job? = null
     private val featureSchoolHomeAdapter =
         SchoolHomeAdapter({ toggleFavorite(it) }, onShareSchool = { it ->
             shortLink(it) {
                 ShareCompat.IntentBuilder(requireContext())
                     .setType("text/plain")
-                    .setChooserTitle("Share School")
+                    .setChooserTitle(getString(R.string.share_school))
                     .setText(it)
                     .startChooser()
             }
@@ -344,5 +343,3 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 }
-
-private const val TAG = "HomeFragment"

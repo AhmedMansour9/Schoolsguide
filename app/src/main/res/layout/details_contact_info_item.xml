@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/_5sdp">
 
+
         <ImageView
             android:id="@+id/iconInfo"
             android:layout_width="wrap_content"
@@ -38,41 +39,50 @@
             app:tint="@color/black"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/title1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:background="@drawable/info_text_shape"
-            android:fontFamily="@font/rpt_bold"
-            android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:text="@{titleOne}"
-            android:textColor="@color/textColor1"
-            android:textSize="@dimen/_12ssp"
-            android:visibility="@{titleOne.length()>0?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/iconInfo"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iconInfo"
-            app:layout_constraintTop_toTopOf="@id/iconInfo"
-            tools:text="+20 01554368036" />
+            app:layout_constraintTop_toTopOf="@id/iconInfo">
 
-        <TextView
-            android:id="@+id/title2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/info_text_shape"
-            android:fontFamily="@font/rpt_bold"
-            android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:text="@{titleTwo}"
-            android:textColor="@color/textColor1"
-            android:textSize="@dimen/_12ssp"
-            android:visibility="@{titleTwo.length()>0?View.VISIBLE:View.GONE}"
-            app:layout_constraintStart_toEndOf="@id/iconInfo"
-            app:layout_constraintTop_toBottomOf="@id/title1"
-            tools:text="+20 01554368036" />
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@{titleOne}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="@{titleOne.length()>0?View.VISIBLE:View.GONE}"
+                tools:text="يعتبر موقع مدرسة بيكون سيش شسيشسي شسيشسي منطقة العززة مناسبه للاعئلات التي تسكن في امارة الشارقة وامارة " />
+
+            <TextView
+                android:id="@+id/title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/info_text_shape"
+                android:fontFamily="@font/rpt_bold"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@{titleTwo}"
+                android:textColor="@color/textColor1"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="@{titleTwo.length()>0?View.VISIBLE:View.GONE}"
+                tools:text="+20 01554368036" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

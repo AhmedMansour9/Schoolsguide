@@ -2,6 +2,7 @@ package com.eaapps.schoolsguide.binding
 
 
 import android.annotation.SuppressLint
+import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.format.DateUtils
@@ -97,6 +98,14 @@ object ViewBinding {
                 }
             }
 
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("htmlString")
+    fun htmlString(textView: TextView, txt: String?) {
+        txt?.apply {
+            textView.text = Html.fromHtml(txt).trim()
         }
     }
 

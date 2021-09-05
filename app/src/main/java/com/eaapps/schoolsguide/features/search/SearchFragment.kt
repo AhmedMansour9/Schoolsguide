@@ -84,6 +84,7 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         binding.bindSearch()
         binding.bindClicks()
         binding.bindCollectFilterFire()
+        binding.bindRefreshSearch()
         filterViewModel.load()
         toggleFavoriteResultData()
 
@@ -279,6 +280,13 @@ class SearchFragment : DialogFragment(R.layout.fragment_search) {
         emptyList()
         requireContext().hiddenKeyboard(exploreField)
         collectFilterSchoolPagingData()
+    }
+
+    private fun FragmentSearchBinding.bindRefreshSearch() {
+        refreshList.setOnRefreshListener {
+            schoolPagingAdapter.refresh()
+            refreshList.isRefreshing = false
+        }
     }
 
     private fun FragmentSearchBinding.bindCollectFilterFire() {

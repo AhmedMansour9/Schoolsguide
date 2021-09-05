@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.eaapps.schoolsguide.R
@@ -31,8 +32,19 @@ class JobDialogFragment : DialogFragment(R.layout.fragment_dialog_job) {
 
     private fun FragmentDialogJobBinding.bindArgs() {
         JobDialogFragmentArgs.fromBundle(requireArguments()).apply {
-            dataSchool.let {
-                rcJobs.adapter = JobsAdapter(it.jobs, onShareJob = {}, onApplyJob = { jobData ->
+            dataSchool.let { it ->
+                rcJobs.adapter = JobsAdapter(it.jobs, onShareJob = {
+                    ShareCompat.IntentBuilder(requireContext())
+                        .setType("text/plain")
+                        .setChooserTitle(getString(R.string.share_job))
+                        .setText("${resources.getString(R.string.title_job)} ${it.name} \n" +
+                                "${resources.getString(R.string.title_job)} ${it.description}" +
+                                " \n ${resources.getString(R.string.experience_job)} ${it.years_of_experience} years" +
+                                "\n ${resources.getString(R.string.apply_job_)} https://saudischoolsguide.com/jobDetails/${it.id}"
+                        )
+                        .startChooser()
+
+                }, onApplyJob = { jobData ->
                     launchFragment(
                         JobDialogFragmentDirections.actionJobDialogFragmentToJobViewDialogFragment(
                             jobData,

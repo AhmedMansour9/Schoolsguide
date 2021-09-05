@@ -59,14 +59,16 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                     progressCircle.visibleOrGone(false)
                     if (!mainViewModel.sessionToken.isNullOrBlank())
                         handleApiError(it, retry = {
-                            mainViewModel.loadProfile()
+                            if (it is ErrorEntity.HttpError && it.httpError is HttpErrorEntity.Unauthorized401) {
+                                setupCountDown(false)
+                            } else
+                                mainViewModel.loadProfile()
                         })
                     else
                         setupCountDown(false)
                 }
             ))
         }
-
     }
 
     private fun FragmentSplashBinding.bindLogoutCollectResult() {

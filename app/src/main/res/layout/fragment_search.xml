@@ -66,12 +66,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/rpt_bold"
+            android:gravity="start|center"
             android:hint="@string/explore_school"
-            android:inputType="text"
-            android:padding="0dp"
             android:imeOptions="actionGo"
             android:importantForAutofill="no"
-            android:gravity="start|center"
+            android:inputType="text"
+            android:padding="0dp"
             android:textColor="@color/textColor1"
             android:textColorHighlight="@color/textColor1"
             android:textColorHint="@color/textColor1" />
@@ -143,17 +143,28 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/schoolsList"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_marginTop="@dimen/_1sdp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/groupListMode"
         app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/schoolsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <include
         android:id="@+id/noItem"

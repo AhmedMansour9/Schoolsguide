@@ -31,5 +31,5 @@ sealed class HttpErrorEntity {
     object ServiceUnavailable503 : HttpErrorEntity()
     object TimeoutGateway504 : HttpErrorEntity()
     object BadGateway502 : HttpErrorEntity()
-    data class Nothing(var msg:String?=null) : HttpErrorEntity()
+    data class Nothing(var msg: String? = null) : HttpErrorEntity()
 }

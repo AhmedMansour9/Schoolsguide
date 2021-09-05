@@ -123,8 +123,8 @@
     <string name="name_user">Name User</string>
     <string name="admin00_gmail_com">admin00@gmail.com</string>
     <string name="label">Loading…</string>
-    <string name="facebook_app_id">1135312883662693</string>
-    <string name="fb_login_protocol_scheme">fb1135312883662693</string>
+    <string name="facebook_app_id">1004686346958661</string>
+    <string name="fb_login_protocol_scheme">fb1004686346958661</string>
     <string name="details_desc_shimmer">School Good For student because give yours free to play football and study</string>
     <string name="type_shool_shimmer_details">School type : International</string>
     <string name="school_awards">School awards</string>
@@ -282,5 +282,15 @@
     <string name="please_select_student_n">Please Select Student Number</string>
     <string name="please_enter_address">Please Enter Address</string>
     <string name="please_enter_school_name">Please Enter School Name</string>
+
+
+    <string name="title_job">Title Job:</string>
+    <string name="description_job">Description:</string>
+    <string name="experience_job">Experience:</string>
+    <string name="apply_job_">Apply Job:</string>
+    <string name="share_job">Share This Job</string>
+    <string name="share_school">Share This School</string>
+    <string name="expand_">Expand</string>
+    <string name="collapse_">Collapse</string>
 
 </resources>

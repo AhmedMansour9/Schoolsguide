@@ -284,22 +284,22 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:max="100"
-                        app:indicatorSize="@dimen/_32sdp"
                         android:progress="@{dataSchool.data_completion}"
                         android:progressTint="@color/colorApp3"
-                        app:trackColor="@color/gray_0"
                         app:indicatorColor="@color/colorApp3"
+                        app:indicatorSize="@dimen/_32sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/shortDesc"
+                        app:trackColor="@color/gray_0"
                         tools:progress="50" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rpt_bold"
+                        android:text="@{dataSchool.data_completion +`%`}"
                         android:textColor="@color/textColor1"
                         android:textSize="@dimen/_9ssp"
-                        android:text="@{dataSchool.data_completion +`%`}"
                         app:layout_constraintBottom_toBottomOf="@id/complete"
                         app:layout_constraintEnd_toEndOf="@id/complete"
                         app:layout_constraintStart_toStartOf="@id/complete"
@@ -342,12 +342,12 @@
                         android:orientation="horizontal"
                         android:paddingStart="2dp"
                         android:paddingEnd="2dp"
-                        app:alignContent="space_between"
+                        app:alignContent="center"
                         app:alignItems="center"
                         app:flexWrap="nowrap"
-                        app:justifyContent="space_between"
-                        app:layout_constraintEnd_toEndOf="@id/shortDesc"
-                        app:layout_constraintStart_toStartOf="@id/shortDesc"
+                        app:justifyContent="space_evenly"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/program_school">
 
                         <include
@@ -476,6 +476,37 @@
                             titleOne="@{dataSchool.dates_for_communicating_with_supervisors}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+
+
+                        <com.eaapps.schoolsguide.utils.ExpandableTextView
+                            android:id="@+id/about"
+                            htmlString="@{dataSchool.about}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:fontFamily="@font/rpt_bold"
+                            android:gravity="center|start"
+                            android:lines="4"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_12ssp"
+                            android:visibility="@{dataSchool.about!=null &amp;&amp; !dataSchool.about.empty ?View.VISIBLE:View.GONE}"
+                            tools:text="School Good For student because give yours free to play football and study" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/expandableBtn"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/rpt_bold"
+                            android:text="@string/expand_"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_14ssp"
+                            android:visibility="@{dataSchool.about!=null &amp;&amp; !dataSchool.about.empty  ?View.VISIBLE:View.GONE}"
+                            app:backgroundTint="@color/gray_0"
+                            app:icon="@drawable/round_expand_more_20"
+                            app:iconGravity="textEnd"
+                            app:iconTint="@color/black" />
 
                     </com.google.android.flexbox.FlexboxLayout>
 
